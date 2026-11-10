@@ -256,7 +256,7 @@ export default function HighlightedText({
             return (
               <strong
                 key={`${segKeyPrefix}-b-${pIdx}`}
-                className="font-bold text-[#111111] dark:text-[#F3F4F6]"
+                className="font-extrabold text-[#000000]"
               >
                 {renderPlainSlice(inner, `${segKeyPrefix}-bi-${pIdx}`)}
               </strong>
@@ -288,8 +288,8 @@ export default function HighlightedText({
 
           return (
             <React.Fragment key={lineKeyPrefix}>
-              <span className="text-[#606060] font-mono select-none">{prefix}</span>
-              <strong className="font-bold text-[#111111] dark:text-[#F3F4F6] inline">
+              <span className="text-[#000000] font-mono font-bold select-none">{prefix}</span>
+              <strong className="font-extrabold text-[#000000] inline mr-1">
                 {renderSegment(term, `${lineKeyPrefix}-term`)}:
               </strong>
               {renderSegment(rest, `${lineKeyPrefix}-rest`)}
@@ -307,7 +307,7 @@ export default function HighlightedText({
           return (
             <React.Fragment key={lineKeyPrefix}>
               {prefix}
-              <strong className="font-bold text-[#111111] dark:text-[#F3F4F6] inline">
+              <strong className="font-extrabold text-[#000000] inline mr-1">
                 {renderSegment(term, `${lineKeyPrefix}-lterm`)}:
               </strong>
               {renderSegment(rest, `${lineKeyPrefix}-lrest`)}

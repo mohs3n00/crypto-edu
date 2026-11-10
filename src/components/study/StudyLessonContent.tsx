@@ -93,7 +93,7 @@ export const StudyLessonContent: React.FC<StudyLessonContentProps> = ({
           </div>
 
           {enSections.length > 0 && (
-            <div className="body-content-text pt-2 border-t border-[#F0F0EE] space-y-1.5 text-[#505050] whitespace-pre-line">
+            <div className="body-content-text pt-2 border-t border-[#F0F0EE] space-y-1.5 text-[#1A1A1A] whitespace-pre-line">
               {enSections.map((sec, idx) => (
                 <div key={idx}>
                   <HighlightedText
@@ -115,7 +115,7 @@ export const StudyLessonContent: React.FC<StudyLessonContentProps> = ({
           </div>
 
           <div
-            className="body-content-text text-[#222222] whitespace-pre-line"
+            className="body-content-text text-[#1A1A1A] whitespace-pre-line"
             style={{ fontFamily: 'var(--font-arabic)' }}
           >
             <HighlightedText
@@ -128,7 +128,7 @@ export const StudyLessonContent: React.FC<StudyLessonContentProps> = ({
 
           {arSections.length > 0 && (
             <div
-              className="body-content-text pt-2 border-t border-[#E8E8E5] space-y-1.5 text-[#505050] whitespace-pre-line"
+              className="body-content-text pt-2 border-t border-[#E8E8E5] space-y-1.5 text-[#1A1A1A] whitespace-pre-line"
               style={{ fontFamily: 'var(--font-arabic)' }}
             >
               {arSections.map((sec, idx) => (

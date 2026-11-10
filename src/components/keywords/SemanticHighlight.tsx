@@ -101,7 +101,7 @@ export default function SemanticHighlight({
             ? `${resolvedKeyword.termEn} (${currentRole.en}) — Click for concept details & memory cue`
             : `${currentRole.en} — Click to view explanation`
         }
-        className={`cursor-pointer inline bg-[#FFF1A6] text-[#222222] border-b-2 border-[#E2C65A] px-1 py-0.5 rounded-[3px] font-semibold transition-all hover:bg-[#FFE873] hover:border-[#222222] focus:outline-hidden focus:ring-2 focus:ring-[#222222] ${className}`}
+        className={`cursor-pointer inline bg-[#FFF1A6] text-[#000000] border-b-2 border-[#D4A017] px-1 py-0.5 rounded-[3px] font-bold transition-all hover:bg-[#FFE873] hover:border-[#000000] focus:outline-hidden focus:ring-2 focus:ring-[#000000] ${className}`}
       >
         {children}
       </span>

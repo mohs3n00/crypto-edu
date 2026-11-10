@@ -72,18 +72,20 @@ export const StudyJumpBar: React.FC<StudyJumpBarProps> = ({
                 title={isArabic ? ch.titleAr : ch.title}
                 className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold shrink-0 transition-all cursor-pointer border ${
                   isCurrent
-                    ? 'bg-[#222222] text-[#FFFFFF] border-[#222222] shadow-2xs'
+                    ? 'bg-[#111111] text-[#FFFFFF] border-[#111111] shadow-2xs'
                     : 'bg-[#F7F7F5] text-[#222222] border-[#E2E2DF] hover:bg-[#ECEDEB] hover:border-[#D4D4D0]'
                 }`}
               >
                 <span
-                  className={`font-mono text-[10px] px-1.5 py-0.5 rounded ${
-                    isCurrent ? 'bg-[#333333] text-[#FFFFFF]' : 'bg-[#E8E8E5] text-[#222222]'
+                  className={`font-mono text-[10px] px-1.5 py-0.5 rounded font-bold ${
+                    isCurrent ? 'bg-[#282828] text-[#FFFFFF]' : 'bg-[#E8E8E5] text-[#222222]'
                   }`}
                 >
                   {isArabic ? `الوحدة ${ch.number}` : `Unit ${ch.number}`}
                 </span>
-                <span className="truncate max-w-[105px] sm:max-w-[145px] md:max-w-none">
+                <span className={`truncate max-w-[105px] sm:max-w-[145px] md:max-w-none ${
+                  isCurrent ? 'text-[#FFFFFF] font-bold' : 'text-[#222222]'
+                }`}>
                   {titleLabel}
                 </span>
               </button>

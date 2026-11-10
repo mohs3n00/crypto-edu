@@ -570,6 +570,46 @@ article p a:hover {
   border-color: var(--edu-action-hover);
 }
 
+/* ============================================================ */
+/* Strict High-Contrast Button & Interactive Elements Engine     */
+/* GUARANTEES that any dark button/badge ALWAYS has pure white   */
+/* text and icons, completely eliminating dark-on-dark contrast  */
+/* ============================================================ */
+button.bg-\[\#222222\],
+button.bg-\[\#111111\],
+button.bg-\[\#000000\],
+button.bg-black,
+a.bg-\[\#222222\],
+a.bg-\[\#111111\],
+a.bg-\[\#000000\],
+a.bg-black,
+.bg-\[\#222222\][role="button"],
+.bg-\[\#111111\][role="button"],
+.btn-primary {
+  color: #FFFFFF !important;
+}
+
+button.bg-\[\#222222\] *,
+button.bg-\[\#111111\] *,
+button.bg-\[\#000000\] *,
+button.bg-black *,
+a.bg-\[\#222222\] *,
+a.bg-\[\#111111\] *,
+a.bg-\[\#000000\] *,
+a.bg-black *,
+.bg-\[\#222222\][role="button"] *,
+.bg-\[\#111111\][role="button"] *,
+.btn-primary * {
+  color: #FFFFFF !important;
+  stroke: #FFFFFF !important;
+}
+
+/* High-Contrast Terminology in Explanations */
+strong.font-extrabold {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
 .btn-secondary {
   background: var(--edu-surface);
   color: var(--edu-text-primary);
