@@ -38,11 +38,12 @@ export default function HighlightedText({
 
     const matches: TextSpanMatch[] = [];
 
-    // Filter rules by chapter if requested, otherwise check all
-    const applicableRules =
+    // Filter rules by chapter if requested, otherwise check all; sort longest patterns first
+    const applicableRules = (
       chapterFilter !== 'all'
         ? academicPhraseRules.filter((r) => r.chapterId === chapterFilter)
-        : academicPhraseRules;
+        : academicPhraseRules
+    ).slice().sort((a, b) => b.pattern.source.length - a.pattern.source.length);
 
     // Scan for all rule matches
     for (const rule of applicableRules) {

@@ -38,12 +38,12 @@ export const chapter4: Chapter = {
               {
                 type: 'paragraph',
                 lang: 'en',
-                content: '• Stream Cipher:\n  - Encrypts one bit or byte at a time.\n  - Key generator produces a pseudorandom bit stream (keystream) combined with plaintext via XOR.\n  - Users share only the generating key.\n  - Examples: Vernam cipher, Autokeyed Vigenère, RC4.\n  - Advantage: Faster hardware execution, no message padding required.\n\n• Block Cipher:\n  - Treats a block of plaintext as a whole to produce a ciphertext block of equal length.\n  - Typically block size is 64 bits (DES, 3DES) or 128 bits (AES).\n  - Both users share a symmetric cryptographic key.\n  - Majority of network-based symmetric applications make use of block ciphers.',
+                content: 'Architectural Selection Rationale:\n• When to use Stream Ciphers: High-speed, continuous channels (e.g. real-time voice GSM/A5/1, audio/video streams) where buffering latency is intolerable and single-bit transmission errors must not propagate.\n• When to use Block Ciphers: Storage media, database records, and network protocols (IPsec, TLS/HTTPS, SSH) where cryptographic diffusion and confusion protect structured messages.',
               },
               {
                 type: 'paragraph',
                 lang: 'ar',
-                content: '• شفرة التدفق (Stream Cipher):\n  - تشفر البيانات الرقمية بتاً أو بايتاً واحداً في كل خطوة.\n  - يولد مولد المفاتيح تدفقاً شبه عشوائي يُدمج مع النص الصريح عبر عملية XOR.\n  - يشترك المستخدمان في المفتاح المولد فقط.\n  - أمثلتها: شفرة فيرنام، فيجنير التلقائي، وخوارزمية RC4.\n\n• شفرة الكتل (Block Cipher):\n  - تعالج كتلة من النص الصريح ككل وتنتج كتلة مشفرة متطابقة في الطول.\n  - الحجم النموذجي للبلوك هو 64 بت (في DES) أو 128 بت (في AES).\n  - تعتمد الغالبية العظمى من تطبيقات التشفير الشبكي المتماثل على شفرات الكتل.',
+                content: 'معايير المفاضلة الهندسية في تصميم الأنظمة:\n• متى تُستخدم شفرات التدفق: في القنوات المباشرة الحساسة للتأخير (مثل المكالمات الصوتية GSM)، حيث يتعذر التخزين المؤقت ويلزم حصر خطأ الإرسال في نفس البت دون انتشار.\n• متى تُستخدم شفرات الكتل: في تشفير الأقراص وقواعد البيانات وبروتوكولات الشبكة (IPsec, TLS, SSH)، حيث يوفر الانتشار والتشويش أعلى درجات الحماية للبيانات المنظمة.',
               },
             ],
             formulas: [],

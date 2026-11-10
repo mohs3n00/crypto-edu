@@ -25,29 +25,29 @@ export default function ExamNoteCallout({
 }: ExamNoteCalloutProps): React.ReactElement {
   return (
     <div
-      className={`border-2 border-[#171717] rounded-lg p-5 bg-[#FFFFFF] space-y-4 shadow-sm ${className}`}
+      className={`border border-[#D4D4D0] rounded-2xl p-6 sm:p-7 bg-[#FFFFFF] space-y-5 hover:border-[#222222] transition-all shadow-xs w-full ${className}`}
     >
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-3">
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded border border-[#171717] bg-[#171717] text-[#FFFFFF] flex items-center justify-center shrink-0">
-            <AlertTriangle size={13} />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#E2E2DF] pb-3.5 gap-2">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg border border-[#222222] bg-[#222222] text-[#FFFFFF] flex items-center justify-center shrink-0">
+            <AlertTriangle size={16} />
           </div>
           <div>
-            <h4 className="text-sm font-bold text-[#171717] uppercase tracking-wide">{title}</h4>
+            <h4 className="text-[20px] sm:text-[22px] font-bold text-[#222222] tracking-tight">{title}</h4>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {examSourceRef && (
-            <span className="font-mono text-[11px] border border-[#171717] px-2 py-0.5 rounded bg-[#FAFAFA] font-bold">
+            <span className="font-mono text-xs border border-[#222222] px-2.5 py-1 rounded bg-[#F7F7F5] text-[#222222] font-bold">
               {examSourceRef}
             </span>
           )}
           {titleAr && (
             <span
               dir="rtl"
-              className="text-xs font-semibold text-[#525252] font-serif hidden sm:inline"
+              className="text-base sm:text-lg font-bold text-[#505050] font-serif"
               style={{ fontFamily: 'var(--font-arabic)' }}
             >
               {titleAr}
@@ -58,63 +58,48 @@ export default function ExamNoteCallout({
 
       {/* The Deceptive Exam Trap */}
       {trapStatement && (
-        <div className="p-3 border border-[#E5E5E5] bg-[#FAFAFA] rounded text-xs space-y-1">
-          <span className="font-mono text-[10px] text-[#737373] uppercase font-bold block">
+        <div className="p-4 border border-[#E2E2DF] bg-[#F7F7F5] rounded-xl text-sm space-y-1.5">
+          <span className="font-mono text-xs sm:text-[13px] text-[#686868] uppercase font-bold block">
             Common Deceptive Trap (False / Wrong Notion):
           </span>
-          <p className="text-[#525252] line-through italic font-mono text-[13px]">
+          <p className="text-[#686868] line-through italic font-mono text-[14px] sm:text-[15px] leading-relaxed">
             "{trapStatement}"
           </p>
         </div>
       )}
 
-      {/* The Verified Academic Fact */}
-      <div className="space-y-2">
-        <span className="font-mono text-[10px] text-[#171717] uppercase font-bold block">
-          Accurate Academic Doctrine / الحقيقة العلمية المعتمدة بالامتحان:
+      {/* The Verified Academic Fact — Single-Column Full-Width */}
+      <div className="space-y-3 w-full">
+        <span className="font-mono text-xs sm:text-[13px] text-[#222222] uppercase font-bold block">
+          Exam Recognition Clue & Key Distinction / دلالة التمييز والحل في الامتحان:
         </span>
-        {truthExplanation && truthExplanationAr ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-            <div className="text-[15px] font-semibold text-[#171717] leading-relaxed">
+        <div className="space-y-3 w-full">
+          {truthExplanation && (
+            <div className="text-[17px] sm:text-[18px] font-semibold text-[#222222] leading-[1.65]">
               <HighlightedText text={truthExplanation} />
             </div>
+          )}
+          {truthExplanationAr && (
             <div
               dir="rtl"
-              className="text-[15px] font-medium text-[#525252] leading-[1.9] font-serif md:border-s md:border-[#E5E5E5] md:ps-4 pt-2 md:pt-0 border-t md:border-t-0 border-[#F2F2F2]"
+              className="text-[18px] sm:text-[19px] font-medium text-[#505050] leading-[1.8] font-serif pt-2 border-t border-[#E2E2DF]"
               style={{ fontFamily: 'var(--font-arabic)' }}
             >
               <HighlightedText text={truthExplanationAr} />
             </div>
-          </div>
-        ) : (
-          <div>
-            {truthExplanation && (
-              <div className="text-[15px] font-semibold text-[#171717] leading-relaxed">
-                <HighlightedText text={truthExplanation} />
-              </div>
-            )}
-            {truthExplanationAr && (
-              <div
-                dir="rtl"
-                className="text-[15px] font-medium text-[#525252] leading-relaxed font-serif pt-1"
-                style={{ fontFamily: 'var(--font-arabic)' }}
-              >
-                <HighlightedText text={truthExplanationAr} />
-              </div>
-            )}
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* Common Mistakes Bullet List */}
       {commonMistakes && commonMistakes.length > 0 && (
-        <div className="pt-3 border-t border-[#E5E5E5] space-y-1">
-          <span className="text-[11px] font-mono uppercase font-bold text-[#737373] block">
-            Frequent Student Pitfalls:
+        <div className="pt-3 border-t border-[#E2E2DF] space-y-2">
+          <span className="text-xs sm:text-[13px] font-mono uppercase font-bold text-[#686868] block">
+            Frequent Student Pitfalls / أخطاء شائعة يجب الحذر منها:
           </span>
-          <ul className="text-xs text-[#525252] space-y-1 list-disc list-inside">
+          <ul className="text-[15px] sm:text-[16px] text-[#505050] space-y-1.5 list-disc list-inside leading-relaxed">
             {commonMistakes.map((mis, idx) => (
-              <li key={idx} className="leading-snug">
+              <li key={idx} className="leading-relaxed">
                 {mis}
               </li>
             ))}

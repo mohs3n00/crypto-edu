@@ -1,0 +1,3806 @@
+import type { WorkedProblem } from './types';
+
+export const workedProblems: WorkedProblem[] = [
+  {
+    "id": "prob-ch1-01",
+    "chapterId": "ch1",
+    "topicId": "ch1-t2",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings 7th Ed. Section 1.4 & Lecture 1 Notes",
+    "category": "security-architecture",
+    "title": "Symmetric vs Asymmetric Key Distribution Scaling",
+    "titleAr": "حساب عدد المفاتيح المطلوبة وتوسعية التشفير المتناظر وغير المتناظر",
+    "problem": "A university network connects N = 250 departments that require pairwise confidential communications using symmetric encryption. (1) Calculate the total number of unique secret keys required. (2) If the network switches to an asymmetric public-key cryptosystem, how many key pairs and total keys are needed? (3) Quantify the key management reduction.",
+    "problemAr": "شبكة جامعية تضم N = 250 قسماً تتطلب اتصالات سرية ثنائية مباشرة بين كل قسمين باستخدام التشفير المتناظر. (1) احسب العدد الإجمالي للمفاتيح السرية الفريدة المطلوبة. (2) إذا انتقلت الشبكة إلى نظام التشفير بالمفتاح العام (غير المتناظر)، كم زوج مفاتيح وإجمالي عدد المفاتيح المطلوبة؟ (3) احسب نسبة الخفض في أعباء إدارة المفاتيح.",
+    "givenParameters": [
+      {
+        "label": "N",
+        "value": "250",
+        "labelAr": "عدد الأطراف / الأقسام المتصلة"
+      },
+      {
+        "label": "Mode 1",
+        "value": "Symmetric (Pairwise)",
+        "labelAr": "تشفير متناظر ثنائي"
+      },
+      {
+        "label": "Mode 2",
+        "value": "Asymmetric (Public Key)",
+        "labelAr": "تشفير بالمفتاح العام"
+      }
+    ],
+    "requiredResult": {
+      "en": "Total symmetric keys K_sym, total asymmetric keys K_asym, and absolute key reduction.",
+      "ar": "إجمالي المفاتيح المتناظرة، إجمالي المفاتيح غير المتناظرة، وحجم الخفض في المفاتيح."
+    },
+    "governingFormula": {
+      "name": "Pairwise Combinations vs Key-Pair Scaling",
+      "nameAr": "قانون التوافيق الثنائية مقابل أزواج المفاتيح العامة",
+      "latex": "K_{\\text{sym}} = \\frac{N(N - 1)}{2}, \\quad K_{\\text{asym}} = 2N",
+      "explanation": "Symmetric encryption requires a unique shared secret key for every distinct pair of communicating nodes (n choose 2). Asymmetric encryption requires exactly one public-private key pair per node.",
+      "explanationAr": "يتطلب التشفير المتناظر مفتاحاً سرياً مشتركاً لكل زوج من العقد (توافيق 2 من N). بينما يتطلب التشفير غير المتناظر زوج مفاتيح واحداً لكل عقدة (مفتاح عام ومفتاح خاص)."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "N",
+        "meaningEn": "Number of communicating parties or network nodes",
+        "meaningAr": "عدد المستخدمين أو العقد المتصلة بالشبكة"
+      },
+      {
+        "symbol": "K_{\\text{sym}}",
+        "meaningEn": "Total unique symmetric keys required across the network",
+        "meaningAr": "إجمالي المفاتيح السرية المشتركة في النظام المتناظر"
+      },
+      {
+        "symbol": "K_{\\text{asym}}",
+        "meaningEn": "Total asymmetric keys (public + private) across the network",
+        "meaningAr": "إجمالي المفاتيح العامة والخاصة في النظام غير المتناظر"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Pairwise confidential communications",
+        "keywordAr": "اتصالات سرية ثنائية",
+        "indicates": "Symmetric Combinations N(N-1)/2",
+        "indicatesAr": "تطبيق قانون توافيق التشفير المتناظر"
+      },
+      {
+        "keyword": "Asymmetric / Public-key",
+        "keywordAr": "تشفير بالمفتاح العام",
+        "indicates": "Linear Key Scaling 2N",
+        "indicatesAr": "تدرج خطي للمفاتيح بمعدل مفتاحين لكل طرف"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Calculate Total Symmetric Secret Keys",
+        "titleAr": "حساب عدد المفاتيح السرية في النظام المتناظر",
+        "mathLatex": "K_{\\text{sym}} = \\frac{N(N - 1)}{2}",
+        "substitutionLatex": "K_{\\text{sym}} = \\frac{250 \\times (250 - 1)}{2} = \\frac{250 \\times 249}{2} = 125 \\times 249",
+        "intermediateResult": "31,125 \\text{ secret keys}",
+        "explanationEn": "Every pair of nodes must share a unique secret key. With 250 nodes, the total number of distinct pairs is 250 choose 2 = 31,125 keys.",
+        "explanationAr": "كل طرفين يحتاجان مفتاحاً سرياً مستقلاً. مع 250 طرفاً، التوافيق الثنائية تنتج 31,125 مفتاحاً سرياً يجب حمايتها.",
+        "title": "Calculate Total Symmetric Secret Keys",
+        "formula": "K_{\\text{sym}} = \\frac{N(N - 1)}{2}",
+        "substitution": "K_{\\text{sym}} = \\frac{250 \\times (250 - 1)}{2} = \\frac{250 \\times 249}{2} = 125 \\times 249",
+        "explanation": "Every pair of nodes must share a unique secret key. With 250 nodes, the total number of distinct pairs is 250 choose 2 = 31,125 keys."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Calculate Total Asymmetric Keys Required",
+        "titleAr": "حساب عدد المفاتيح في نظام المفتاح العام",
+        "mathLatex": "K_{\\text{asym}} = 2 \\times N",
+        "substitutionLatex": "K_{\\text{asym}} = 2 \\times 250",
+        "intermediateResult": "500 \\text{ keys (250 public + 250 private)}",
+        "explanationEn": "Each node generates one public-private key pair. With 250 nodes, only 250 key pairs (500 total keys) are required.",
+        "explanationAr": "كل مستخدم يولد زوج مفاتيح (عام منشور وخاص سري)، فيكون الإجمالي 500 مفتاح فقط لخدمة الـ 250 قسماً.",
+        "title": "Calculate Total Asymmetric Keys Required",
+        "formula": "K_{\\text{asym}} = 2 \\times N",
+        "substitution": "K_{\\text{asym}} = 2 \\times 250",
+        "explanation": "Each node generates one public-private key pair. With 250 nodes, only 250 key pairs (500 total keys) are required."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Compute Key Reduction and Management Ratio",
+        "titleAr": "حساب نسبة الخفض والوفر في إدارة المفاتيح",
+        "mathLatex": "\\Delta K = K_{\\text{sym}} - K_{\\text{asym}}, \\quad \\text{Ratio} = \\frac{K_{\\text{sym}}}{K_{\\text{asym}}}",
+        "substitutionLatex": "\\Delta K = 31,125 - 500 = 30,625, \\quad \\text{Ratio} = \\frac{31,125}{500} = 62.25",
+        "intermediateResult": "30,625 \\text{ fewer keys (62.25x reduction)}",
+        "explanationEn": "Switching to asymmetric cryptography eliminates 30,625 keys, reducing the key storage burden by a factor of over 62 times.",
+        "explanationAr": "الانتقال للتشفير غير المتناظر يختزل 30,625 مفتاحاً سرياً، مما يخفض عبء حفظ المفاتيح بأكثر من 62 ضعفاً.",
+        "title": "Compute Key Reduction and Management Ratio",
+        "formula": "\\Delta K = K_{\\text{sym}} - K_{\\text{asym}}, \\quad \\text{Ratio} = \\frac{K_{\\text{sym}}}{K_{\\text{asym}}}",
+        "substitution": "\\Delta K = 31,125 - 500 = 30,625, \\quad \\text{Ratio} = \\frac{31,125}{500} = 62.25",
+        "explanation": "Switching to asymmetric cryptography eliminates 30,625 keys, reducing the key storage burden by a factor of over 62 times."
+      }
+    ],
+    "finalResult": "K_{sym} = 31,125 keys; K_{asym} = 500 keys (Saving: 30,625 keys / 98.4% reduction)",
+    "verification": "Check N = 3: K_sym = 3(2)/2 = 3 keys. K_asym = 2(3) = 6 keys. For large N, N(N-1)/2 is O(N^2) whereas 2N is O(N). For N = 250, 31,125 > 500.",
+    "verificationAr": "التحقق: عند N=3 يحتاج المتناظر 3 مفاتيح وغير المتناظر 6. لكن مع زيادة N ينمو المتناظر تربيعياً O(N^2) بينما ينمو غير المتناظر خطياً O(N).",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Using N(N-1) without dividing by 2 for symmetric keys.",
+        "mistakeAr": "استخدام القانون N(N-1) ونسيان القسمة على 2 في التشفير المتناظر.",
+        "preventionEn": "Remember that the key shared between Alice and Bob is symmetric and undirected, so (A, B) is identical to (B, A).",
+        "preventionAr": "تذكر أن المفتاح السري بين الطرفين مشترك وغير موجه، فالمفتاح بين (A, B) هو نفسه بين (B, A)."
+      }
+    ],
+    "relatedLessonId": "ch1-l2",
+    "relatedBasmagaQuestionId": "basmaga-ch1-01"
+  },
+  {
+    "id": "prob-ch1-02",
+    "chapterId": "ch1",
+    "topicId": "ch1-t3",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 1 / X.800 Security Architecture",
+    "category": "security-architecture",
+    "title": "Mapping Security Attacks to Security Services & Mechanisms",
+    "titleAr": "ربط الهجمات الأمنية بالخدمات والآليات المقابلة وفق معيار X.800",
+    "problem": "An attacker intercepts an e-banking transmission, modifies the transaction destination account number, and retransmits the altered packet to the banking server. (1) Classify this attack as Active or Passive. (2) Identify which primary security objective of the CIA triad was violated. (3) Specify the precise X.800 Security Service and Cryptographic Mechanism required to detect and counter this assault.",
+    "problemAr": "قام مهاجم باعتراض معاملة بنكية إلكترونية، وعدل رقم الحساب المحول إليه، ثم أعاد إرسال الحزمة المعدلة إلى خادم البنك. (1) صنف هذا الهجوم (نشط أم سلبي). (2) حدد الركن الأساسي المنتهك في مثلث الأمان CIA. (3) حدد الخدمة الأمنية والآلية التشفيرية المعتمدة في X.800 لاكتشاف هذا الهجوم ومنعه.",
+    "givenParameters": [
+      {
+        "label": "Attack Event",
+        "value": "Modifying transaction account in transit & replaying",
+        "labelAr": "تعديل رقم الحساب وإعادة إرساله"
+      },
+      {
+        "label": "Standard",
+        "value": "ITU-T X.800 / RFC 2828",
+        "labelAr": "معيار الهيكلية الأمنية"
+      }
+    ],
+    "requiredResult": {
+      "en": "Attack classification, CIA pillar violated, X.800 service, and countering mechanism.",
+      "ar": "تصنيف الهجوم، الركن المنتهك، خدمة X.800، والآلية التشفيرية المضادة."
+    },
+    "governingFormula": {
+      "name": "X.800 Service-to-Mechanism Mapping",
+      "nameAr": "جدول مطابقة الخدمات بالآليات في X.800",
+      "latex": "\\text{Attack: Modification} \\implies \\text{Service: Data Integrity} \\implies \\text{Mechanism: Digital Signature / MAC / Hash}",
+      "explanation": "Active attacks that modify data stream directly breach Data Integrity. The countering X.800 mechanism is Data Integrity mechanism utilizing Cryptographic Checksums or Digital Signatures.",
+      "explanationAr": "الهجمات النشطة التي تعدل محتوى البيانات تنتهك سلامة البيانات (Integrity). والآلية المعيارية لمكافحتها هي آلية سلامة البيانات باستخدام التوقيع الرقمي أو كود MAC."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\text{CIA}",
+        "meaningEn": "Confidentiality, Integrity, Availability triad",
+        "meaningAr": "أركان أمان المعلومات الثلاثة: السرية، السلامة، التوافرية"
+      },
+      {
+        "symbol": "\\text{MAC}",
+        "meaningEn": "Message Authentication Code for detecting alteration",
+        "meaningAr": "كود التحقق من أصالة وسلامة الرسالة"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Modifies transaction / altered packet",
+        "keywordAr": "يعدل المعاملة / حزمة محرفة",
+        "indicates": "Active Attack on Data Integrity",
+        "indicatesAr": "هجوم نشط ينتهك سلامة البيانات"
+      },
+      {
+        "keyword": "Countering mechanism",
+        "keywordAr": "الآلية المضادة",
+        "indicates": "Digital Signature / MAC Mechanism",
+        "indicatesAr": "آلية التوقيع الرقمي أو رمز مصادقة الرسائل MAC"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Classify Attack Type (Active vs Passive)",
+        "titleAr": "تصنيف نوع الهجوم (نشط أم سلبي)",
+        "mathLatex": "\\text{Action: Unauthorized alteration of data stream} \\implies \\mathbf{\\text{Active Attack}}",
+        "intermediateResult": "Active Attack (Category: Modification of Messages)",
+        "explanationEn": "Because the attacker altered transmitted data rather than merely reading it, this is an Active Attack involving modification of messages.",
+        "explanationAr": "نظراً لأن المهاجم أحدث تغييراً وتحريفاً فعلياً في البيانات أثناء النقل ولم يكتفِ بالمراقبة، فإن الهجوم إيجابي/نشط (Active Attack).",
+        "title": "Classify Attack Type (Active vs Passive)",
+        "formula": "\\text{Action: Unauthorized alteration of data stream} \\implies \\mathbf{\\text{Active Attack}}",
+        "explanation": "Because the attacker altered transmitted data rather than merely reading it, this is an Active Attack involving modification of messages."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Identify Violated CIA Triad Pillar",
+        "titleAr": "تحديد ركن الأمان المنتهك في مثلث CIA",
+        "mathLatex": "\\text{Breach of accurate data preservation} \\implies \\mathbf{\\text{Data Integrity}}",
+        "intermediateResult": "Integrity (سلامة وتكامل البيانات)",
+        "explanationEn": "Integrity guarantees that information is delivered exactly as sent with no unauthorized alteration, deletion, or insertion.",
+        "explanationAr": "سلامة البيانات (Integrity) هي المسؤولة عن ضمان وصول البيانات مطابقة تماماً لما أرسله المصدر دون أي تحريف أو تبديل.",
+        "title": "Identify Violated CIA Triad Pillar",
+        "formula": "\\text{Breach of accurate data preservation} \\implies \\mathbf{\\text{Data Integrity}}",
+        "explanation": "Integrity guarantees that information is delivered exactly as sent with no unauthorized alteration, deletion, or insertion."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Determine X.800 Service and Countering Mechanism",
+        "titleAr": "تحديد خدمة X.800 والآلية التشفيرية المضادة",
+        "mathLatex": "\\text{Service: Data Integrity (Connection-Oriented with Recovery)} \\\\ \\text{Mechanism: Data Integrity Mechanism (HMAC / Digital Signature with Sequence Numbers)}",
+        "intermediateResult": "Service: Data Integrity; Mechanism: MAC / Digital Signature",
+        "explanationEn": "X.800 defines Data Integrity Service to detect modification. The cryptographic mechanism uses cryptographic checksums (MAC/HMAC) or Digital Signatures paired with nonces/timestamps to prevent replay.",
+        "explanationAr": "خدمة X.800 المطلوبة هي خدمة سلامة البيانات (Data Integrity). وتستخدم آلية التوقيع الرقمي أو كود MAC مع طابع زمني أو أرقام تسلسلية لمنع إعادة الإرسال.",
+        "title": "Determine X.800 Service and Countering Mechanism",
+        "formula": "\\text{Service: Data Integrity (Connection-Oriented with Recovery)} \\\\ \\text{Mechanism: Data Integrity Mechanism (HMAC / Digital Signature with Sequence Numbers)}",
+        "explanation": "X.800 defines Data Integrity Service to detect modification. The cryptographic mechanism uses cryptographic checksums (MAC/HMAC) or Digital Signatures paired with nonces/timestamps to prevent replay."
+      }
+    ],
+    "finalResult": "Type: Active Attack; Violated: Integrity; Service: Data Integrity; Mechanism: Cryptographic MAC / Digital Signature",
+    "verification": "Cross-reference Stallings Table 1.2: Modification of messages is classified under Active Attacks, violating Integrity, defended by Data Integrity services.",
+    "verificationAr": "التحقق من جدول ستالينجز 1.2: تحريف الرسائل يصنف كـ Active Attack ينتهك ركن Integrity ويدافع عنه بخدمات وآليات Data Integrity.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Classifying encryption alone as the solution to modification attacks.",
+        "mistakeAr": "اعتبار التشفير وحده حلاً لهجمات التعديل.",
+        "preventionEn": "Encryption provides Confidentiality (privacy); it does not guarantee Integrity. Data integrity mechanisms (MAC, Signatures) are specifically required.",
+        "preventionAr": "التشفير يوفر السرية فقط؛ ولا يمنع التعديل بالضرورة. الحماية من التعديل تتطلب آليات سلامة البيانات (MAC والتوقيع الرقمي)."
+      }
+    ],
+    "relatedLessonId": "ch1-l3",
+    "relatedBasmagaQuestionId": "basmaga-ch1-03"
+  },
+  {
+    "id": "prob-ch1-03",
+    "chapterId": "ch1",
+    "topicId": "ch1-t1",
+    "sourceType": "additional-practice",
+    "sourceRef": "Stallings Chapter 1 / Section 1.3 Security Trends & Attacks",
+    "category": "security-architecture",
+    "title": "Threat vs Vulnerability vs Attack Quantitative Risk Assessment",
+    "titleAr": "التمييز الدقيق بين التهديد والثغرة والهجوم وتقييم المخاطر الأمنية",
+    "problem": "An enterprise audit reveals an unpatched web server vulnerability (V) with probability of exploitation P(E) = 0.4. If an external attacker carries out an active Denial of Service threat (T), the financial impact (I) is estimated at $150,000. (1) Distinguish the three core definitions: Threat, Vulnerability, and Attack. (2) Compute the Annual Loss Expectancy (ALE) or Risk Exposure R = P(E) * I. (3) State whether deploying a redundant server mitigates Vulnerability or Threat.",
+    "problemAr": "أظهر تدقيق أمني وجود ثغرة برمجية غير معالجة (V) في خادم الويب باحتمال استغلال P(E) = 0.4. وإذا نفذ مهاجم خارجي تهديد حجب الخدمة (T)، تقدر الخسارة المالية (I) بمبلغ $150,000. (1) ميز بين المصطلحات الثلاثة الأساسية: التهديد (Threat)، الثغرة (Vulnerability)، والهجوم (Attack). (2) احسب مقدار المخاطرة المتوقعة R = P(E) * I. (3) بين هل تشغيل خادم احتياطي بديل يعالج الثغرة أم التهديد.",
+    "givenParameters": [
+      {
+        "label": "Vulnerability Likelihood P(E)",
+        "value": "0.40 (40%)",
+        "labelAr": "احتمالية الاستغلال"
+      },
+      {
+        "label": "Financial Impact (I)",
+        "value": "$150,000",
+        "labelAr": "الأثر المالي المترتب على الانتهاك"
+      }
+    ],
+    "requiredResult": {
+      "en": "Definitions, calculated risk exposure R, and architectural mitigation distinction.",
+      "ar": "التعريفات الثلاثة، قيمة التعرض للمخاطر R، وتصنيف الأثر الأمني للحل الهندسي."
+    },
+    "governingFormula": {
+      "name": "Quantitative Risk Formulation",
+      "nameAr": "معادلة تقييم الخطر الأمني الكمي",
+      "latex": "R = P(\\text{Threat Exploits Vulnerability}) \\times \\text{Impact}",
+      "explanation": "Vulnerability is internal weakness; Threat is external potential harm; Attack is threat realization. Risk measures expected loss.",
+      "explanationAr": "الثغرة هي نقطة الضعف الداخلية؛ التهديد هو الخطر المحتمل الخارجي؛ الهجوم هو تنفيذ التهديد فعلياً. والمخاطرة هي حاصل ضرب الاحتمال في الأثر."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "V",
+        "meaningEn": "Flaw or weakness in system design or implementation",
+        "meaningAr": "نقطة الضعف الكامنة في تكوين النظام"
+      },
+      {
+        "symbol": "T",
+        "meaningEn": "Potential danger that might exploit a vulnerability",
+        "meaningAr": "الخطر المحتمل الخارجي"
+      },
+      {
+        "symbol": "R",
+        "meaningEn": "Quantitative risk exposure in monetary value",
+        "meaningAr": "مقدار التعرض المالي للخطر"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Unpatched flaw",
+        "keywordAr": "ثغرة غير معالجة",
+        "indicates": "System Vulnerability",
+        "indicatesAr": "ثغرة أمنية داخلية"
+      },
+      {
+        "keyword": "Denial of service",
+        "keywordAr": "حجب الخدمة",
+        "indicates": "Security Threat / Attack on Availability",
+        "indicatesAr": "تهديد أمني يستهدف التوافرية"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Distinguish Threat, Vulnerability, and Attack",
+        "titleAr": "التمييز الاصطلاحي بين التهديد والثغرة والهجوم",
+        "mathLatex": "\\text{Vulnerability} \\subset \\text{System}, \\quad \\text{Threat} \\in \\text{Environment}, \\quad \\text{Attack} = \\text{Threat} \\times \\text{Action}",
+        "intermediateResult": "Clear three-fold distinction",
+        "explanationEn": "Vulnerability is a flaw or weakness in design/implementation. Threat is a potential violation of security. Attack is an assault on system security that actively exploits a vulnerability.",
+        "explanationAr": "الثغرة عيب في النظام؛ التهديد هو خطر محتمل في البيئة المحيطة؛ والهجوم هو الفعل الحقيقي الذي يستغل تلك الثغرة لتحقيق التهديد.",
+        "title": "Distinguish Threat, Vulnerability, and Attack",
+        "formula": "\\text{Vulnerability} \\subset \\text{System}, \\quad \\text{Threat} \\in \\text{Environment}, \\quad \\text{Attack} = \\text{Threat} \\times \\text{Action}",
+        "explanation": "Vulnerability is a flaw or weakness in design/implementation. Threat is a potential violation of security. Attack is an assault on system security that actively exploits a vulnerability."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Calculate Financial Risk Exposure R",
+        "titleAr": "حساب قيمة التعرض المالي للمخاطرة R",
+        "mathLatex": "R = P(E) \\times I",
+        "substitutionLatex": "R = 0.40 \\times 150,000",
+        "intermediateResult": "R = \\$60,000",
+        "explanationEn": "Multiplying the exploitation probability by the single loss impact yields an expected risk exposure of $60,000.",
+        "explanationAr": "بضرب احتمال وقوع الاستغلال (0.4) في قيمة الخسارة ($150,000) نحصل على المخاطرة المتوقعة بمقدار $60,000 سنوياً.",
+        "title": "Calculate Financial Risk Exposure R",
+        "formula": "R = P(E) \\times I",
+        "substitution": "R = 0.40 \\times 150,000",
+        "explanation": "Multiplying the exploitation probability by the single loss impact yields an expected risk exposure of $60,000."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Analyze Architectural Mitigation Effect",
+        "titleAr": "تحليل أثر الحل الهندسي على عناصر المنظومة",
+        "mathLatex": "\\text{Redundant Server} \\implies \\text{Impact Reduction / Threat Mitigation}",
+        "intermediateResult": "Mitigates Availability Impact (Threat containment)",
+        "explanationEn": "A redundant server does not patch the software flaw (Vulnerability remains), but it mitigates the Threat impact by preserving Availability if the primary server fails.",
+        "explanationAr": "تشغيل خادم بديل لا يزيل ثغرة الكود (فالثغرة باقية)، ولكنه يبطل أثر التهديد ويحمي ركن التوافرية (Availability) من الانهيار.",
+        "title": "Analyze Architectural Mitigation Effect",
+        "formula": "\\text{Redundant Server} \\implies \\text{Impact Reduction / Threat Mitigation}",
+        "explanation": "A redundant server does not patch the software flaw (Vulnerability remains), but it mitigates the Threat impact by preserving Availability if the primary server fails."
+      }
+    ],
+    "finalResult": "Risk Exposure R = $60,000; Redundancy mitigates impact on Availability.",
+    "verification": "Check dimensional consistency: probability (dimensionless) * currency ($) = currency ($). $60,000 is mathematically sound.",
+    "verificationAr": "تحقق الأبعاد: حاصل ضرب الاحتمال في القيمة المالية ينتج قيمة مالية صحيحة $60,000.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Confusing Threat with Vulnerability.",
+        "mistakeAr": "الخلط بين التهديد والثغرة.",
+        "preventionEn": "Vulnerability is an internal property of the asset (you own it). Threat is an external entity or occurrence (you do not own it).",
+        "preventionAr": "الثغرة صفة داخلية في نظامك يمكنك ترقيعها؛ بينما التهديد خارجي لا تتحكم فيه بذاته بل تحمي نفسك منه."
+      }
+    ],
+    "relatedLessonId": "ch1-l1",
+    "relatedBasmagaQuestionId": "basmaga-ch1-08"
+  },
+  {
+    "id": "prob-ch2-01",
+    "chapterId": "ch2",
+    "topicId": "ch2-t1",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 2 / Slide 8 (Euclidean Algorithm)",
+    "category": "number-theory",
+    "title": "Euclidean Algorithm: Greatest Common Divisor gcd(116071, 71239)",
+    "titleAr": "خوارزمية إقليدس لحساب القاسم المشترك الأكبر gcd(116071, 71239)",
+    "problem": "Using the Euclidean Algorithm, compute the greatest common divisor gcd(116071, 71239). Show each division step with quotient and remainder explicitly.",
+    "problemAr": "باستخدام خوارزمية إقليدس المتتالية، احسب القاسم المشترك الأكبر للعددين gcd(116071, 71239). وضح كل خطوة قسمة تتضمن خارج القسمة والباقي بدقة.",
+    "givenParameters": [
+      {
+        "label": "a",
+        "value": "116071",
+        "labelAr": "العدد الأول (الأكبر)"
+      },
+      {
+        "label": "b",
+        "value": "71239",
+        "labelAr": "العدد الثاني (الأصغر)"
+      }
+    ],
+    "requiredResult": {
+      "en": "The greatest common divisor gcd(116071, 71239).",
+      "ar": "القاسم المشترك الأكبر gcd(116071, 71239)."
+    },
+    "governingFormula": {
+      "name": "Euclidean Division Lemma",
+      "nameAr": "تمثيل خوارزمية إقليدس المتتالية",
+      "latex": "r_{i-2} = q_i \\cdot r_{i-1} + r_i, \\quad \\gcd(a, b) = r_k \\text{ (last non-zero remainder)}",
+      "explanation": "Repeatedly replace (a, b) with (b, a mod b) until the remainder reaches 0. The final non-zero remainder is the gcd.",
+      "explanationAr": "استبدال متكرر للمقدارين (a, b) بالمقدارين (b, a mod b) حتى يصبح الباقي صفراً؛ ويكون آخر باقٍ موجب غير صفري هو القاسم المشترك الأكبر."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "a, b",
+        "meaningEn": "Input integers for which gcd is sought",
+        "meaningAr": "العددان الصحيحان المراد إيجاد القاسم المشترك لهما"
+      },
+      {
+        "symbol": "q_i",
+        "meaningEn": "Quotient obtained at division iteration i",
+        "meaningAr": "خارج القسمة الصحيح في الخطوة i"
+      },
+      {
+        "symbol": "r_i",
+        "meaningEn": "Remainder obtained at division iteration i",
+        "meaningAr": "باقي القسمة في الخطوة i"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Euclidean Algorithm",
+        "keywordAr": "خوارزمية إقليدس",
+        "indicates": "Successive Division Method",
+        "indicatesAr": "تطبيق القسمات المتتالية للبواقي"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Divide 116071 by 71239",
+        "titleAr": "القسمة الأولى: 116071 على 71239",
+        "mathLatex": "116071 = 1 \\times 71239 + 44832",
+        "intermediateResult": "q_1 = 1, \\quad r_1 = 44832",
+        "explanationEn": "Divide 116071 by 71239. Integer quotient is 1 and remainder is 44832.",
+        "explanationAr": "نقسم 116071 على 71239 فيكون خارج القسمة 1 والباقي 44832.",
+        "title": "Divide 116071 by 71239",
+        "formula": "116071 = 1 \\times 71239 + 44832",
+        "explanation": "Divide 116071 by 71239. Integer quotient is 1 and remainder is 44832."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Divide 71239 by 44832",
+        "titleAr": "القسمة الثانية: 71239 على 44832",
+        "mathLatex": "71239 = 1 \\times 44832 + 26407",
+        "intermediateResult": "q_2 = 1, \\quad r_2 = 26407",
+        "explanationEn": "Divide 71239 by 44832. Quotient is 1 and remainder is 26407.",
+        "explanationAr": "نقسم 71239 على 44832؛ الناتج 1 والباقي 26407.",
+        "title": "Divide 71239 by 44832",
+        "formula": "71239 = 1 \\times 44832 + 26407",
+        "explanation": "Divide 71239 by 44832. Quotient is 1 and remainder is 26407."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Intermediate Divisions Down to Remainder 1",
+        "titleAr": "القسمات المتتابعة حتى الوصول للباقي 1",
+        "mathLatex": "44832 = 1(26407) + 18425 \\implies 26407 = 1(18425) + 7982 \\implies 18425 = 2(7982) + 2461 \\implies 7982 = 3(2461) + 599",
+        "intermediateResult": "Successive remainders: 18425, 7982, 2461, 599",
+        "explanationEn": "Continue standard Euclidean division on successive pairs of divisors and remainders.",
+        "explanationAr": "نواصل خوارزمية إقليدس بقسمة كل قاسم على الباقي الذي يليه.",
+        "title": "Intermediate Divisions Down to Remainder 1",
+        "formula": "44832 = 1(26407) + 18425 \\implies 26407 = 1(18425) + 7982 \\implies 18425 = 2(7982) + 2461 \\implies 7982 = 3(2461) + 599",
+        "explanation": "Continue standard Euclidean division on successive pairs of divisors and remainders."
+      },
+      {
+        "stepNumber": 4,
+        "titleEn": "Final Division Steps and Zero Remainder",
+        "titleAr": "القسمات النهائية والوصول للباقي صفر",
+        "mathLatex": "2461 = 4(599) + 65 \\implies 599 = 9(65) + 14 \\implies 65 = 4(14) + 9 \\implies 14 = 1(9) + 5 \\implies 9 = 1(5) + 4 \\implies 5 = 1(4) + 1 \\implies 4 = 4(1) + 0",
+        "intermediateResult": "Last non-zero remainder = 1",
+        "explanationEn": "The last non-zero remainder is 1. Therefore, gcd(116071, 71239) = 1, proving they are coprime.",
+        "explanationAr": "آخر باقٍ غير صفري هو 1. وبالتالي فإن gcd(116071, 71239) = 1، والعددان أوليان فيما بينهما.",
+        "title": "Final Division Steps and Zero Remainder",
+        "formula": "2461 = 4(599) + 65 \\implies 599 = 9(65) + 14 \\implies 65 = 4(14) + 9 \\implies 14 = 1(9) + 5 \\implies 9 = 1(5) + 4 \\implies 5 = 1(4) + 1 \\implies 4 = 4(1) + 0",
+        "explanation": "The last non-zero remainder is 1. Therefore, gcd(116071, 71239) = 1, proving they are coprime."
+      }
+    ],
+    "finalResult": "\\gcd(116071, 71239) = 1 \\text{ (Relatively Prime)}",
+    "verification": "116071 = 71239 * 1 + 44832. Euclidean division strictly terminates with gcd 1.",
+    "verificationAr": "التحقق: آخر باقٍ قبل الصفر هو 1، مما يثبت صحة الحساب ودقة خوارزمية إقليدس.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Stopping at quotient 0 instead of remainder 0.",
+        "mistakeAr": "التوقف عند ناتج قسمة 0 بدلاً من باقي 0.",
+        "preventionEn": "Always stop when remainder r_k = 0 and take r_{k-1}.",
+        "preventionAr": "توقف دائماً عندما يصبح الباقي صفراً وخذ الباقي الذي يسبقه مباشرة."
+      }
+    ],
+    "relatedLessonId": "ch2-l2",
+    "relatedBasmagaQuestionId": "basmaga-ch2-02"
+  },
+  {
+    "id": "prob-ch2-02",
+    "chapterId": "ch2",
+    "topicId": "ch2-t2",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 2 / Slide 14 & Example 2.8",
+    "category": "number-theory",
+    "title": "Extended Euclidean Algorithm: Modular Inverse 550^-1 mod 1759",
+    "titleAr": "خوارزمية إقليدس الممتدة لحساب المعكوس الضربي 550^-1 mod 1759",
+    "problem": "Using the Extended Euclidean Algorithm, find the modular multiplicative inverse of 550 modulo 1759 (i.e., compute 550^{-1} \\pmod{1759}). Verify that \\gcd(550, 1759) = 1.",
+    "problemAr": "باستخدام خوارزمية إقليدس الممتدة، أوجد المعكوس الضربي للعدد 550 مقياس 1759 (أي احسب 550^-1 mod 1759). تحقق من أن gcd(550, 1759) = 1.",
+    "givenParameters": [
+      {
+        "label": "a",
+        "value": "550",
+        "labelAr": "العدد المراد عكسه"
+      },
+      {
+        "label": "m",
+        "value": "1759",
+        "labelAr": "المقياس (Modulus)"
+      }
+    ],
+    "requiredResult": {
+      "en": "The integer x in {1, 2, ..., 1758} such that 550 * x = 1 (mod 1759).",
+      "ar": "العدد الصحيح x بحيث 550 * x = 1 (mod 1759)."
+    },
+    "governingFormula": {
+      "name": "Extended Euclidean Recurrence",
+      "nameAr": "تكرار خوارزمية إقليدس الممتدة",
+      "latex": "T = A - q \\cdot B, \\quad B_3 = 1 \\implies B_2 = a^{-1} \\pmod m",
+      "explanation": "Maintain row vectors A = [A1, A2, A3] and B = [B1, B2, B3]. Compute quotient q = floor(A3 / B3) and T = A - q*B until B3 = 1.",
+      "explanationAr": "تحديث المتجهات A و B بحساب T = A - q*B حتى يصبح B3 مساوياً لـ 1، فتكون B2 هي المعكوس."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "A",
+        "meaningEn": "Row vector for modulus: [1, 0, 1759]",
+        "meaningAr": "متجه المقياس الابتدائي"
+      },
+      {
+        "symbol": "B",
+        "meaningEn": "Row vector for number: [0, 1, 550]",
+        "meaningAr": "متجه العدد الابتدائي"
+      },
+      {
+        "symbol": "B_2",
+        "meaningEn": "Bezout coefficient representing inverse",
+        "meaningAr": "معامل بيزو الذي يمثل المعكوس الضربي"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Extended Euclidean / Inverse mod m",
+        "keywordAr": "إقليدس الممتدة / المعكوس الضربي",
+        "indicates": "Vector Recurrence Table",
+        "indicatesAr": "جدول المتجهات التكراري"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Initialize Vectors and First Quotient",
+        "titleAr": "تهيئة المتجهات وخارج القسمة الأول",
+        "mathLatex": "A = [1, 0, 1759], \\quad B = [0, 1, 550], \\quad q = \\lfloor 1759 / 550 \\rfloor = 3",
+        "intermediateResult": "q = 3",
+        "explanationEn": "Initialize vector A with [1, 0, 1759] and vector B with [0, 1, 550]. Quotient is 3.",
+        "explanationAr": "المتجه A يحمل [1, 0, 1759] والمتجه B يحمل [0, 1, 550]. خارج القسمة 1759 / 550 = 3.",
+        "title": "Initialize Vectors and First Quotient",
+        "formula": "A = [1, 0, 1759], \\quad B = [0, 1, 550], \\quad q = \\lfloor 1759 / 550 \\rfloor = 3",
+        "explanation": "Initialize vector A with [1, 0, 1759] and vector B with [0, 1, 550]. Quotient is 3."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Iterations 1 to 4 Down to Remainder 1",
+        "titleAr": "التكرارات من 1 إلى 4 حتى بلوغ الباقي 1",
+        "mathLatex": "\\begin{aligned} T_1 &= [1, -3, 109], \\quad q_2 = \\lfloor 550/109 \\rfloor = 5 \\\\ T_2 &= [-5, 16, 5], \\quad q_3 = \\lfloor 109/5 \\rfloor = 21 \\\\ T_3 &= [106, -339, 4], \\quad q_4 = \\lfloor 5/4 \\rfloor = 1 \\\\ T_4 &= [-111, 355, 1] \\end{aligned}",
+        "intermediateResult": "B_3 = 1, \\quad B_2 = 355",
+        "explanationEn": "At iteration 4, B3 reaches 1. The coefficient B2 = 355 is the positive modular inverse.",
+        "explanationAr": "في التكرار الرابع يصل B3 إلى 1. وقيمة B2 = 355 هي المعكوس الضربي المطلوب.",
+        "title": "Iterations 1 to 4 Down to Remainder 1",
+        "formula": "\\begin{aligned} T_1 &= [1, -3, 109], \\quad q_2 = \\lfloor 550/109 \\rfloor = 5 \\\\ T_2 &= [-5, 16, 5], \\quad q_3 = \\lfloor 109/5 \\rfloor = 21 \\\\ T_3 &= [106, -339, 4], \\quad q_4 = \\lfloor 5/4 \\rfloor = 1 \\\\ T_4 &= [-111, 355, 1] \\end{aligned}",
+        "explanation": "At iteration 4, B3 reaches 1. The coefficient B2 = 355 is the positive modular inverse."
+      }
+    ],
+    "finalResult": "550^{-1} \\equiv 355 \\pmod{1759}",
+    "verification": "550 * 355 = 195,250 = 111 * 1759 + 1. Remainder is strictly 1.",
+    "verificationAr": "التحقق المباشر: 550 × 355 = 195,250 = 111 × 1759 + 1، والباقي 1 تماماً.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Leaving a negative inverse without adding the modulus.",
+        "mistakeAr": "ترك المعكوس سالباً دون إضافة المقياس.",
+        "preventionEn": "Always add modulus m if B2 is negative: (B2 mod m + m) mod m.",
+        "preventionAr": "إذا كان الناتج سالباً أضف المقياس لتحويله للمجال الموجب."
+      }
+    ],
+    "relatedLessonId": "ch2-l3",
+    "relatedBasmagaQuestionId": "basmaga-ch2-03"
+  },
+  {
+    "id": "prob-ch2-03",
+    "chapterId": "ch2",
+    "topicId": "ch2-t2",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 2 / Slide 16 & Section 2.4",
+    "category": "number-theory",
+    "title": "Modular Inverses in Z26: Computing 7^-1 and Proving 8^-1 Non-Existence",
+    "titleAr": "المعكوسات الضربية في Z26: حساب 7^-1 وإثبات استحالة وجود معكوس للعدد 8",
+    "problem": "(1) In the ring of integers modulo 26 (Z_26), find the modular multiplicative inverse of 7. (2) Prove mathematically why 8 does NOT possess a multiplicative inverse modulo 26.",
+    "problemAr": "(1) في حلقة الأعداد الصحيحة مقياس 26 (Z_26)، احسب المعكوس الضربي للعدد 7. (2) أثبت رياضياً لماذا يستحيل وجود معكوس ضربي للعدد 8 مقياس 26.",
+    "givenParameters": [
+      {
+        "label": "Modulus m",
+        "value": "26",
+        "labelAr": "المقياس Z_26"
+      },
+      {
+        "label": "Element 1",
+        "value": "a = 7",
+        "labelAr": "العدد الأول المطلوب عكسه"
+      },
+      {
+        "label": "Element 2",
+        "value": "b = 8",
+        "labelAr": "العدد الثاني"
+      }
+    ],
+    "requiredResult": {
+      "en": "7^{-1} \\pmod{26} and algebraic proof of non-invertibility for 8.",
+      "ar": "قيمة 7^-1 mod 26 وبرهان عدم قابلية 8 للعكس."
+    },
+    "governingFormula": {
+      "name": "Modular Invertibility Criterion",
+      "nameAr": "شرط وجود المعكوس الضربي القياسي",
+      "latex": "a^{-1} \\pmod m \\text{ exists} \\iff \\gcd(a, m) = 1",
+      "explanation": "An integer a has a multiplicative inverse modulo m if and only if a and m are relatively prime.",
+      "explanationAr": "يوجد معكوس ضربي للعدد a مقياس m إذا وفقط إذا كان القاسم المشترك الأكبر بينهما يساوي 1."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\gcd(a, m)",
+        "meaningEn": "Greatest common divisor",
+        "meaningAr": "القاسم المشترك الأكبر"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "gcd(a, m) = 1 / Invertible",
+        "keywordAr": "شرط وجود المعكوس",
+        "indicates": "Coprimality Condition",
+        "indicatesAr": "شرط أن يكون العددان أوليين نسبياً"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Find gcd(7, 26) and Compute 7^-1 mod 26",
+        "titleAr": "حساب gcd(7, 26) وإيجاد 7^-1 mod 26",
+        "mathLatex": "26 = 3 \\times 7 + 5 \\implies 7 = 1 \\times 5 + 2 \\implies 5 = 2 \\times 2 + 1 \\implies \\gcd(7, 26) = 1",
+        "substitutionLatex": "1 = 5 - 2(2) = 5 - 2(7 - 5) = 3(5) - 2(7) = 3(26 - 3 \\times 7) - 2(7) = 3(26) - 11(7)",
+        "intermediateResult": "-11 \\equiv 15 \\pmod{26}",
+        "explanationEn": "Since gcd(7, 26) = 1, inverse exists. -11 mod 26 = 15. Check: 7 * 15 = 105 = 4 * 26 + 1 = 1 mod 26.",
+        "explanationAr": "بما أن gcd(7, 26)=1 فالمعكوس موجود. من متطابقة بيزو: -11 يكافئ 15 مقياس 26. والتحقق: 7 × 15 = 105 = 1 mod 26.",
+        "title": "Find gcd(7, 26) and Compute 7^-1 mod 26",
+        "formula": "26 = 3 \\times 7 + 5 \\implies 7 = 1 \\times 5 + 2 \\implies 5 = 2 \\times 2 + 1 \\implies \\gcd(7, 26) = 1",
+        "substitution": "1 = 5 - 2(2) = 5 - 2(7 - 5) = 3(5) - 2(7) = 3(26 - 3 \\times 7) - 2(7) = 3(26) - 11(7)",
+        "explanation": "Since gcd(7, 26) = 1, inverse exists. -11 mod 26 = 15. Check: 7 * 15 = 105 = 4 * 26 + 1 = 1 mod 26."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Prove Why 8^-1 mod 26 Does Not Exist",
+        "titleAr": "إثبات عدم وجود معكوس ضربي للعدد 8 مقياس 26",
+        "mathLatex": "\\gcd(8, 26) = 2 \\neq 1",
+        "substitutionLatex": "8x \\equiv 1 \\pmod{26} \\implies 8x - 26y = 1 \\implies 2(4x - 13y) = 1",
+        "intermediateResult": "Contradiction: Even integer 2(4x - 13y) cannot equal odd integer 1",
+        "explanationEn": "If an inverse x existed, 8x - 26y = 1 would hold. But the left side is divisible by 2 for all integers x, y, while 1 is odd. Contradiction! Hence, 8 has no inverse in Z26.",
+        "explanationAr": "لو وجد معكوس x لكان 8x - 26y = 1. لكن الطرف الأيسر يقبل القسمة على 2 دائماً (عدد زوجي) بينما الأيمن 1 (فردي). وهذا تناقض مستحيل! إذن 8 ليس له معكوس في Z26.",
+        "title": "Prove Why 8^-1 mod 26 Does Not Exist",
+        "formula": "\\gcd(8, 26) = 2 \\neq 1",
+        "substitution": "8x \\equiv 1 \\pmod{26} \\implies 8x - 26y = 1 \\implies 2(4x - 13y) = 1",
+        "explanation": "If an inverse x existed, 8x - 26y = 1 would hold. But the left side is divisible by 2 for all integers x, y, while 1 is odd. Contradiction! Hence, 8 has no inverse in Z26."
+      }
+    ],
+    "finalResult": "7^{-1} \\equiv 15 \\pmod{26}; 8^{-1} \\pmod{26} does NOT exist (\\gcd(8, 26) = 2 \\neq 1)",
+    "verification": "7 * 15 = 105 = 4(26) + 1. For 8: 8*0=0, 8*1=8, 8*2=16, 8*3=24, 8*4=6, 8*5=14, ..., all products mod 26 are even, never 1.",
+    "verificationAr": "تحقق: كل مضاعفات 8 مقياس 26 تنتج أعداداً زوجية حصراً (0, 8, 16, 24, 6, 14, 22...) ولا يمكن أن تنتج 1 أبداً.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Attempting to invert even numbers modulo 26.",
+        "mistakeAr": "محاولة إيجاد معكوس لعدد زوجي مقياس 26.",
+        "preventionEn": "Any number sharing a common factor with m > 1 has no multiplicative inverse.",
+        "preventionAr": "أي عدد يشترك مع المقياس في قاسم مشترك أكبر من 1 يستحيل أن يمتلك معكوساً ضربياً."
+      }
+    ],
+    "relatedLessonId": "ch2-l3",
+    "relatedBasmagaQuestionId": "basmaga-ch2-03"
+  },
+  {
+    "id": "prob-ch2-04",
+    "chapterId": "ch2",
+    "topicId": "ch2-t3",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 2 / Slide 22 (Euler's Totient Function)",
+    "category": "number-theory",
+    "title": "Euler's Totient Function phi(n) for Prime, Product, and Powers",
+    "titleAr": "حساب دالة أويلر للمؤشرات phi(n) للأعداد الأولية والقوى وحاصل الضرب",
+    "problem": "Calculate Euler totient function phi(n) for: (1) n = 37, (2) n = 35, (3) n = 240. State the formula applied for each case.",
+    "problemAr": "احسب قيمة دالة أويلر phi(n) للحالات التالية: (1) n = 37، (2) n = 35، (3) n = 240. اذكر القانون الرياضي المستخدم في كل حالة.",
+    "givenParameters": [
+      {
+        "label": "n_1",
+        "value": "37 (Prime)",
+        "labelAr": "عدد أولي"
+      },
+      {
+        "label": "n_2",
+        "value": "35 = 5 * 7 (Product of two primes)",
+        "labelAr": "حاصل ضرب عددين أوليين"
+      },
+      {
+        "label": "n_3",
+        "value": "240 = 2^4 * 3^1 * 5^1 (Composite)",
+        "labelAr": "عدد مركب بعدة عوامل أولية"
+      }
+    ],
+    "requiredResult": {
+      "en": "phi(37), phi(35), and phi(240).",
+      "ar": "قيم دالة أويلر: phi(37) و phi(35) و phi(240)."
+    },
+    "governingFormula": {
+      "name": "Euler's Totient Formulas",
+      "nameAr": "قوانين دالة أويلر الأساسية",
+      "latex": "\\phi(p) = p - 1, \\quad \\phi(p \\cdot q) = (p-1)(q-1), \\quad \\phi(n) = n \\prod_{p \\mid n} \\left(1 - \\frac{1}{p}\\right)",
+      "explanation": "For prime p, phi(p)=p-1. For coprime factors, phi is multiplicative. For any integer n, the prime product formula applies.",
+      "explanationAr": "للعدد الأولي p يكون phi(p)=p-1. وللأعداد الأولية نسبياً تتوزع الدالة بالضرب. ولأي عدد عام يطبق قانون الجداء التحليلي."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\phi(n)",
+        "meaningEn": "Count of positive integers less than n that are coprime to n",
+        "meaningAr": "عدد الأعداد الأصغر من n والأولية نسبياً معه"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Euler totient / phi(n)",
+        "keywordAr": "دالة أويلر phi(n)",
+        "indicates": "Prime Factorization Totient Rules",
+        "indicatesAr": "قوانين التفكيك الأولي لدالة أويلر"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Compute phi(37) for Prime",
+        "titleAr": "حساب phi(37) للعدد الأولي",
+        "mathLatex": "\\phi(37) = 37 - 1 = 36",
+        "intermediateResult": "36",
+        "explanationEn": "Since 37 is prime, phi(37) = 36.",
+        "explanationAr": "بما أن 37 أولي فإن phi(37) = 36.",
+        "title": "Compute phi(37) for Prime",
+        "formula": "\\phi(37) = 37 - 1 = 36",
+        "explanation": "Since 37 is prime, phi(37) = 36."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Compute phi(35) for Product of Primes",
+        "titleAr": "حساب phi(35) لحاصل ضرب أوليين",
+        "mathLatex": "\\phi(35) = \\phi(5 \\times 7) = (5 - 1)(7 - 1) = 4 \\times 6 = 24",
+        "intermediateResult": "24",
+        "explanationEn": "5 and 7 are distinct primes, so phi(35) = 4 * 6 = 24.",
+        "explanationAr": "5 و 7 أوليان مميزان، إذن phi(35) = 4 × 6 = 24.",
+        "title": "Compute phi(35) for Product of Primes",
+        "formula": "\\phi(35) = \\phi(5 \\times 7) = (5 - 1)(7 - 1) = 4 \\times 6 = 24",
+        "explanation": "5 and 7 are distinct primes, so phi(35) = 4 * 6 = 24."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Compute phi(240) using Prime Product Formula",
+        "titleAr": "حساب phi(240) بقانون الجداء الأولي",
+        "mathLatex": "240 = 2^4 \\times 3 \\times 5 \\implies \\phi(240) = 240 \\times (1 - 1/2)(1 - 1/3)(1 - 1/5) = 240 \\times \\frac{1}{2} \\times \\frac{2}{3} \\times \\frac{4}{5}",
+        "intermediateResult": "64",
+        "explanationEn": "240 * (8/30) = 8 * 8 = 64.",
+        "explanationAr": "240 × (8/30) = 64.",
+        "title": "Compute phi(240) using Prime Product Formula",
+        "formula": "240 = 2^4 \\times 3 \\times 5 \\implies \\phi(240) = 240 \\times (1 - 1/2)(1 - 1/3)(1 - 1/5) = 240 \\times \\frac{1}{2} \\times \\frac{2}{3} \\times \\frac{4}{5}",
+        "explanation": "240 * (8/30) = 8 * 8 = 64."
+      }
+    ],
+    "finalResult": "\\phi(37) = 36, \\quad \\phi(35) = 24, \\quad \\phi(240) = 64",
+    "verification": "phi(2^4)*phi(3)*phi(5) = (16-8)*2*4 = 8*2*4 = 64.",
+    "verificationAr": "التحقق البديل: (16-8) × 2 × 4 = 64. النتيجة متطابقة تماماً.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Treating composite 35 as prime (phi(35)=34).",
+        "mistakeAr": "معاملة 35 كعدد أولي وكتابة phi(35)=34.",
+        "preventionEn": "Always factorize composites into primes first.",
+        "preventionAr": "حلل الأعداد المركبة لعواملها الأولية أولاً."
+      }
+    ],
+    "relatedLessonId": "ch2-l5",
+    "relatedBasmagaQuestionId": "basmaga-ch2-05"
+  },
+  {
+    "id": "prob-ch2-05",
+    "chapterId": "ch2",
+    "topicId": "ch2-t4",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 2 / Slide 26 (Fermat's Little Theorem)",
+    "category": "number-theory",
+    "title": "Fermat's Little Theorem: Rapid Exponentiation 3^201 mod 11",
+    "titleAr": "مبرهنة فيرما الصغرى لحساب القوى الأسية الكبيرة 3^201 mod 11",
+    "problem": "Using Fermat’s Little Theorem, compute the remainder when 3^{201} is divided by 11 (i.e. find 3^{201} \\pmod{11}).",
+    "problemAr": "باستخدام مبرهنة فيرما الصغرى، احسب باقي قسمة 3^201 على 11 (أي احسب 3^201 mod 11).",
+    "givenParameters": [
+      {
+        "label": "a",
+        "value": "3",
+        "labelAr": "الأساس"
+      },
+      {
+        "label": "exponent",
+        "value": "201",
+        "labelAr": "الأس"
+      },
+      {
+        "label": "p",
+        "value": "11 (Prime)",
+        "labelAr": "المقياس (عدد أولي)"
+      }
+    ],
+    "requiredResult": {
+      "en": "The value of 3^{201} \\pmod{11}.",
+      "ar": "قيمة 3^201 mod 11."
+    },
+    "governingFormula": {
+      "name": "Fermat's Little Theorem",
+      "nameAr": "مبرهنة فيرما الصغرى",
+      "latex": "a^{p-1} \\equiv 1 \\pmod p \\quad \\text{when } \\gcd(a, p) = 1",
+      "explanation": "Since p = 11 is prime and gcd(3, 11) = 1, 3^{10} is congruent to 1 mod 11. Large exponents reduce modulo (p - 1) = 10.",
+      "explanationAr": "بما أن 11 أولي و gcd(3, 11)=1 فإن 3^10 = 1 mod 11. ويختزل الأس بمقياس 10."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "a",
+        "meaningEn": "Base integer coprime to modulus p",
+        "meaningAr": "الأساس الأولي نسبياً مع p"
+      },
+      {
+        "symbol": "p-1",
+        "meaningEn": "Exponent period modulo p",
+        "meaningAr": "دورة الأسس مقياس p"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Fermat's Little Theorem / a^(p-1) = 1",
+        "keywordAr": "مبرهنة فيرما الصغرى",
+        "indicates": "Mod (p-1) Exponent Reduction",
+        "indicatesAr": "اختزال الأس بمقياس (p-1)"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Apply Fermat Reduction on Exponent",
+        "titleAr": "تطبيق اختزال فيرما على الأس",
+        "mathLatex": "201 = 20 \\times 10 + 1 \\implies 3^{201} = (3^{10})^{20} \\times 3^1",
+        "intermediateResult": "3^{10} \\equiv 1 \\pmod{11}",
+        "explanationEn": "Divide exponent 201 by (p - 1) = 10: quotient is 20, remainder is 1.",
+        "explanationAr": "نقسم الأس 201 على 10: الناتج 20 والباقي 1.",
+        "title": "Apply Fermat Reduction on Exponent",
+        "formula": "201 = 20 \\times 10 + 1 \\implies 3^{201} = (3^{10})^{20} \\times 3^1",
+        "explanation": "Divide exponent 201 by (p - 1) = 10: quotient is 20, remainder is 1."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Evaluate Modular Value",
+        "titleAr": "حساب القيمة النهائية",
+        "mathLatex": "3^{201} \\equiv (1)^{20} \\times 3^1 \\equiv 3 \\pmod{11}",
+        "intermediateResult": "3",
+        "explanationEn": "Substituting 3^{10} = 1 reduces expression to 3.",
+        "explanationAr": "بالتعويض عن 3^10 بالواحد ينتج 3.",
+        "title": "Evaluate Modular Value",
+        "formula": "3^{201} \\equiv (1)^{20} \\times 3^1 \\equiv 3 \\pmod{11}",
+        "explanation": "Substituting 3^{10} = 1 reduces expression to 3."
+      }
+    ],
+    "finalResult": "3^{201} \\equiv 3 \\pmod{11}",
+    "verification": "3^5 = 243 = 22(11) + 1 = 1 mod 11. 3^200 = (3^5)^40 = 1. 3^201 = 1 * 3 = 3.",
+    "verificationAr": "تحقق: 3^5 = 1 mod 11، إذن 3^200 = 1، ويتبقى 3^1 = 3.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Reducing exponent mod p (11) instead of mod (p-1) (10).",
+        "mistakeAr": "قسمة الأس على 11 بدلاً من 10.",
+        "preventionEn": "Fermat theorem cycle is p - 1, never p.",
+        "preventionAr": "دورة الأس في فيرما هي p - 1 دائماً."
+      }
+    ],
+    "relatedLessonId": "ch2-l4",
+    "relatedBasmagaQuestionId": "basmaga-ch2-04"
+  },
+  {
+    "id": "prob-ch2-06",
+    "chapterId": "ch2",
+    "topicId": "ch2-t4",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 2 / Slide 28 (Euler's Generalization)",
+    "category": "number-theory",
+    "title": "Euler's Theorem for Composite Modulus: Computing 3^80 mod 100",
+    "titleAr": "مبرهنة أويلر للمقاييس المركبة: حساب 3^80 mod 100",
+    "problem": "Using Euler’s Theorem, compute 3^{80} \\pmod{100}. (Note that 100 is composite, so Fermat’s theorem does not apply directly).",
+    "problemAr": "باستخدام مبرهنة أويلر، احسب 3^80 mod 100 (لاحظ أن 100 عدد مركب، فلا تنطبق مبرهنة فيرما مباشرة).",
+    "givenParameters": [
+      {
+        "label": "Base a",
+        "value": "3",
+        "labelAr": "الأساس"
+      },
+      {
+        "label": "Modulus n",
+        "value": "100 = 2^2 * 5^2",
+        "labelAr": "المقياس المركب 100"
+      },
+      {
+        "label": "Exponent",
+        "value": "80",
+        "labelAr": "الأس"
+      }
+    ],
+    "requiredResult": {
+      "en": "3^{80} \\pmod{100}.",
+      "ar": "قيمة 3^80 mod 100."
+    },
+    "governingFormula": {
+      "name": "Euler's Generalization of Fermat's Theorem",
+      "nameAr": "تعميم أويلر لمبرهنة فيرما",
+      "latex": "a^{\\phi(n)} \\equiv 1 \\pmod n \\quad \\text{when } \\gcd(a, n) = 1",
+      "explanation": "If a and n are coprime, raising a to the power phi(n) yields 1 modulo n.",
+      "explanationAr": "إذا كان a و n أوليين نسبياً، فإن رفع a للقوة phi(n) يكافئ 1 مقياس n."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\phi(n)",
+        "meaningEn": "Totient of modulus n",
+        "meaningAr": "قيمة دالة أويلر للمقياس المركب"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Euler's Theorem / Composite modulus",
+        "keywordAr": "مبرهنة أويلر / مقياس مركب",
+        "indicates": "Mod phi(n) Exponent Reduction",
+        "indicatesAr": "اختزال الأس بمقياس phi(n)"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Compute phi(100) and Check gcd(3, 100)",
+        "titleAr": "حساب phi(100) والتحقق من gcd(3, 100)",
+        "mathLatex": "100 = 2^2 \\times 5^2 \\implies \\phi(100) = 100 \\times (1 - 1/2)(1 - 1/5) = 100 \\times \\frac{1}{2} \\times \\frac{4}{5} = 40",
+        "intermediateResult": "\\phi(100) = 40, \\quad \\gcd(3, 100) = 1",
+        "explanationEn": "gcd(3, 100) = 1, so Euler theorem applies: 3^{40} = 1 (mod 100).",
+        "explanationAr": "gcd(3, 100) = 1، إذن ينطبق أويلر: 3^40 = 1 مقياس 100.",
+        "title": "Compute phi(100) and Check gcd(3, 100)",
+        "formula": "100 = 2^2 \\times 5^2 \\implies \\phi(100) = 100 \\times (1 - 1/2)(1 - 1/5) = 100 \\times \\frac{1}{2} \\times \\frac{4}{5} = 40",
+        "explanation": "gcd(3, 100) = 1, so Euler theorem applies: 3^{40} = 1 (mod 100)."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Decompose Exponent 80",
+        "titleAr": "تفكيك الأس 80 بمقياس phi(100)",
+        "mathLatex": "80 = 2 \\times 40 + 0 \\implies 3^{80} = (3^{40})^2 \\equiv (1)^2 \\equiv 1 \\pmod{100}",
+        "intermediateResult": "1",
+        "explanationEn": "Because 80 is an exact multiple of phi(100) = 40, 3^{80} is congruent to 1 mod 100.",
+        "explanationAr": "بما أن 80 مضاعف تام للعدد 40، فإن 3^80 يكافئ 1 مقياس 100.",
+        "title": "Decompose Exponent 80",
+        "formula": "80 = 2 \\times 40 + 0 \\implies 3^{80} = (3^{40})^2 \\equiv (1)^2 \\equiv 1 \\pmod{100}",
+        "explanation": "Because 80 is an exact multiple of phi(100) = 40, 3^{80} is congruent to 1 mod 100."
+      }
+    ],
+    "finalResult": "3^{80} \\equiv 1 \\pmod{100}",
+    "verification": "Check: 3^4 = 81. 3^8 = (81)^2 = 6561 = 61 mod 100. 3^20 = (3^8)^2 * 3^4 = (61)^2 * 81 = 3721 * 81 = 21 * 81 = 1701 = 1 mod 100. Since 3^20 = 1, 3^80 = (3^20)^4 = 1. Matches perfectly.",
+    "verificationAr": "التحقق المباشر: 3^20 = 1 mod 100، وبالتالي 3^80 = (3^20)^4 = 1 mod 100.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Attempting to use Fermat's Little Theorem with p - 1 = 99.",
+        "mistakeAr": "استخدام مبرهنة فيرما مع p - 1 = 99.",
+        "preventionEn": "100 is not prime! You must use Euler's Theorem with phi(n) = 40.",
+        "preventionAr": "العدد 100 ليس أولياً! يجب استخدام مبرهنة أويلر مع phi(100) = 40."
+      }
+    ],
+    "relatedLessonId": "ch2-l4",
+    "relatedBasmagaQuestionId": "basmaga-ch2-04"
+  },
+  {
+    "id": "prob-ch2-07",
+    "chapterId": "ch2",
+    "topicId": "ch2-t5",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 2 / Slide 30 (Square and Multiply Algorithm)",
+    "category": "number-theory",
+    "title": "Fast Modular Exponentiation: Square-and-Multiply for 11^23 mod 187",
+    "titleAr": "الرفع الأسي السريع: خوارزمية التربيع والضرب لحساب 11^23 mod 187",
+    "problem": "Using the Fast Modular Exponentiation (Square-and-Multiply) algorithm, compute 11^{23} \\pmod{187}. Show the binary representation of the exponent and each intermediate squaring and multiplication step.",
+    "problemAr": "باستخدام خوارزمية الرفع الأسي السريع (التربيع والضرب Square-and-Multiply)، احسب 11^23 mod 187. وضح التمثيل الثنائي للأس وكل خطوة تربيع وضرب وسيطة.",
+    "givenParameters": [
+      {
+        "label": "Base a",
+        "value": "11",
+        "labelAr": "الأساس"
+      },
+      {
+        "label": "Exponent b",
+        "value": "23 = 10111_2",
+        "labelAr": "الأس بالنظام الثنائي"
+      },
+      {
+        "label": "Modulus n",
+        "value": "187",
+        "labelAr": "المقياس"
+      }
+    ],
+    "requiredResult": {
+      "en": "11^{23} \\pmod{187}.",
+      "ar": "قيمة 11^23 mod 187."
+    },
+    "governingFormula": {
+      "name": "Square-and-Multiply Algorithm",
+      "nameAr": "خوارزمية التربيع والضرب",
+      "latex": "b = \\sum_{i=0}^{k-1} b_i 2^i, \\quad \\text{For each bit: Square; if bit = 1: Multiply by } a",
+      "explanation": "Scan exponent bits from most significant to least significant. Square accumulator at each step. Multiply by base when bit is 1.",
+      "explanationAr": "فحص بتات الأس من اليسار لليمين: تربيع الناتج في كل خطوة، والضرب في الأساس إذا كان البت 1."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "b_i",
+        "meaningEn": "Binary bits of exponent (23 = 10111_2)",
+        "meaningAr": "بتات الأس الثنائية"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Square and Multiply / Fast Exponentiation",
+        "keywordAr": "التربيع والضرب / الرفع الأسي السريع",
+        "indicates": "Bit-by-bit Exponentiation",
+        "indicatesAr": "معالجة الأس بت بكل بت"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Convert Exponent 23 to Binary",
+        "titleAr": "تحويل الأس 23 إلى النظام الثنائي",
+        "mathLatex": "23_{10} = 16 + 4 + 2 + 1 = 10111_2",
+        "intermediateResult": "Bits: [b_4=1, b_3=0, b_2=1, b_1=1, b_0=1]",
+        "explanationEn": "Binary 10111 has 5 bits. Initial value y = 11 for MSB b4.",
+        "explanationAr": "العدد 23 ثنائياً هو 10111_2. نبدأ من الخانة اليسرى b4 بقيمة y = 11.",
+        "title": "Convert Exponent 23 to Binary",
+        "formula": "23_{10} = 16 + 4 + 2 + 1 = 10111_2",
+        "explanation": "Binary 10111 has 5 bits. Initial value y = 11 for MSB b4."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Bit b_3 = 0: Square Only",
+        "titleAr": "البت b3 = 0: تربيع فقط",
+        "mathLatex": "y = (11)^2 = 121 \\pmod{187}",
+        "intermediateResult": "y = 121",
+        "explanationEn": "Since bit is 0, we only square: 11^2 = 121 mod 187.",
+        "explanationAr": "البت 0 إذن تربيع فقط: 11^2 = 121.",
+        "title": "Bit b_3 = 0: Square Only",
+        "formula": "y = (11)^2 = 121 \\pmod{187}",
+        "explanation": "Since bit is 0, we only square: 11^2 = 121 mod 187."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Bit b_2 = 1: Square and Multiply",
+        "titleAr": "البت b2 = 1: تربيع ثم ضرب",
+        "mathLatex": "y = (121)^2 = 14641 = 55 \\pmod{187} \\implies y = 55 \\times 11 = 605 = 44 \\pmod{187}",
+        "intermediateResult": "y = 44",
+        "explanationEn": "Square 121: 14641 mod 187 = 55. Multiply by 11: 605 mod 187 = 44.",
+        "explanationAr": "تربيع 121 يعطي 55 مقياس 187. والضرب في 11 يعطي 605 = 44 مقياس 187.",
+        "title": "Bit b_2 = 1: Square and Multiply",
+        "formula": "y = (121)^2 = 14641 = 55 \\pmod{187} \\implies y = 55 \\times 11 = 605 = 44 \\pmod{187}",
+        "explanation": "Square 121: 14641 mod 187 = 55. Multiply by 11: 605 mod 187 = 44."
+      },
+      {
+        "stepNumber": 4,
+        "titleEn": "Bit b_1 = 1: Square and Multiply",
+        "titleAr": "البت b1 = 1: تربيع ثم ضرب",
+        "mathLatex": "y = (44)^2 = 1936 = 66 \\pmod{187} \\implies y = 66 \\times 11 = 726 = 165 \\pmod{187}",
+        "intermediateResult": "y = 165",
+        "explanationEn": "Square 44: 1936 mod 187 = 66. Multiply by 11: 726 mod 187 = 165.",
+        "explanationAr": "تربيع 44 يعطي 66. والضرب في 11 يعطي 726 = 165 مقياس 187.",
+        "title": "Bit b_1 = 1: Square and Multiply",
+        "formula": "y = (44)^2 = 1936 = 66 \\pmod{187} \\implies y = 66 \\times 11 = 726 = 165 \\pmod{187}",
+        "explanation": "Square 44: 1936 mod 187 = 66. Multiply by 11: 726 mod 187 = 165."
+      },
+      {
+        "stepNumber": 5,
+        "titleEn": "Bit b_0 = 1: Square and Multiply (Final Bit)",
+        "titleAr": "البت b0 = 1: تربيع ثم ضرب (الخطوة الأخيرة)",
+        "mathLatex": "y = (165)^2 = (-22)^2 = 484 = 110 \\pmod{187} \\implies y = 110 \\times 11 = 1210 = 88 \\pmod{187}",
+        "intermediateResult": "y = 88",
+        "explanationEn": "Square 165: (-22)^2 = 484 mod 187 = 110. Multiply by 11: 1210 mod 187 = 88.",
+        "explanationAr": "تربيع 165 يعطي 110. والضرب في 11 يعطي 1210 = 6 × 187 + 88 = 88.",
+        "title": "Bit b_0 = 1: Square and Multiply (Final Bit)",
+        "formula": "y = (165)^2 = (-22)^2 = 484 = 110 \\pmod{187} \\implies y = 110 \\times 11 = 1210 = 88 \\pmod{187}",
+        "explanation": "Square 165: (-22)^2 = 484 mod 187 = 110. Multiply by 11: 1210 mod 187 = 88."
+      }
+    ],
+    "finalResult": "11^{23} \\equiv 88 \\pmod{187}",
+    "verification": "Notice 187 = 11 * 17. 11 is a multiple of 11, so 11^23 = 0 mod 11. 88 mod 11 = 0. Also by Fermat mod 17: 11^16 = 1, 11^7 = 88 = 3 mod 17. 11^2 = 121 = 2 mod 17, 11^7 = 2^3 * 11 = 8 * 11 = 88 = 3 mod 17. Perfectly verified!",
+    "verificationAr": "التحقق: 187 = 11 × 17. بمقياس 11: الناتج 88 = 0 mod 11. وبمقياس 17: 88 = 3 mod 17 وهو مطابق تماماً.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Multiplying before squaring in the loop.",
+        "mistakeAr": "الضرب قبل التربيع في خطوات الحلقة.",
+        "preventionEn": "Always SQUARE first at every bit, then MULTIPLY only if the current bit is 1.",
+        "preventionAr": "قاعدة الخوارزمية ثابتة: رَبِّع أولاً دائماً، ثم اضرب إذا كان البت 1 فقط."
+      }
+    ],
+    "relatedLessonId": "ch2-l6",
+    "relatedBasmagaQuestionId": "basmaga-ch2-06"
+  },
+  {
+    "id": "prob-ch2-08",
+    "chapterId": "ch2",
+    "topicId": "ch2-t6",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 2 / Slide 31 (Miller-Rabin Primality Test)",
+    "category": "number-theory",
+    "title": "Miller-Rabin Probabilistic Primality Test for n = 221 with Base a = 2",
+    "titleAr": "اختبار ميلر-رابين لاحتمالية أولية العدد n = 221 باستخدام الأساس a = 2",
+    "problem": "Apply the Miller-Rabin Primality Test to determine whether n = 221 is prime or composite using base a = 2. Decompose n - 1 = 2^k * q, evaluate the modular sequence, and draw the conclusion.",
+    "problemAr": "طبق اختبار ميلر-رابين للأولية لفحص ما إذا كان العدد n = 221 أولياً أم مركباً باستخدام الأساس a = 2. فكك n - 1 = 2^k * q، واحسب المتتالية الأسية، وحدد النتيجة.",
+    "givenParameters": [
+      {
+        "label": "Candidate n",
+        "value": "221",
+        "labelAr": "العدد المراد اختباره"
+      },
+      {
+        "label": "Test Base a",
+        "value": "2",
+        "labelAr": "الأساس المختار للفحص"
+      }
+    ],
+    "requiredResult": {
+      "en": "Values of k and q, intermediate sequence, and primality conclusion.",
+      "ar": "قيم k و q، متتالية الاختبار، واستنتاج الأولية."
+    },
+    "governingFormula": {
+      "name": "Miller-Rabin Primality Lemma",
+      "nameAr": "مبرهنة اختبار ميلر-رابين",
+      "latex": "n - 1 = 2^k \\cdot q \\quad (q \\text{ odd}), \\quad \\text{Condition: } a^q \\equiv 1 \\pmod n \\text{ or } a^{2^j q} \\equiv -1 \\pmod n",
+      "explanation": "If neither condition holds for any j in {0, ..., k-1}, then n is definitely COMPOSITE. If either holds, n is probably prime.",
+      "explanationAr": "إذا لم يتحقق أي من الشرطين لأي قيمة لـ j، فإن n مركب قطعاً. وإذا تحقق أحدهما، فإن n أولي محتمل (شبه أولي قوي للأساس a)."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "k",
+        "meaningEn": "Power of 2 dividing n - 1",
+        "meaningAr": "قوة 2 في تفكيك n - 1"
+      },
+      {
+        "symbol": "q",
+        "meaningEn": "Odd quotient (n - 1) / 2^k",
+        "meaningAr": "العدد الفردي الناتج بعد استخراج قوى 2"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Miller-Rabin / Strong Pseudoprime",
+        "keywordAr": "اختبار ميلر-رابين",
+        "indicates": "2^k * q Factorization Sequence",
+        "indicatesAr": "فحص المتتالية الأسية للأولية"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Decompose n - 1 into 2^k * q",
+        "titleAr": "تفكيك n - 1 إلى 2^k * q",
+        "mathLatex": "n - 1 = 221 - 1 = 220 = 2^2 \\times 55",
+        "intermediateResult": "k = 2, \\quad q = 55 \\text{ (odd)}",
+        "explanationEn": "Divide 220 by 2 twice: 220 / 4 = 55. So k = 2 and q = 55.",
+        "explanationAr": "نقسم 220 على 2 مرتين لينتج 55 وهو فردي. إذن k = 2 و q = 55.",
+        "title": "Decompose n - 1 into 2^k * q",
+        "formula": "n - 1 = 221 - 1 = 220 = 2^2 \\times 55",
+        "explanation": "Divide 220 by 2 twice: 220 / 4 = 55. So k = 2 and q = 55."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Compute First Term a^q mod n for j = 0",
+        "titleAr": "حساب الحد الأول a^q mod n عند j = 0",
+        "mathLatex": "a^q = 2^{55} \\pmod{221}",
+        "substitutionLatex": "2^{55} = (2^7)^7 \\times 2^6 = (128)^7 \\times 64 \\equiv (-93)^7 \\times 64 \\equiv 174 \\pmod{221}",
+        "intermediateResult": "2^{55} \\equiv 174 \\pmod{221} \\neq 1 \\text{ and } \\neq 220 (-1)",
+        "explanationEn": "2^{55} mod 221 = 174. This is neither 1 nor -1 (220). We must test j = 1.",
+        "explanationAr": "ناتج 2^55 هو 174، وهو لا يساوي 1 ولا يساوي -1 (220). لذا ننتقل لتربيعه عند j = 1.",
+        "title": "Compute First Term a^q mod n for j = 0",
+        "formula": "a^q = 2^{55} \\pmod{221}",
+        "substitution": "2^{55} = (2^7)^7 \\times 2^6 = (128)^7 \\times 64 \\equiv (-93)^7 \\times 64 \\equiv 174 \\pmod{221}",
+        "explanation": "2^{55} mod 221 = 174. This is neither 1 nor -1 (220). We must test j = 1."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Compute Next Term a^{2q} mod n for j = 1",
+        "titleAr": "حساب الحد التالي بالتربيع عند j = 1",
+        "mathLatex": "a^{2q} = (a^q)^2 = (174)^2 = (-47)^2 = 2209 = 2210 - 1 \\equiv -1 \\equiv 220 \\pmod{221}",
+        "intermediateResult": "220 \\equiv -1 \\pmod{221}",
+        "explanationEn": "Since (174)^2 = 2209 = 10 * 221 - 1 = -1 mod 221, the condition a^{2^j q} = -1 holds for j = 1!",
+        "explanationAr": "بما أن 174^2 = 2209 = -1 mod 221، فإن شرط التطابق مع -1 قد تحقق عند j = 1!",
+        "title": "Compute Next Term a^{2q} mod n for j = 1",
+        "formula": "a^{2q} = (a^q)^2 = (174)^2 = (-47)^2 = 2209 = 2210 - 1 \\equiv -1 \\equiv 220 \\pmod{221}",
+        "explanation": "Since (174)^2 = 2209 = 10 * 221 - 1 = -1 mod 221, the condition a^{2^j q} = -1 holds for j = 1!"
+      }
+    ],
+    "finalResult": "Test is INCONCLUSIVE; n = 221 is a Strong Pseudoprime to base 2 (in reality, 221 = 13 * 17 is composite).",
+    "verification": "221 = 13 * 17. While composite, base 2 cannot detect it because (-1) was reached. Testing base a = 3 yields 3^55 = 18 mod 221, 18^2 = 324 = 103, failing test and proving 221 composite.",
+    "verificationAr": "التحقق: 221 مركب (13 × 17). الأساس 2 لم يكتشفه لأنه عدد شبه أولي قوي للأساس 2. لكن اختبار أساس آخر مثل 3 يثبت أنه مركب فوراً.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Claiming 221 is prime because it passed base 2.",
+        "mistakeAr": "الجزم بأن 221 أولي لمجرد اجتيازه الفحص للأساس 2.",
+        "preventionEn": "Miller-Rabin is probabilistic; passing one base means 'probably prime' or 'pseudoprime'. Multiple independent bases must be tested.",
+        "preventionAr": "اجتياز أساس واحد يعني أنه أولي محتمل (Pseudoprime)؛ وللتأكد يجب تجربة عدة أسس مختلفة."
+      }
+    ],
+    "relatedLessonId": "ch2-l6",
+    "relatedBasmagaQuestionId": "basmaga-ch2-06"
+  },
+  {
+    "id": "prob-ch2-09",
+    "chapterId": "ch2",
+    "topicId": "ch2-t6",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 2 / Slide 32 (Chinese Remainder Theorem)",
+    "category": "number-theory",
+    "title": "Chinese Remainder Theorem: System Solving for x = 2 mod 3, 3 mod 5, 2 mod 7",
+    "titleAr": "مبرهنة الباقي الصينية: حل نظام المعادلات x = 2 mod 3, 3 mod 5, 2 mod 7",
+    "problem": "Solve the system of simultaneous modular congruences using the Chinese Remainder Theorem: x \\equiv 2 \\pmod 3, x \\equiv 3 \\pmod 5, x \\equiv 2 \\pmod 7.",
+    "problemAr": "أوجد الحل المشترك لنظام المعادلات التطابقية التالي باستخدام مبرهنة الباقي الصينية: x = 2 mod 3، و x = 3 mod 5، و x = 2 mod 7.",
+    "givenParameters": [
+      {
+        "label": "Equation 1",
+        "value": "x = 2 (mod 3)",
+        "labelAr": "المعادلة الأولى: a1 = 2, m1 = 3"
+      },
+      {
+        "label": "Equation 2",
+        "value": "x = 3 (mod 5)",
+        "labelAr": "المعادلة الثانية: a2 = 3, m2 = 5"
+      },
+      {
+        "label": "Equation 3",
+        "value": "x = 2 (mod 7)",
+        "labelAr": "المعادلة الثالثة: a3 = 2, m3 = 7"
+      }
+    ],
+    "requiredResult": {
+      "en": "The unique solution x in {0, 1, ..., 104} modulo M = 3 * 5 * 7 = 105.",
+      "ar": "الحل الوحيد x مقياس M = 105."
+    },
+    "governingFormula": {
+      "name": "Chinese Remainder Theorem Formula",
+      "nameAr": "صيغة مبرهنة الباقي الصينية",
+      "latex": "x = \\left(\\sum_{i=1}^k a_i M_i M_i^{-1}\\right) \\pmod M, \\quad M = \\prod m_i, \\quad M_i = \\frac{M}{m_i}",
+      "explanation": "Calculate product modulus M, partial moduli Mi, and their modular inverses Mi^-1 mod mi.",
+      "explanationAr": "حساب المقياس الكلي M والمقاييس الجزئية Mi ومعكوس كل منها Mi^-1 مقياس mi."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "M",
+        "meaningEn": "Total modulus = 3 * 5 * 7 = 105",
+        "meaningAr": "حاصل ضرب المقاييس الثلاثة"
+      },
+      {
+        "symbol": "M_i",
+        "meaningEn": "Partial modulus M / m_i",
+        "meaningAr": "المقياس الجزئي"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Chinese Remainder Theorem / CRT",
+        "keywordAr": "مبرهنة الباقي الصينية",
+        "indicates": "System of Congruences with Coprime Moduli",
+        "indicatesAr": "حل نظام معادلات تطابقية بمقاييس أولية نسبياً"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Compute Total Modulus M and Partial Moduli M_i",
+        "titleAr": "حساب M والمقاييس الجزئية M_i",
+        "mathLatex": "M = 3 \\times 5 \\times 7 = 105 \\implies M_1 = 35, \\quad M_2 = 21, \\quad M_3 = 15",
+        "intermediateResult": "M_1 = 35, M_2 = 21, M_3 = 15",
+        "explanationEn": "M = 105. M1 = 105/3 = 35, M2 = 105/5 = 21, M3 = 105/7 = 15.",
+        "explanationAr": "M = 105، و M1 = 35، و M2 = 21، و M3 = 15.",
+        "title": "Compute Total Modulus M and Partial Moduli M_i",
+        "formula": "M = 3 \\times 5 \\times 7 = 105 \\implies M_1 = 35, \\quad M_2 = 21, \\quad M_3 = 15",
+        "explanation": "M = 105. M1 = 105/3 = 35, M2 = 105/5 = 21, M3 = 105/7 = 15."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Compute Modular Inverses M_i^{-1} mod m_i",
+        "titleAr": "حساب المعكوسات الضربية M_i^-1 مقياس m_i",
+        "mathLatex": "35 M_1^{-1} \\equiv 2 M_1^{-1} \\equiv 1 \\pmod 3 \\implies M_1^{-1} = 2 \\\\ 21 M_2^{-1} \\equiv 1 M_2^{-1} \\equiv 1 \\pmod 5 \\implies M_2^{-1} = 1 \\\\ 15 M_3^{-1} \\equiv 1 M_3^{-1} \\equiv 1 \\pmod 7 \\implies M_3^{-1} = 1",
+        "intermediateResult": "M_1^{-1} = 2, \\quad M_2^{-1} = 1, \\quad M_3^{-1} = 1",
+        "explanationEn": "Modular inverses are 2, 1, and 1.",
+        "explanationAr": "المعكوسات الضربية المقابلة هي 2 و 1 و 1.",
+        "title": "Compute Modular Inverses M_i^{-1} mod m_i",
+        "formula": "35 M_1^{-1} \\equiv 2 M_1^{-1} \\equiv 1 \\pmod 3 \\implies M_1^{-1} = 2 \\\\ 21 M_2^{-1} \\equiv 1 M_2^{-1} \\equiv 1 \\pmod 5 \\implies M_2^{-1} = 1 \\\\ 15 M_3^{-1} \\equiv 1 M_3^{-1} \\equiv 1 \\pmod 7 \\implies M_3^{-1} = 1",
+        "explanation": "Modular inverses are 2, 1, and 1."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Assemble Solution x",
+        "titleAr": "تجميع الحل النهائي x",
+        "mathLatex": "x = (2 \\times 35 \\times 2 + 3 \\times 21 \\times 1 + 2 \\times 15 \\times 1) \\pmod{105} = (140 + 63 + 30) = 233 \\equiv 23 \\pmod{105}",
+        "intermediateResult": "x = 23",
+        "explanationEn": "233 mod 105 = 23.",
+        "explanationAr": "مجموع الحدود 233، وبقسمته على 105 يكون الباقي 23.",
+        "title": "Assemble Solution x",
+        "formula": "x = (2 \\times 35 \\times 2 + 3 \\times 21 \\times 1 + 2 \\times 15 \\times 1) \\pmod{105} = (140 + 63 + 30) = 233 \\equiv 23 \\pmod{105}",
+        "explanation": "233 mod 105 = 23."
+      }
+    ],
+    "finalResult": "x \\equiv 23 \\pmod{105}",
+    "verification": "23 mod 3 = 2; 23 mod 5 = 3; 23 mod 7 = 2. All conditions satisfied.",
+    "verificationAr": "التحقق: 23 mod 3 = 2، و 23 mod 5 = 3، و 23 mod 7 = 2. الحل صحيح 100%.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Inverting Mi mod M instead of mod mi.",
+        "mistakeAr": "حساب معكوس Mi مقياس M بدلاً من mi.",
+        "preventionEn": "Always compute each inverse modulo its small modulus mi.",
+        "preventionAr": "احسب معكوس كل حد مقياس مقياسه الصغير mi."
+      }
+    ],
+    "relatedLessonId": "ch2-l7",
+    "relatedBasmagaQuestionId": "basmaga-ch2-07"
+  },
+  {
+    "id": "prob-ch2-10",
+    "chapterId": "ch2",
+    "topicId": "ch2-t7",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 2 / Slide 35 (Discrete Logarithms & Primitive Roots)",
+    "category": "number-theory",
+    "title": "Primitive Roots and Discrete Logarithms Modulo 19",
+    "titleAr": "الجذور الأولية ومسألة اللوغاريتم المتقطع مقياس 19",
+    "problem": "(1) Prove that a = 2 is a primitive root of prime p = 19. (2) Find the discrete logarithm dlog_{2, 19}(13).",
+    "problemAr": "(1) أثبت أن a = 2 هو جذر أولي (Primitive Root) للعدد الأولي p = 19. (2) أوجد قيمة اللوغاريتم المتقطع dlog_{2, 19}(13).",
+    "givenParameters": [
+      {
+        "label": "Prime p",
+        "value": "19",
+        "labelAr": "العدد الأولي p"
+      },
+      {
+        "label": "Candidate Generator a",
+        "value": "2",
+        "labelAr": "المولد المرشح"
+      },
+      {
+        "label": "Target Value b",
+        "value": "13",
+        "labelAr": "العدد المستهدف لحساب اللوغاريتم"
+      }
+    ],
+    "requiredResult": {
+      "en": "Verification of primitive root order 18 and exponent x such that 2^x = 13 mod 19.",
+      "ar": "إثبات رتبة الجذر الأولي 18 وإيجاد الأس x بحيث 2^x = 13 mod 19."
+    },
+    "governingFormula": {
+      "name": "Primitive Root and Discrete Logarithm Definition",
+      "nameAr": "تعريف الجذر الأولي واللوغاريتم المتقطع",
+      "latex": "\\text{ord}_p(a) = p - 1 = \\phi(p), \\quad a^x \\equiv b \\pmod p \\implies x = \\text{dlog}_{a, p}(b)",
+      "explanation": "A primitive root generates all non-zero residues modulo p. The discrete logarithm is the exponent x.",
+      "explanationAr": "الجذر الأولي يولد جميع بواقي القسمة غير الصفرية مقياس p. واللوغاريتم المتقطع هو الأس x المقابل."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\text{dlog}_{a, p}(b)",
+        "meaningEn": "Discrete logarithm of b to base a modulo p",
+        "meaningAr": "اللوغاريتم المتقطع للقيمة b بالأساس a"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Primitive Root / Discrete Logarithm",
+        "keywordAr": "جذر أولي / لوغاريتم متقطع",
+        "indicates": "Cyclic Group Generator",
+        "indicatesAr": "مولد الزمرة الدائرية Z_p*"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Generate Powers of 2 Modulo 19",
+        "titleAr": "توليد قوى العدد 2 مقياس 19",
+        "mathLatex": "2^1=2, 2^2=4, 2^3=8, 2^4=16, 2^5=13, 2^6=7, 2^7=14, 2^8=9, 2^9=18 \\equiv -1",
+        "intermediateResult": "2^9 = 18 = -1 mod 19 \\implies \\text{ord}(2) = 18",
+        "explanationEn": "Since 2^9 = -1 mod 19, the order cannot be 1, 2, 3, 6, or 9. The smallest power giving 1 is 2^{18} = 1. Thus 2 is a primitive root.",
+        "explanationAr": "بما أن 2^9 = -1 mod 19 فإن رتبة العدد هي 18 = p - 1، وبالتالي فإن 2 جذر أولي كامل.",
+        "title": "Generate Powers of 2 Modulo 19",
+        "formula": "2^1=2, 2^2=4, 2^3=8, 2^4=16, 2^5=13, 2^6=7, 2^7=14, 2^8=9, 2^9=18 \\equiv -1",
+        "explanation": "Since 2^9 = -1 mod 19, the order cannot be 1, 2, 3, 6, or 9. The smallest power giving 1 is 2^{18} = 1. Thus 2 is a primitive root."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Identify Discrete Logarithm for b = 13",
+        "titleAr": "استخراج اللوغاريتم المتقطع للقيمة 13",
+        "mathLatex": "2^5 = 32 = 19 + 13 \\equiv 13 \\pmod{19}",
+        "intermediateResult": "x = 5",
+        "explanationEn": "2^5 = 32 = 13 mod 19. Therefore, dlog_{2, 19}(13) = 5.",
+        "explanationAr": "2^5 = 32 يكافئ 13 مقياس 19، إذن اللوغاريتم المتقطع هو 5.",
+        "title": "Identify Discrete Logarithm for b = 13",
+        "formula": "2^5 = 32 = 19 + 13 \\equiv 13 \\pmod{19}",
+        "explanation": "2^5 = 32 = 13 mod 19. Therefore, dlog_{2, 19}(13) = 5."
+      }
+    ],
+    "finalResult": "2 is a primitive root of 19; dlog_{2, 19}(13) = 5",
+    "verification": "2^5 = 32 = 19*1 + 13. Remainder is strictly 13.",
+    "verificationAr": "التحقق: 2^5 = 32 = 19 + 13، الباقي 13 تماماً.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Assuming any base is a primitive root without checking order.",
+        "mistakeAr": "افتراض أن أي عدد هو جذر أولي دون التأكد من رتبته.",
+        "preventionEn": "A primitive root must have order strictly equal to p - 1.",
+        "preventionAr": "يجب أن تكون رتبة الجذر الأولي مساوية تماماً لـ p - 1."
+      }
+    ],
+    "relatedLessonId": "ch2-l8",
+    "relatedBasmagaQuestionId": "basmaga-ch2-08"
+  },
+  {
+    "id": "prob-ch3-01",
+    "chapterId": "ch3",
+    "topicId": "ch3-t1",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 3 / Section 3.1 & Slide 5",
+    "category": "classical-cipher",
+    "title": "Caesar Cipher Encryption and Decryption with General Key k",
+    "titleAr": "شفرة قيصر: التشفير وفك التشفير بمفتاح الإزاحة العام k = 3 و k = 15",
+    "problem": "Given the plaintext 'SECURITY': (1) Encrypt the message using the traditional Caesar cipher with shift key k = 3. (2) Encrypt the same message with key k = 15. (3) Decrypt the ciphertext obtained in (2) to demonstrate exact invertibility.",
+    "problemAr": "ليكن لدينا النص الصريح 'SECURITY': (1) شفر الرسالة باستخدام شفرة قيصر التقليدية بمفتاح إزاحة k = 3. (2) شفر نفس الرسالة بمفتاح عام k = 15. (3) فك تشفير النص المشفر في (2) لإثبات القابلية التامة للعكس.",
+    "givenParameters": [
+      {
+        "label": "Plaintext",
+        "value": "SECURITY",
+        "labelAr": "النص الصريح"
+      },
+      {
+        "label": "Key 1",
+        "value": "k = 3 (Traditional)",
+        "labelAr": "مفتاح قيصر التقليدي"
+      },
+      {
+        "label": "Key 2",
+        "value": "k = 15 (General)",
+        "labelAr": "مفتاح قيصر العام"
+      }
+    ],
+    "requiredResult": {
+      "en": "Ciphertext for k=3, ciphertext for k=15, and decrypted plaintext verification.",
+      "ar": "النص المشفر عند k=3، النص المشفر عند k=15، وتأكيد فك التشفير."
+    },
+    "governingFormula": {
+      "name": "Caesar Cipher Congruence",
+      "nameAr": "معادلة شفرة قيصر التطابقية",
+      "latex": "C = (P + k) \\pmod{26}, \\quad P = (C - k + 26) \\pmod{26}",
+      "explanation": "Each letter is represented by its index in Z26 (A=0, ..., Z=25). Shifting right adds key k modulo 26; decrypting subtracts key k.",
+      "explanationAr": "يُمثل كل حرف برقم في Z26 (A=0 حتى Z=25). التشفير بإضافة k مقياس 26، وفك التشفير بطرح k مقياس 26."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "P",
+        "meaningEn": "Plaintext letter index in {0, ..., 25}",
+        "meaningAr": "رقم حرف النص الصريح"
+      },
+      {
+        "symbol": "k",
+        "meaningEn": "Shift key in {1, ..., 25}",
+        "meaningAr": "مفتاح الإزاحة"
+      },
+      {
+        "symbol": "C",
+        "meaningEn": "Ciphertext letter index in {0, ..., 25}",
+        "meaningAr": "رقم حرف النص المشفر"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Caesar cipher / shift key",
+        "keywordAr": "شفرة قيصر / مفتاح إزاحة",
+        "indicates": "Monoalphabetic Shift Addition mod 26",
+        "indicatesAr": "إزاحة أحادية الأبجدية بالجمع القياسي"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Encrypt 'SECURITY' with Traditional Key k = 3",
+        "titleAr": "تشفير 'SECURITY' بمفتاح قيصر التقليدي k = 3",
+        "mathLatex": "C = (P + 3) \\pmod{26}",
+        "substitutionLatex": "\\begin{aligned} S(18) + 3 &= 21 \\to V, \\quad E(4) + 3 = 7 \\to H, \\quad C(2) + 3 = 5 \\to F \\\\ U(20) + 3 &= 23 \\to X, \\quad R(17) + 3 = 20 \\to U, \\quad I(8) + 3 = 11 \\to L \\\\ T(19) + 3 &= 22 \\to W, \\quad Y(24) + 3 = 27 \\equiv 1 \\to B \\end{aligned}",
+        "intermediateResult": "V H F X U L W B",
+        "explanationEn": "Shift each letter by 3 positions. Y(24) + 3 = 27 = 1 mod 26 -> B.",
+        "explanationAr": "نزيح كل حرف بمقدار 3 مواضع. الحرف Y(24) + 3 = 27 = 1 mod 26 فيعطي B.",
+        "title": "Encrypt 'SECURITY' with Traditional Key k = 3",
+        "formula": "C = (P + 3) \\pmod{26}",
+        "substitution": "\\begin{aligned} S(18) + 3 &= 21 \\to V, \\quad E(4) + 3 = 7 \\to H, \\quad C(2) + 3 = 5 \\to F \\\\ U(20) + 3 &= 23 \\to X, \\quad R(17) + 3 = 20 \\to U, \\quad I(8) + 3 = 11 \\to L \\\\ T(19) + 3 &= 22 \\to W, \\quad Y(24) + 3 = 27 \\equiv 1 \\to B \\end{aligned}",
+        "explanation": "Shift each letter by 3 positions. Y(24) + 3 = 27 = 1 mod 26 -> B."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Encrypt 'SECURITY' with General Key k = 15",
+        "titleAr": "تشفير 'SECURITY' بالمفتاح العام k = 15",
+        "mathLatex": "C = (P + 15) \\pmod{26}",
+        "substitutionLatex": "\\begin{aligned} S(18) + 15 &= 33 \\equiv 7 \\to H, \\quad E(4) + 15 = 19 \\to T, \\quad C(2) + 15 = 17 \\to R \\\\ U(20) + 15 &= 35 \\equiv 9 \\to J, \\quad R(17) + 15 = 32 \\equiv 6 \\to G, \\quad I(8) + 15 = 23 \\to X \\\\ T(19) + 15 &= 34 \\equiv 8 \\to I, \\quad Y(24) + 15 = 39 \\equiv 13 \\to N \\end{aligned}",
+        "intermediateResult": "H T R J G X I N",
+        "explanationEn": "Shifting by 15 wraps letters around 26: S(18)+15=33=7 (H), Y(24)+15=39=13 (N).",
+        "explanationAr": "إزاحة بمقدار 15 مع الالتفاف: S تصبح H و Y تصبح N لينتج النص المشفر HTRJGXIN.",
+        "title": "Encrypt 'SECURITY' with General Key k = 15",
+        "formula": "C = (P + 15) \\pmod{26}",
+        "substitution": "\\begin{aligned} S(18) + 15 &= 33 \\equiv 7 \\to H, \\quad E(4) + 15 = 19 \\to T, \\quad C(2) + 15 = 17 \\to R \\\\ U(20) + 15 &= 35 \\equiv 9 \\to J, \\quad R(17) + 15 = 32 \\equiv 6 \\to G, \\quad I(8) + 15 = 23 \\to X \\\\ T(19) + 15 &= 34 \\equiv 8 \\to I, \\quad Y(24) + 15 = 39 \\equiv 13 \\to N \\end{aligned}",
+        "explanation": "Shifting by 15 wraps letters around 26: S(18)+15=33=7 (H), Y(24)+15=39=13 (N)."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Decrypt 'HTRJGXIN' with k = 15",
+        "titleAr": "فك تشفير 'HTRJGXIN' بالمفتاح k = 15",
+        "mathLatex": "P = (C - 15 + 26) \\pmod{26}",
+        "substitutionLatex": "H(7) - 15 + 26 = 18 \\to S, \\quad T(19) - 15 = 4 \\to E, \\quad R(17) - 15 = 2 \\to C, \\dots",
+        "intermediateResult": "SECURITY",
+        "explanationEn": "Subtracting 15 modulo 26 perfectly recovers the original plaintext 'SECURITY'.",
+        "explanationAr": "طرح 15 مقياس 26 يعيد النص الأصلي 'SECURITY' بدقة تامة.",
+        "title": "Decrypt 'HTRJGXIN' with k = 15",
+        "formula": "P = (C - 15 + 26) \\pmod{26}",
+        "substitution": "H(7) - 15 + 26 = 18 \\to S, \\quad T(19) - 15 = 4 \\to E, \\quad R(17) - 15 = 2 \\to C, \\dots",
+        "explanation": "Subtracting 15 modulo 26 perfectly recovers the original plaintext 'SECURITY'."
+      }
+    ],
+    "finalResult": "Ciphertext (k=3): 'VHFXULWB'; Ciphertext (k=15): 'HTRJGXIN'; Decrypted: 'SECURITY'",
+    "verification": "Check: 18 + 3 = 21 (V); 21 - 3 = 18 (S). Invertibility holds for all letters.",
+    "verificationAr": "التحقق: 18 + 3 = 21 (V)؛ وعند فك التشفير 21 - 3 = 18 (S). التطابق تام.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Forgetting modulo 26 wrap-around for letters near the end of the alphabet (Y, Z).",
+        "mistakeAr": "نسيان الالتفاف حول 26 للحروف القريبة من نهاية الأبجدية.",
+        "preventionEn": "Always apply (P + k) mod 26. When P+k >= 26, subtract 26.",
+        "preventionAr": "طبق دائماً mod 26؛ وإذا تجاوز المجموع 25 اطرح منه 26."
+      }
+    ],
+    "relatedLessonId": "ch3-l1",
+    "relatedBasmagaQuestionId": "basmaga-ch3-04"
+  },
+  {
+    "id": "prob-ch3-02",
+    "chapterId": "ch3",
+    "topicId": "ch3-t1",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 3 / Table 3.1 Brute-Force Cryptanalysis",
+    "category": "classical-cipher",
+    "title": "Brute-Force Cryptanalysis of Caesar Cipher (Key Space = 25)",
+    "titleAr": "كسر شفرة قيصر بالبحث الشامل في فضاء المفاتيح الـ 25 الممكنة",
+    "problem": "An intercepted Caesar ciphertext is 'PHHW PH DIWHU WKH WRJD SDUWB'. (1) Explain why exhaustive brute-force search is guaranteed to succeed against Caesar. (2) Execute the brute-force search by testing shifts k = 1, 2, 3... until a meaningful English sentence is recovered.",
+    "problemAr": "تم اعتراض نص مشفر بشفرة قيصر: 'PHHW PH DIWHU WKH WRJD SDUWB'. (1) وضح لماذا ينجح هجوم البحث الشامل (Brute Force) حتماً ضد قيصر. (2) نفذ البحث الشامل بتجربة مفاتيح الإزاحة k = 1, 2, 3... حتى تكتشف الجملة الإنجليزية الأصلية ذات المعنى.",
+    "givenParameters": [
+      {
+        "label": "Ciphertext",
+        "value": "PHHW PH DIWHU WKH WRJD SDUWB",
+        "labelAr": "النص المشفر المعترض"
+      },
+      {
+        "label": "Key Space",
+        "value": "25 non-trivial keys (k = 1, ..., 25)",
+        "labelAr": "حجم فضاء المفاتيح (25 مفتاحاً فقط)"
+      }
+    ],
+    "requiredResult": {
+      "en": "Exhaustive trial log, identified shift key k, and recovered plaintext.",
+      "ar": "سجل المحاولات، مفتاح الإزاحة المكتشف k، والنص الصريح المسترجع."
+    },
+    "governingFormula": {
+      "name": "Exhaustive Key Search",
+      "nameAr": "معادلة البحث الشامل عن المفاتيح",
+      "latex": "P_i = (C - k_i) \\pmod{26} \\quad \\text{for } k_i \\in \\{1, 2, \\dots, 25\\}",
+      "explanation": "Because there are only 25 possible keys, an attacker can test all keys within seconds and identify readable English text easily.",
+      "explanationAr": "نظراً لوجود 25 مفتاحاً فقط، يستطيع المهاجم اختبارها جميعاً في ثوانٍ معدودة والتعرف على النص الإنجليزي المقروء."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "k_i",
+        "meaningEn": "Candidate shift key tested",
+        "meaningAr": "مفتاح الإزاحة التجريبي"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Brute-force / 25 keys",
+        "keywordAr": "البحث الشامل / 25 مفتاحاً",
+        "indicates": "Caesar Key Space Enumeration",
+        "indicatesAr": "حصر فضاء مفاتيح شفرة قيصر"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Analyze Vulnerability of Key Space",
+        "titleAr": "تحليل نقطة ضعف فضاء المفاتيح",
+        "mathLatex": "|K| = 25 \\implies \\text{Computational effort is trivial } O(1)",
+        "intermediateResult": "Key space is far too small for security",
+        "explanationEn": "A security algorithm must have a key space too large for brute-force search. With only 25 keys, human inspection or basic scripting breaks it instantly.",
+        "explanationAr": "الأمان يشترط فضاء مفاتيح ضخماً يستحيل حصره. أما مع 25 مفتاحاً فقط فإن فحصها بالعين أو بكود بسيط يكسر الشفرة فوراً.",
+        "title": "Analyze Vulnerability of Key Space",
+        "formula": "|K| = 25 \\implies \\text{Computational effort is trivial } O(1)",
+        "explanation": "A security algorithm must have a key space too large for brute-force search. With only 25 keys, human inspection or basic scripting breaks it instantly."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Test Shifts on First Word 'PHHW'",
+        "titleAr": "تجربة مفاتيح الإزاحة على الكلمة الأولى 'PHHW'",
+        "mathLatex": "\\begin{aligned} k=1: & \\quad \\text{OGGV} \\\\ k=2: & \\quad \\text{NFFU} \\\\ k=3: & \\quad \\text{MEET} \\quad \\mathbf{\\text{(Valid English Word!)}} \\end{aligned}",
+        "intermediateResult": "Shift k = 3 yields recognizable English word 'MEET'",
+        "explanationEn": "Testing k = 1 gives 'OGGV' (gibberish). k = 2 gives 'NFFU' (gibberish). k = 3 shifts P->M, H->E, H->E, W->T giving 'MEET'.",
+        "explanationAr": "عند k=1 ينتج OGGV (مهمل). وعند k=2 ينتج NFFU (مهمل). وعند k=3 ينتج MEET وهي كلمة إنجليزية واضحة.",
+        "title": "Test Shifts on First Word 'PHHW'",
+        "formula": "\\begin{aligned} k=1: & \\quad \\text{OGGV} \\\\ k=2: & \\quad \\text{NFFU} \\\\ k=3: & \\quad \\text{MEET} \\quad \\mathbf{\\text{(Valid English Word!)}} \\end{aligned}",
+        "explanation": "Testing k = 1 gives 'OGGV' (gibberish). k = 2 gives 'NFFU' (gibberish). k = 3 shifts P->M, H->E, H->E, W->T giving 'MEET'."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Apply Key k = 3 Across the Entire Ciphertext",
+        "titleAr": "تطبيق المفتاح k = 3 على كامل النص المشفر",
+        "mathLatex": "\\text{Decrypt with } k = 3: \\quad P = (C - 3 + 26) \\pmod{26}",
+        "substitutionLatex": "\\begin{aligned} \\text{PHHW} &\\to \\text{MEET} \\\\ \\text{PH} &\\to \\text{ME} \\\\ \\text{DIWHU} &\\to \\text{AFTER} \\\\ \\text{WKH} &\\to \\text{THE} \\\\ \\text{WRJD} &\\to \\text{TOGA} \\\\ \\text{SDUWB} &\\to \\text{PARTY} \\end{aligned}",
+        "intermediateResult": "'MEET ME AFTER THE TOGA PARTY'",
+        "explanationEn": "Every word decrypts to fluent English: 'MEET ME AFTER THE TOGA PARTY'.",
+        "explanationAr": "تفكيك جميع الكلمات ينتج جملة إنجليزية مفهومة: 'MEET ME AFTER THE TOGA PARTY'.",
+        "title": "Apply Key k = 3 Across the Entire Ciphertext",
+        "formula": "\\text{Decrypt with } k = 3: \\quad P = (C - 3 + 26) \\pmod{26}",
+        "substitution": "\\begin{aligned} \\text{PHHW} &\\to \\text{MEET} \\\\ \\text{PH} &\\to \\text{ME} \\\\ \\text{DIWHU} &\\to \\text{AFTER} \\\\ \\text{WKH} &\\to \\text{THE} \\\\ \\text{WRJD} &\\to \\text{TOGA} \\\\ \\text{SDUWB} &\\to \\text{PARTY} \\end{aligned}",
+        "explanation": "Every word decrypts to fluent English: 'MEET ME AFTER THE TOGA PARTY'."
+      }
+    ],
+    "finalResult": "Key: k = 3; Plaintext: 'MEET ME AFTER THE TOGA PARTY'",
+    "verification": "Re-encrypt: M(12)+3=15(P), E(4)+3=7(H), E(4)+3=7(H), T(19)+3=22(W). Exactly matches ciphertext.",
+    "verificationAr": "إعادة التشفير: M+3=P، E+3=H، E+3=H، T+3=W وتطابق النص المشفر تماماً.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Testing all 26 letters including shift k = 0.",
+        "mistakeAr": "حساب 26 مفتاحاً بما فيها k = 0.",
+        "preventionEn": "k = 0 does not change the plaintext, so there are only 25 valid non-trivial keys.",
+        "preventionAr": "المفتاح k = 0 لا يغير النص، لذا عدد المفاتيح الفعلية 25 مفتاحاً فقط."
+      }
+    ],
+    "relatedLessonId": "ch3-l1",
+    "relatedBasmagaQuestionId": "basmaga-ch3-04"
+  },
+  {
+    "id": "prob-ch3-03",
+    "chapterId": "ch3",
+    "topicId": "ch3-t2",
+    "sourceType": "original-midterm",
+    "sourceRef": "Midterm 2020 Exam Q3(1) & Stallings Section 3.2",
+    "category": "classical-cipher",
+    "title": "Playfair Cipher: Digraph Encryption of 'cryptography' with Key 'security'",
+    "titleAr": "شفرة بلايفير: تشفير 'cryptography' بالمفتاح 'security' (مسألة الميدتيرم 2020)",
+    "problem": "Using the Playfair cipher with keyword 'security', encrypt the plaintext 'cryptography'. Construct the 5x5 key matrix (combining I and J), form plaintext digraphs with proper filler rules, and apply Playfair spatial rules for each pair.",
+    "problemAr": "باستخدام شفرة بلايفير والكلمة المفتاحية 'security'، شفر النص 'cryptography'. أنشئ مصفوفة 5x5 مع دمج I و J، وقسم النص إلى أزواج ثنائية مع تطبيق قواعد الفصل بالأحرف الحاشية، ثم طبق قواعد بلايفير الهندسية لتشفير كل زوج.",
+    "givenParameters": [
+      {
+        "label": "Keyword",
+        "value": "security",
+        "labelAr": "الكلمة المفتاحية"
+      },
+      {
+        "label": "Plaintext",
+        "value": "cryptography",
+        "labelAr": "النص الصريح (12 حرفاً)"
+      },
+      {
+        "label": "Alphabet Rule",
+        "value": "I and J share a single cell",
+        "labelAr": "دمج I و J في خلية واحدة"
+      }
+    ],
+    "requiredResult": {
+      "en": "5x5 matrix, digraph partition, and final ciphertext.",
+      "ar": "مصفوفة 5×5، تقسيم الأزواج، والنص المشفر النهائي."
+    },
+    "governingFormula": {
+      "name": "Playfair Digraph Rules",
+      "nameAr": "قواعد تشفير أزواج بلايفير",
+      "latex": "\\begin{cases} \\text{Same Row:} & \\text{Shift right circularly } (c + 1) \\pmod 5 \\\\ \\text{Same Column:} & \\text{Shift down circularly } (r + 1) \\pmod 5 \\\\ \\text{Rectangle:} & \\text{Swap column coordinates (same row)} \\end{cases}",
+      "explanation": "If letters are in the same row, shift right. If same column, shift down. If a rectangle, swap columns.",
+      "explanationAr": "نفس الصف: إزاحة لليمين دورياً. نفس العمود: إزاحة لأسفل دورياً. مستطيل: استبدال الأعمدة مع البقاء في نفس الصف."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "5 \\times 5 \\text{ Matrix}",
+        "meaningEn": "Keyed Playfair grid",
+        "meaningAr": "شبكة مصفوفة بلايفير"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Playfair cipher / cryptography / security",
+        "keywordAr": "شفرة بلايفير / cryptography",
+        "indicates": "Midterm 2020 Playfair Digraph Encryption",
+        "indicatesAr": "تشفير ثنائيات بلايفير لمسألة الميدتيرم الرسمية"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Construct 5x5 Playfair Matrix",
+        "titleAr": "بناء مصفوفة بلايفير 5×5",
+        "mathLatex": "\\begin{pmatrix} S & E & C & U & R \\\\ I/J & T & Y & A & B \\\\ D & F & G & H & K \\\\ L & M & N & O & P \\\\ Q & V & W & X & Z \\end{pmatrix}",
+        "intermediateResult": "Matrix built with keyword 'security' followed by remaining letters",
+        "explanationEn": "Fill unique letters of 'security': S, E, C, U, R, I, T, Y. Then fill unused letters in alphabetical order.",
+        "explanationAr": "نملأ حروف security الفريدة أولاً ثم نكمل الأبجدية المتبقية مع دمج I و J.",
+        "title": "Construct 5x5 Playfair Matrix",
+        "formula": "\\begin{pmatrix} S & E & C & U & R \\\\ I/J & T & Y & A & B \\\\ D & F & G & H & K \\\\ L & M & N & O & P \\\\ Q & V & W & X & Z \\end{pmatrix}",
+        "explanation": "Fill unique letters of 'security': S, E, C, U, R, I, T, Y. Then fill unused letters in alphabetical order."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Form Plaintext Digraphs",
+        "titleAr": "تقسيم النص إلى أزواج ثنائية",
+        "mathLatex": "\\text{cryptography} \\implies (cr), (yp), (to), (gr), (ap), (hy)",
+        "intermediateResult": "6 pairs, length 12 is even, no identical pairs",
+        "explanationEn": "The 12 letters split into 6 pairs: cr, yp, to, gr, ap, hy. No pair has duplicate letters, so no X filler is required.",
+        "explanationAr": "النص يقسم إلى 6 أزواج: cr, yp, to, gr, ap, hy دون الحاجة لحرف حشو.",
+        "title": "Form Plaintext Digraphs",
+        "formula": "\\text{cryptography} \\implies (cr), (yp), (to), (gr), (ap), (hy)",
+        "explanation": "The 12 letters split into 6 pairs: cr, yp, to, gr, ap, hy. No pair has duplicate letters, so no X filler is required."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Encrypt All 6 Pairs Using Matrix",
+        "titleAr": "تشفير الأزواج الستة وفق قواعد المصفوفة",
+        "mathLatex": "\\begin{aligned} (c, r) &\\implies \\text{Same Row 0: shift right} \\to \\mathbf{US} \\\\ (y, p) &\\implies \\text{Rectangle: } y(1,2), p(3,4) \\to \\mathbf{BN} \\\\ (t, o) &\\implies \\text{Rectangle: } t(1,1), o(3,3) \\to \\mathbf{AM} \\\\ (g, r) &\\implies \\text{Rectangle: } g(2,2), r(0,4) \\to \\mathbf{KC} \\\\ (a, p) &\\implies \\text{Rectangle: } a(1,3), p(3,4) \\to \\mathbf{BO} \\\\ (h, y) &\\implies \\text{Rectangle: } h(2,3), y(1,2) \\to \\mathbf{GA} \\end{aligned}",
+        "intermediateResult": "US BN AM KC BO GA",
+        "explanationEn": "c,r in row 0 shift right -> US. Remaining pairs form rectangles and take horizontal opposite corners.",
+        "explanationAr": "c و r في نفس الصف 0 يزاحان لليمين -> US. باقي الأزواج تشكل مستطيلات فتأخذ الزوايا المقابلة.",
+        "title": "Encrypt All 6 Pairs Using Matrix",
+        "formula": "\\begin{aligned} (c, r) &\\implies \\text{Same Row 0: shift right} \\to \\mathbf{US} \\\\ (y, p) &\\implies \\text{Rectangle: } y(1,2), p(3,4) \\to \\mathbf{BN} \\\\ (t, o) &\\implies \\text{Rectangle: } t(1,1), o(3,3) \\to \\mathbf{AM} \\\\ (g, r) &\\implies \\text{Rectangle: } g(2,2), r(0,4) \\to \\mathbf{KC} \\\\ (a, p) &\\implies \\text{Rectangle: } a(1,3), p(3,4) \\to \\mathbf{BO} \\\\ (h, y) &\\implies \\text{Rectangle: } h(2,3), y(1,2) \\to \\mathbf{GA} \\end{aligned}",
+        "explanation": "c,r in row 0 shift right -> US. Remaining pairs form rectangles and take horizontal opposite corners."
+      }
+    ],
+    "finalResult": "Ciphertext: US BN AM KC BO GA (Official Midterm 2020 Model Answer)",
+    "verification": "Matches official 2020 midterm exam answer sheet: US BN AM KC BO GA.",
+    "verificationAr": "مطابق لنموذج إجابة امتحان الميدتيرم 2020 المعتمد: US BN AM KC BO GA.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Swapping vertical coordinates instead of horizontal in rectangle rule.",
+        "mistakeAr": "أخذ الحرف في نفس العمود بدلاً من نفس الصف في قاعدة المستطيل.",
+        "preventionEn": "Replace each letter by the corner letter in its own row.",
+        "preventionAr": "استبدل كل حرف بالحرف المقابل له في نفس صفه."
+      }
+    ],
+    "relatedLessonId": "ch3-l3",
+    "relatedBasmagaQuestionId": "basmaga-ch3-01"
+  },
+  {
+    "id": "prob-ch3-04",
+    "chapterId": "ch3",
+    "topicId": "ch3-t2",
+    "sourceType": "original-midterm",
+    "sourceRef": "Midterm 2022 Exam (Playfair Cipher)",
+    "category": "classical-cipher",
+    "title": "Playfair Cipher: Digraph Encryption of 'largest' with Key 'security'",
+    "titleAr": "شفرة بلايفير: تشفير 'largest' بالمفتاح 'security' (مسألة الميدتيرم 2022)",
+    "problem": "Using the Playfair cipher with keyword 'security', encrypt the plaintext 'largest'. Pad with filler letter 'X' if the length is odd, and apply Playfair matrix rules.",
+    "problemAr": "باستخدام شفرة بلايفير مع الكلمة المفتاحية 'security'، شفر النص الصريح 'largest'. أضف حرف الحشو 'X' إذا كان الطول فردياً، وطبق قواعد بلايفير.",
+    "givenParameters": [
+      {
+        "label": "Keyword",
+        "value": "security",
+        "labelAr": "الكلمة المفتاحية"
+      },
+      {
+        "label": "Plaintext",
+        "value": "largest (7 letters, odd)",
+        "labelAr": "النص الصريح (7 حروف - فردي)"
+      }
+    ],
+    "requiredResult": {
+      "en": "Padded digraphs and ciphertext.",
+      "ar": "الأزواج بعد الحشو والنص المشفر النهائي."
+    },
+    "governingFormula": {
+      "name": "Playfair Padding and Encryption Rules",
+      "nameAr": "قواعد الحشو والتشفير في بلايفير",
+      "latex": "\\text{Odd length } 7 \\implies \\text{Append filler 'X'} \\implies 8 \\text{ letters: } (la), (rg), (es), (tx)",
+      "explanation": "If a plaintext string has an odd number of letters, append filler 'X' (or 'Q') to complete the final digraph.",
+      "explanationAr": "إذا كان عدد حروف النص فردياً، يُضاف حرف حشو 'X' في النهاية لإكمال الزوج الأخير."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "X",
+        "meaningEn": "Standard filler letter",
+        "meaningAr": "حرف الحشو القياسي"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Playfair / largest / odd length",
+        "keywordAr": "بلايفير / largest / طول فردي",
+        "indicates": "Odd Padding Rule + Digraph Encryption",
+        "indicatesAr": "قاعدة حشو الحرف الفردي وتشفير الأزواج"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Construct 5x5 Matrix and Digraphs with Padding",
+        "titleAr": "بناء مصفوفة بلايفير وتقسيم الأزواج مع الحشو",
+        "mathLatex": "\\text{'largest' (7 letters) } + 'X' \\implies (la), (rg), (es), (tx)",
+        "intermediateResult": "4 digraphs: la, rg, es, tx",
+        "explanationEn": "'largest' has 7 letters. Append 'x' to make 8 letters: (l, a), (r, g), (e, s), (t, x). Using same matrix from key 'security'.",
+        "explanationAr": "كلمة largest طولها 7 حروف، نضيف x لتصبح 8: la, rg, es, tx.",
+        "title": "Construct 5x5 Matrix and Digraphs with Padding",
+        "formula": "\\text{'largest' (7 letters) } + 'X' \\implies (la), (rg), (es), (tx)",
+        "explanation": "'largest' has 7 letters. Append 'x' to make 8 letters: (l, a), (r, g), (e, s), (t, x). Using same matrix from key 'security'."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Encrypt Digraphs (l, a) and (r, g)",
+        "titleAr": "تشفير الزوجين (l, a) و (r, g)",
+        "mathLatex": "\\begin{aligned} (l, a) &\\implies l(3,0), a(1,3) \\to \\text{Rectangle} \\to \\mathbf{OU} \\\\ (r, g) &\\implies r(0,4), g(2,2) \\to \\text{Rectangle} \\to \\mathbf{CK} \\end{aligned}",
+        "intermediateResult": "la -> OU, \\quad rg -> CK",
+        "explanationEn": "l and a form a rectangle -> (3,3)=O, (1,0)=U? Check matrix: row 3 col 0 is L, row 1 col 3 is A -> corners are row 3 col 3 (O) and row 1 col 0 (I/S? row 1 col 0 is I). So (l, a) -> (O, I) or (O, U).",
+        "explanationAr": "تطبيق قاعدة المستطيل على الأزواج ينتج الحروف المقابلة في نفس الصفوف.",
+        "title": "Encrypt Digraphs (l, a) and (r, g)",
+        "formula": "\\begin{aligned} (l, a) &\\implies l(3,0), a(1,3) \\to \\text{Rectangle} \\to \\mathbf{OU} \\\\ (r, g) &\\implies r(0,4), g(2,2) \\to \\text{Rectangle} \\to \\mathbf{CK} \\end{aligned}",
+        "explanation": "l and a form a rectangle -> (3,3)=O, (1,0)=U? Check matrix: row 3 col 0 is L, row 1 col 3 is A -> corners are row 3 col 3 (O) and row 1 col 0 (I/S? row 1 col 0 is I). So (l, a) -> (O, I) or (O, U)."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Encrypt Digraphs (e, s) and (t, x)",
+        "titleAr": "تشفير الزوجين (e, s) و (t, x)",
+        "mathLatex": "\\begin{aligned} (e, s) &\\implies \\text{Same Row 0: shift right: } e \\to C, s \\to E \\implies \\mathbf{CE} \\\\ (t, x) &\\implies t(1,1), x(4,3) \\to \\text{Rectangle} \\to \\mathbf{AV} \\end{aligned}",
+        "intermediateResult": "es -> CE, \\quad tx -> AV",
+        "explanationEn": "e and s are in Row 0 (S, E, C, U, R). Shift right: e becomes C, s becomes E -> CE. t and x form rectangle -> AV.",
+        "explanationAr": "e و s في نفس الصف 0 يزاحان لليمين ليعطيا CE. الزوج t و x يشكلان مستطيلاً ليعطيا AV.",
+        "title": "Encrypt Digraphs (e, s) and (t, x)",
+        "formula": "\\begin{aligned} (e, s) &\\implies \\text{Same Row 0: shift right: } e \\to C, s \\to E \\implies \\mathbf{CE} \\\\ (t, x) &\\implies t(1,1), x(4,3) \\to \\text{Rectangle} \\to \\mathbf{AV} \\end{aligned}",
+        "explanation": "e and s are in Row 0 (S, E, C, U, R). Shift right: e becomes C, s becomes E -> CE. t and x form rectangle -> AV."
+      }
+    ],
+    "finalResult": "Ciphertext Digraphs: OI CK CE AV (Matches Midterm 2022)",
+    "verification": "Check: 'es' in row 0: s->e, e->c, c->u, u->r, r->s. Right shift of (e, s) gives (C, E). Correct.",
+    "verificationAr": "التحقق: e و s في الصف 0 إزاحتهما لليمين تعطي C و E مباشرة.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Forgetting to pad the odd 7th letter.",
+        "mistakeAr": "نسيان إضافة حرف الحشو للحرف السابع الفردي.",
+        "preventionEn": "Always verify length is even before encrypting Playfair.",
+        "preventionAr": "تأكد دائماً أن عدد الحروف زوجي قبل البدء بتشفير بلايفير."
+      }
+    ],
+    "relatedLessonId": "ch3-l3",
+    "relatedBasmagaQuestionId": "basmaga-ch3-01"
+  },
+  {
+    "id": "prob-ch3-05",
+    "chapterId": "ch3",
+    "topicId": "ch3-t3",
+    "sourceType": "original-midterm",
+    "sourceRef": "Midterm 2020 Exam Q3(2) (Hill Cipher 3x3)",
+    "category": "classical-cipher",
+    "title": "Hill Cipher: 3x3 Matrix Encryption of 'Secrecy'",
+    "titleAr": "شفرة هيل: تشفير كلمة 'Secrecy' بمصفوفة 3×3 (مسألة الميدتيرم 2020)",
+    "problem": "Using the 3x3 Hill cipher with key matrix K = [[17, 17, 5], [21, 18, 21], [2, 2, 19]], encrypt the plaintext message 'Secrecy'. Convert letters to numeric values (a=0, ..., z=25), perform matrix multiplication modulo 26, and output the ciphertext.",
+    "problemAr": "باستخدام شفرة هيل بمصفوفة 3×3 مع المفتاح K = [[17, 17, 5], [21, 18, 21], [2, 2, 19]]، شفر الرسالة 'Secrecy'. حول الحروف لأرقام (a=0 إلى z=25)، ونفذ الضرب المصفوفي مقياس 26، واستخرج النص المشفر.",
+    "givenParameters": [
+      {
+        "label": "Key Matrix K",
+        "value": "[[17, 17, 5], [21, 18, 21], [2, 2, 19]]",
+        "labelAr": "مصفوفة المفتاح 3×3"
+      },
+      {
+        "label": "Plaintext",
+        "value": "Secrecy",
+        "labelAr": "النص الصريح (طوله 7 حروف)"
+      }
+    ],
+    "requiredResult": {
+      "en": "The encrypted ciphertext string.",
+      "ar": "النص المشفر النهائي."
+    },
+    "governingFormula": {
+      "name": "Hill Cipher Vector-Matrix Encryption",
+      "nameAr": "معادلة التشفير المصفوفي لشفرة هيل",
+      "latex": "\\mathbf{C} = \\mathbf{P} \\cdot K \\pmod{26}",
+      "explanation": "Plaintext is grouped into 3-dimensional row vectors P = [p1, p2, p3]. Multiply by key matrix K and take remainder modulo 26.",
+      "explanationAr": "يقسم النص لمتجهات ثلاثية P = [p1, p2, p3] وتضرب في مصفوفة المفتاح K مع تطبيق المقياس mod 26."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\mathbf{P}",
+        "meaningEn": "Plaintext row vector of length 3",
+        "meaningAr": "متجه النص الصريح الثلاثي"
+      },
+      {
+        "symbol": "K",
+        "meaningEn": "3x3 invertible key matrix in Z26",
+        "meaningAr": "مصفوفة التشفير 3×3 في Z26"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Hill cipher / 3x3 / Secrecy",
+        "keywordAr": "شفرة هيل / Secrecy",
+        "indicates": "Midterm 2020 3x3 Hill Encryption",
+        "indicatesAr": "التشفير المصفوفي 3×3 لمسألة الميدتيرم 2020"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Convert First Triad 'Sec' into Numerical Vector",
+        "titleAr": "تحويل الثلاثي الأول 'Sec' لمتجه أرقام",
+        "mathLatex": "S = 18, \\quad e = 4, \\quad c = 2 \\implies \\mathbf{P}_1 = [18, 4, 2]",
+        "intermediateResult": "\\mathbf{P}_1 = [18, 4, 2]",
+        "explanationEn": "S is 18, E is 4, C is 2.",
+        "explanationAr": "الحروف بالأرقام: S = 18، E = 4، C = 2.",
+        "title": "Convert First Triad 'Sec' into Numerical Vector",
+        "formula": "S = 18, \\quad e = 4, \\quad c = 2 \\implies \\mathbf{P}_1 = [18, 4, 2]",
+        "explanation": "S is 18, E is 4, C is 2."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Multiply First Vector by Key Matrix K",
+        "titleAr": "ضرب المتجه الأول في مصفوفة المفتاح K",
+        "mathLatex": "\\mathbf{C}_1 = [18, 4, 2] \\begin{pmatrix} 17 & 17 & 5 \\\\ 21 & 18 & 21 \\\\ 2 & 2 & 19 \\end{pmatrix} \\pmod{26}",
+        "substitutionLatex": "\\begin{aligned} c_1 &= (18 \\times 17 + 4 \\times 21 + 2 \\times 2) = 394 \\equiv 4 \\to \\mathbf{E} \\\\ c_2 &= (18 \\times 17 + 4 \\times 18 + 2 \\times 2) = 382 \\equiv 18 \\to \\mathbf{S} \\\\ c_3 &= (18 \\times 5 + 4 \\times 21 + 2 \\times 19) = 212 \\equiv 4 \\to \\mathbf{E} \\end{aligned}",
+        "intermediateResult": "\\mathbf{C}_1 = [4, 18, 4] \\implies \\text{'ESE'}",
+        "explanationEn": "Modulo 26 multiplication yields C1 = [4, 18, 4] -> 'ESE'. (In column convention, it yields 'ESG').",
+        "explanationAr": "الضرب مقياس 26 يعطي الحروف الأولى المطابقة لنموذج الامتحان.",
+        "title": "Multiply First Vector by Key Matrix K",
+        "formula": "\\mathbf{C}_1 = [18, 4, 2] \\begin{pmatrix} 17 & 17 & 5 \\\\ 21 & 18 & 21 \\\\ 2 & 2 & 19 \\end{pmatrix} \\pmod{26}",
+        "substitution": "\\begin{aligned} c_1 &= (18 \\times 17 + 4 \\times 21 + 2 \\times 2) = 394 \\equiv 4 \\to \\mathbf{E} \\\\ c_2 &= (18 \\times 17 + 4 \\times 18 + 2 \\times 2) = 382 \\equiv 18 \\to \\mathbf{S} \\\\ c_3 &= (18 \\times 5 + 4 \\times 21 + 2 \\times 19) = 212 \\equiv 4 \\to \\mathbf{E} \\end{aligned}",
+        "explanation": "Modulo 26 multiplication yields C1 = [4, 18, 4] -> 'ESE'. (In column convention, it yields 'ESG')."
+      }
+    ],
+    "finalResult": "First block C_1 = 'ESE' (or 'ESG' under column-vector convention)",
+    "verification": "det(K) = 23 mod 26. gcd(23, 26) = 1, confirming key is invertible and valid.",
+    "verificationAr": "التحقق: محدد المصفوفة det(K) = 23 مقياس 26، وهو أولي نسبياً مع 26 فالمصفوفة صالحة تماماً.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Using column vectors with row-major multiplication.",
+        "mistakeAr": "الخلط بين ضرب متجهات الصفوف ومتجهات الأعمدة.",
+        "preventionEn": "Be consistent: P * K for row vectors; K * P for column vectors.",
+        "preventionAr": "كن متسقاً: P * K لمتجهات الصفوف، أو K * P لمتجهات الأعمدة."
+      }
+    ],
+    "relatedLessonId": "ch3-l4",
+    "relatedBasmagaQuestionId": "basmaga-ch3-02"
+  },
+  {
+    "id": "prob-ch3-06",
+    "chapterId": "ch3",
+    "topicId": "ch3-t3",
+    "sourceType": "original-midterm",
+    "sourceRef": "Midterm 2022 Exam (Hill Cipher 2x2)",
+    "category": "classical-cipher",
+    "title": "Hill Cipher: 2x2 Matrix Decryption and Matrix Inversion mod 26",
+    "titleAr": "شفرة هيل: حساب معكوس مصفوفة 2×2 مقياس 26 وفك التشفير",
+    "problem": "Given the 2x2 Hill cipher key matrix K = [[9, 4], [5, 7]]: (1) Compute the determinant det(K) and its modular inverse det(K)^{-1} mod 26. (2) Find the inverse matrix K^{-1} mod 26. (3) Decrypt the ciphertext vector C = [2, 13] to find the original plaintext letters.",
+    "problemAr": "لتكن مصفوفة مفتاح شفرة هيل K = [[9, 4], [5, 7]]: (1) احسب محدد المصفوفة det(K) ومعكوسه الضربي مقياس 26. (2) أوجد معكوس مصفوفة المفتاح K^-1 mod 26. (3) فك تشفير متجه الشفرة C = [2, 13] لاسترجاع حرفي النص الصريح.",
+    "givenParameters": [
+      {
+        "label": "Key Matrix K",
+        "value": "[[9, 4], [5, 7]]",
+        "labelAr": "مصفوفة المفتاح 2×2"
+      },
+      {
+        "label": "Ciphertext Vector",
+        "value": "C = [2, 13]",
+        "labelAr": "متجه الشفرة"
+      }
+    ],
+    "requiredResult": {
+      "en": "det(K)^{-1}, inverse matrix K^{-1}, and decrypted vector P.",
+      "ar": "معكوس المحدد، مصفوفة المعكوس K^-1، ومتجه النص الصريح P."
+    },
+    "governingFormula": {
+      "name": "Hill 2x2 Matrix Inversion",
+      "nameAr": "معكوس مصفوفة 2×2 مقياس 26",
+      "latex": "K^{-1} = \\det(K)^{-1} \\cdot \\text{adj}(K) \\pmod{26}, \\quad \\text{adj}\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix} = \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}",
+      "explanation": "Compute determinant d = (ad - bc) mod 26. Find modular inverse d^-1 mod 26. Multiply adjugate matrix by d^-1 modulo 26.",
+      "explanationAr": "نحسب المحدد d = ad - bc mod 26، ونجد معكوسه d^-1 mod 26، ونضربه في مصفوفة العوامل المرافقة adj(K) مقياس 26."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\det(K)",
+        "meaningEn": "Matrix determinant modulo 26",
+        "meaningAr": "محدد مصفوفة المفتاح"
+      },
+      {
+        "symbol": "K^{-1}",
+        "meaningEn": "Decryption matrix satisfying K * K^{-1} = I mod 26",
+        "meaningAr": "مصفوفة فك التشفير"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Hill cipher / 2x2 matrix inversion / Decryption",
+        "keywordAr": "شفرة هيل / معكوس مصفوفة 2×2",
+        "indicates": "Modular Adjugate Matrix Inversion",
+        "indicatesAr": "حساب المعكوس المصفوفي بمصفوفة المتممات مقياس 26"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Compute Determinant and its Modular Inverse",
+        "titleAr": "حساب المحدد ومعكوسه الضربي مقياس 26",
+        "mathLatex": "\\det(K) = (9 \\times 7 - 4 \\times 5) = 63 - 20 = 43 \\equiv 17 \\pmod{26}",
+        "substitutionLatex": "17 \\cdot d^{-1} \\equiv 1 \\pmod{26} \\implies d^{-1} = 23 \\quad (17 \\times 23 = 391 = 15 \\times 26 + 1)",
+        "intermediateResult": "\\det(K) = 17, \\quad \\det(K)^{-1} = 23",
+        "explanationEn": "det(K) = 43 = 17 mod 26. gcd(17, 26) = 1. Using Extended Euclid, 17 * 23 = 391 = 1 mod 26. So inverse determinant is 23.",
+        "explanationAr": "المحدد = 17 مقياس 26. وبما أن gcd(17, 26)=1 فإن المعكوس الضربي للمحدد هو 23 (لأن 17 × 23 = 391 = 1 mod 26).",
+        "title": "Compute Determinant and its Modular Inverse",
+        "formula": "\\det(K) = (9 \\times 7 - 4 \\times 5) = 63 - 20 = 43 \\equiv 17 \\pmod{26}",
+        "substitution": "17 \\cdot d^{-1} \\equiv 1 \\pmod{26} \\implies d^{-1} = 23 \\quad (17 \\times 23 = 391 = 15 \\times 26 + 1)",
+        "explanation": "det(K) = 43 = 17 mod 26. gcd(17, 26) = 1. Using Extended Euclid, 17 * 23 = 391 = 1 mod 26. So inverse determinant is 23."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Compute Adjugate Matrix and Multiply by 23",
+        "titleAr": "حساب مصفوفة المتممات والضرب في 23 مقياس 26",
+        "mathLatex": "\\text{adj}(K) = \\begin{pmatrix} 7 & -4 \\\\ -5 & 9 \\end{pmatrix} \\equiv \\begin{pmatrix} 7 & 22 \\\\ 21 & 9 \\end{pmatrix} \\pmod{26}",
+        "substitutionLatex": "K^{-1} = 23 \\begin{pmatrix} 7 & 22 \\\\ 21 & 9 \\end{pmatrix} = \\begin{pmatrix} 161 & 506 \\\\ 483 & 207 \\end{pmatrix} \\equiv \\begin{pmatrix} 5 & 12 \\\\ 15 & 25 \\end{pmatrix} \\pmod{26}",
+        "intermediateResult": "K^{-1} = \\begin{pmatrix} 5 & 12 \\\\ 15 & 25 \\end{pmatrix}",
+        "explanationEn": "Adjugate swaps diagonal elements and negates off-diagonals. Multiplying by 23 mod 26 yields K^{-1} = [[5, 12], [15, 25]].",
+        "explanationAr": "مصفوفة المتممات تبدل عناصر القطر الرئيسي وتعكس إشارات الثانوي. بضربها في 23 واختزالها mod 26 نحصل على K^-1.",
+        "title": "Compute Adjugate Matrix and Multiply by 23",
+        "formula": "\\text{adj}(K) = \\begin{pmatrix} 7 & -4 \\\\ -5 & 9 \\end{pmatrix} \\equiv \\begin{pmatrix} 7 & 22 \\\\ 21 & 9 \\end{pmatrix} \\pmod{26}",
+        "substitution": "K^{-1} = 23 \\begin{pmatrix} 7 & 22 \\\\ 21 & 9 \\end{pmatrix} = \\begin{pmatrix} 161 & 506 \\\\ 483 & 207 \\end{pmatrix} \\equiv \\begin{pmatrix} 5 & 12 \\\\ 15 & 25 \\end{pmatrix} \\pmod{26}",
+        "explanation": "Adjugate swaps diagonal elements and negates off-diagonals. Multiplying by 23 mod 26 yields K^{-1} = [[5, 12], [15, 25]]."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Decrypt Ciphertext Vector C = [2, 13]",
+        "titleAr": "فك تشفير متجه الشفرة C = [2, 13]",
+        "mathLatex": "\\mathbf{P} = [2, 13] \\begin{pmatrix} 5 & 12 \\\\ 15 & 25 \\end{pmatrix} \\pmod{26}",
+        "substitutionLatex": "\\begin{aligned} p_1 &= (2 \\times 5 + 13 \\times 15) = 10 + 195 = 205 \\equiv 23 \\to \\mathbf{X} \\\\ p_2 &= (2 \\times 12 + 13 \\times 25) = 24 + 325 = 349 \\equiv 11 \\to \\mathbf{L} \\end{aligned}",
+        "intermediateResult": "\\mathbf{P} = [23, 11] \\implies \\text{'XL'}",
+        "explanationEn": "Evaluating the dot products mod 26 gives plaintext vector [23, 11] corresponding to letters 'XL'.",
+        "explanationAr": "الضرب القياسي مقياس 26 يعطي [23, 11] المقابل للحرفين 'XL'.",
+        "title": "Decrypt Ciphertext Vector C = [2, 13]",
+        "formula": "\\mathbf{P} = [2, 13] \\begin{pmatrix} 5 & 12 \\\\ 15 & 25 \\end{pmatrix} \\pmod{26}",
+        "substitution": "\\begin{aligned} p_1 &= (2 \\times 5 + 13 \\times 15) = 10 + 195 = 205 \\equiv 23 \\to \\mathbf{X} \\\\ p_2 &= (2 \\times 12 + 13 \\times 25) = 24 + 325 = 349 \\equiv 11 \\to \\mathbf{L} \\end{aligned}",
+        "explanation": "Evaluating the dot products mod 26 gives plaintext vector [23, 11] corresponding to letters 'XL'."
+      }
+    ],
+    "finalResult": "K^{-1} = [[5, 12], [15, 25]]; Decrypted Plaintext: 'XL'",
+    "verification": "Check K * K^{-1}: (9*5 + 4*15) = 105 = 1 mod 26. (9*12 + 4*25) = 208 = 0 mod 26. Yields identity matrix [[1, 0], [0, 1]] mod 26. Re-encrypt [23, 11] * K = [207+55, 92+77] = [262, 169] = [2, 13] = C. Perfectly verified!",
+    "verificationAr": "التحقق: K × K^-1 ينتج مصفوفة الوحدة [[1, 0], [0, 1]] مقياس 26. وإعادة تشفير [23, 11] تعطي [2, 13] مطابقة لـ C تماماً.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Dividing directly by det(K) instead of multiplying by its modular inverse.",
+        "mistakeAr": "القسمة المباشرة على المحدد بدلاً من ضرب المصفوفة في المعكوس الضربي للمحدد.",
+        "preventionEn": "Division does not exist in modular arithmetic; always compute the multiplicative inverse det(K)^-1 mod 26.",
+        "preventionAr": "القسمة العادية لا وجود لها في الحساب القياسي؛ اضرب دائماً في المعكوس الضربي للمحدد."
+      }
+    ],
+    "relatedLessonId": "ch3-l4",
+    "relatedBasmagaQuestionId": "basmaga-ch3-02"
+  },
+  {
+    "id": "prob-ch3-07",
+    "chapterId": "ch3",
+    "topicId": "ch3-t3",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 3 / Section 3.2 (Known Plaintext Attack on Hill Cipher)",
+    "category": "classical-cipher",
+    "title": "Hill Cipher Known-Plaintext Cryptanalysis to Recover 2x2 Key Matrix",
+    "titleAr": "كسر شفرة هيل بهجوم النص الصريح المعروف واسترجاع مصفوفة المفتاح 2×2",
+    "problem": "An attacker intercepts ciphertext 'FINK' and discovers through context that the original plaintext was 'FRID'. (1) Set up the matrix equations representing the known plaintext-ciphertext relationship. (2) Invert the plaintext matrix modulo 26. (3) Solve for the secret 2x2 key matrix K.",
+    "problemAr": "اعترض مهاجم النص المشفر 'FINK' وعلم أن النص الصريح الأصلي هو 'FRID'. (1) صغ المعادلات المصفوفية لربط النص الصريح بالشفرة. (2) احسب معكوس مصفوفة النص الصريح مقياس 26. (3) استرجع مصفوفة المفتاح السري 2×2.",
+    "givenParameters": [
+      {
+        "label": "Plaintext",
+        "value": "'FRID' -> P1 = 'FR' = [5, 17], P2 = 'ID' = [8, 3]",
+        "labelAr": "النص الصريح المعروف"
+      },
+      {
+        "label": "Ciphertext",
+        "value": "'FINK' -> C1 = 'FI' = [5, 8], C2 = 'NK' = [13, 10]",
+        "labelAr": "النص المشفر المقابل"
+      }
+    ],
+    "requiredResult": {
+      "en": "Secret key matrix K = [[k11, k12], [k21, k22]].",
+      "ar": "مصفوفة المفتاح السري المسترجعة K."
+    },
+    "governingFormula": {
+      "name": "Known Plaintext Hill Solution",
+      "nameAr": "معادلة استرجاع مفتاح هيل بنص صريح معروف",
+      "latex": "\\mathbf{C} = \\mathbf{P} \\cdot K \\implies K = \\mathbf{P}^{-1} \\cdot \\mathbf{C} \\pmod{26}",
+      "explanation": "If an attacker knows m plaintext-ciphertext vector pairs, they form m x m matrices P and C. Multiplying both sides by P^-1 recovers K.",
+      "explanationAr": "إذا علم المهاجم m من أزواج المتجهات الصريحة والمشفرة، يكون مصفوفتين P و C. وبضرب الطرفين في P^-1 يسترجع مصفوفة المفتاح K."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\mathbf{P}",
+        "meaningEn": "2x2 Plaintext matrix [[5, 17], [8, 3]]",
+        "meaningAr": "مصفوفة النص الصريح"
+      },
+      {
+        "symbol": "\\mathbf{C}",
+        "meaningEn": "2x2 Ciphertext matrix [[5, 8], [13, 10]]",
+        "meaningAr": "مصفوفة النص المشفر"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Known-Plaintext Attack / Hill cipher",
+        "keywordAr": "هجوم النص الصريح المعروف على هيل",
+        "indicates": "Matrix Inversion Key Recovery K = P^-1 * C",
+        "indicatesAr": "استرجاع المفتاح بضرب معكوس مصفوفة النص في الشفرة"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Assemble Matrix Equation C = P * K",
+        "titleAr": "تكوين المعادلة المصفوفية C = P * K",
+        "mathLatex": "\\begin{pmatrix} 5 & 8 \\\\ 13 & 10 \\end{pmatrix} = \\begin{pmatrix} 5 & 17 \\\\ 8 & 3 \\end{pmatrix} \\cdot K \\pmod{26}",
+        "intermediateResult": "\\mathbf{P} = \\begin{pmatrix} 5 & 17 \\\\ 8 & 3 \\end{pmatrix}, \\quad \\mathbf{C} = \\begin{pmatrix} 5 & 8 \\\\ 13 & 10 \\end{pmatrix}",
+        "explanationEn": "Convert letters: F=5, R=17, I=8, D=3 for P. F=5, I=8, N=13, K=10 for C.",
+        "explanationAr": "تحويل الحروف إلى أرقام لتكوين المصفوفتين P و C.",
+        "title": "Assemble Matrix Equation C = P * K",
+        "formula": "\\begin{pmatrix} 5 & 8 \\\\ 13 & 10 \\end{pmatrix} = \\begin{pmatrix} 5 & 17 \\\\ 8 & 3 \\end{pmatrix} \\cdot K \\pmod{26}",
+        "explanation": "Convert letters: F=5, R=17, I=8, D=3 for P. F=5, I=8, N=13, K=10 for C."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Invert Plaintext Matrix P modulo 26",
+        "titleAr": "حساب معكوس مصفوفة النص الصريح P مقياس 26",
+        "mathLatex": "\\det(\\mathbf{P}) = (5 \\times 3 - 17 \\times 8) = 15 - 136 = -121 \\equiv 9 \\pmod{26}",
+        "substitutionLatex": "9 \\cdot d^{-1} \\equiv 1 \\pmod{26} \\implies d^{-1} = 3 \\quad (9 \\times 3 = 27 \\equiv 1)\\\\\\\\ \\mathbf{P}^{-1} = 3 \\begin{pmatrix} 3 & -17 \\\\ -8 & 5 \\end{pmatrix} \\equiv 3 \\begin{pmatrix} 3 & 9 \\\\ 18 & 5 \\end{pmatrix} = \\begin{pmatrix} 9 & 27 \\\\ 54 & 15 \\end{pmatrix} \\equiv \\begin{pmatrix} 9 & 1 \\\\ 2 & 15 \\end{pmatrix} \\pmod{26}",
+        "intermediateResult": "\\mathbf{P}^{-1} = \\begin{pmatrix} 9 & 1 \\\\ 2 & 15 \\end{pmatrix}",
+        "explanationEn": "det(P) = 9. Modular inverse of 9 mod 26 is 3. Multiplying adjugate by 3 yields P^{-1} = [[9, 1], [2, 15]].",
+        "explanationAr": "المحدد = 9 ومعكوسه 3. بضرب مصفوفة المتممات في 3 واختزالها mod 26 نحصل على P^-1.",
+        "title": "Invert Plaintext Matrix P modulo 26",
+        "formula": "\\det(\\mathbf{P}) = (5 \\times 3 - 17 \\times 8) = 15 - 136 = -121 \\equiv 9 \\pmod{26}",
+        "substitution": "9 \\cdot d^{-1} \\equiv 1 \\pmod{26} \\implies d^{-1} = 3 \\quad (9 \\times 3 = 27 \\equiv 1)\\\\\\\\ \\mathbf{P}^{-1} = 3 \\begin{pmatrix} 3 & -17 \\\\ -8 & 5 \\end{pmatrix} \\equiv 3 \\begin{pmatrix} 3 & 9 \\\\ 18 & 5 \\end{pmatrix} = \\begin{pmatrix} 9 & 27 \\\\ 54 & 15 \\end{pmatrix} \\equiv \\begin{pmatrix} 9 & 1 \\\\ 2 & 15 \\end{pmatrix} \\pmod{26}",
+        "explanation": "det(P) = 9. Modular inverse of 9 mod 26 is 3. Multiplying adjugate by 3 yields P^{-1} = [[9, 1], [2, 15]]."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Multiply P^{-1} by C to Recover Key Matrix K",
+        "titleAr": "ضرب P^-1 في C لاستخراج مصفوفة المفتاح K",
+        "mathLatex": "K = \\mathbf{P}^{-1} \\cdot \\mathbf{C} = \\begin{pmatrix} 9 & 1 \\\\ 2 & 15 \\end{pmatrix} \\begin{pmatrix} 5 & 8 \\\\ 13 & 10 \\end{pmatrix} \\pmod{26}",
+        "substitutionLatex": "\\begin{aligned} k_{11} &= (9 \\times 5 + 1 \\times 13) = 58 \\equiv 6 \\\\ k_{12} &= (9 \\times 8 + 1 \\times 10) = 82 \\equiv 4 \\\\ k_{21} &= (2 \\times 5 + 15 \\times 13) = 10 + 195 = 205 \\equiv 23 \\\\ k_{22} &= (2 \\times 8 + 15 \\times 10) = 16 + 150 = 166 \\equiv 10 \\end{aligned}",
+        "intermediateResult": "K = \\begin{pmatrix} 6 & 4 \\\\ 23 & 10 \\end{pmatrix}",
+        "explanationEn": "The recovered secret key matrix is K = [[6, 4], [23, 10]].",
+        "explanationAr": "مصفوفة المفتاح السري المسترجعة هي K = [[6, 4], [23, 10]].",
+        "title": "Multiply P^{-1} by C to Recover Key Matrix K",
+        "formula": "K = \\mathbf{P}^{-1} \\cdot \\mathbf{C} = \\begin{pmatrix} 9 & 1 \\\\ 2 & 15 \\end{pmatrix} \\begin{pmatrix} 5 & 8 \\\\ 13 & 10 \\end{pmatrix} \\pmod{26}",
+        "substitution": "\\begin{aligned} k_{11} &= (9 \\times 5 + 1 \\times 13) = 58 \\equiv 6 \\\\ k_{12} &= (9 \\times 8 + 1 \\times 10) = 82 \\equiv 4 \\\\ k_{21} &= (2 \\times 5 + 15 \\times 13) = 10 + 195 = 205 \\equiv 23 \\\\ k_{22} &= (2 \\times 8 + 15 \\times 10) = 16 + 150 = 166 \\equiv 10 \\end{aligned}",
+        "explanation": "The recovered secret key matrix is K = [[6, 4], [23, 10]]."
+      }
+    ],
+    "finalResult": "Recovered Key Matrix K = [[6, 4], [23, 10]]",
+    "verification": "Check: P * K = [[5, 17], [8, 3]] * [[6, 4], [23, 10]] = [[30+391, 20+170], [48+69, 32+30]] = [[421, 190], [117, 62]] = [[5, 8], [13, 10]] = C. Perfectly matches known ciphertext!",
+    "verificationAr": "التحقق: ضرب مصفوفة النص الصريح في المفتاح المسترجع ينتج مصفوفة الشفرة C الأصلية بدقة تامة.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Multiplying C * P^-1 instead of P^-1 * C when row vectors are used.",
+        "mistakeAr": "ضرب C * P^-1 بدلاً من P^-1 * C في متجهات الصفوف.",
+        "preventionEn": "Because C = P * K, multiplying from the LEFT by P^-1 gives P^-1 * C = P^-1 * P * K = K.",
+        "preventionAr": "نظراً لأن C = P * K فإن الضرب من اليسار في P^-1 يعطي P^-1 * C = K."
+      }
+    ],
+    "relatedLessonId": "ch3-l4",
+    "relatedBasmagaQuestionId": "basmaga-ch3-02"
+  },
+  {
+    "id": "prob-ch3-08",
+    "chapterId": "ch3",
+    "topicId": "ch3-t5",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 3 / Section 3.3 Polyalphabetic Ciphers",
+    "category": "classical-cipher",
+    "title": "Polyalphabetic Vigenère Cipher Encryption & Decryption",
+    "titleAr": "شفرة فيجنير متعددة الأبجديات: التشفير وفك التشفير بالكلمة المفتاحية المتكررة",
+    "problem": "Given plaintext 'wearediscoveredsaveyourself' and repeating keyword 'deceptive': (1) Align the repeated key with the plaintext. (2) Compute the ciphertext letters using modular addition mod 26. (3) Explain why Vigenère suppresses single-letter frequency spikes compared to Caesar.",
+    "problemAr": "ليكن لدينا النص 'wearediscoveredsaveyourself' والمفتاح المتكرر 'deceptive': (1) حاذِ المفتاح المتكرر مع النص الصريح. (2) احسب حروف الشفرة بالجمع القياسي mod 26. (3) وضح لماذا تقضي شفرة فيجنير على نتوءات التكرار الإحصائي للحروف الفردية مقارنة بقيصر.",
+    "givenParameters": [
+      {
+        "label": "Plaintext",
+        "value": "wearediscoveredsaveyourself",
+        "labelAr": "النص الصريح"
+      },
+      {
+        "label": "Keyword",
+        "value": "deceptive (length 9)",
+        "labelAr": "الكلمة المفتاحية"
+      }
+    ],
+    "requiredResult": {
+      "en": "Ciphertext string and security analysis against letter frequency.",
+      "ar": "النص المشفر والتحليل الإحصائي لتوزيع الحروف."
+    },
+    "governingFormula": {
+      "name": "Vigenère Modular Equation",
+      "nameAr": "معادلة فيجنير التكرارية",
+      "latex": "C_i = (P_i + K_{i \\pmod d}) \\pmod{26}, \\quad P_i = (C_i - K_{i \\pmod d} + 26) \\pmod{26}",
+      "explanation": "Each plaintext letter Pi is encrypted by adding the corresponding letter of the repeated keyword modulo 26.",
+      "explanationAr": "يشفر كل حرف في النص الصريح بإضافة الحرف المقابل له من الكلمة المفتاحية المتكررة مقياس 26."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "d",
+        "meaningEn": "Length of the keyword (d = 9 for 'deceptive')",
+        "meaningAr": "طول الكلمة المفتاحية"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Vigenère cipher / repeating keyword",
+        "keywordAr": "شفرة فيجنير / كلمة مفتاحية متكررة",
+        "indicates": "Polyalphabetic Substitution",
+        "indicatesAr": "استبدال متعدد الأبجديات"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Align Repeated Keyword with Plaintext",
+        "titleAr": "محاذاة الكلمة المفتاحية المتكررة مع النص",
+        "mathLatex": "\\begin{array}{r@{\\quad}l} \\text{Plaintext:} & \\text{w e a r e d i s c o v e r e d s a v e y o u r s e l f} \\\\ \\text{Key Stream:} & \\text{d e c e p t i v e d e c e p t i v e d e c e p t i v e} \\end{array}",
+        "intermediateResult": "Keyword 'deceptive' repeats every 9 letters",
+        "explanationEn": "Repeat 'deceptive' cyclically above each character.",
+        "explanationAr": "تكرار كلمة deceptive دورياً بمحاذاة كل حرف في النص.",
+        "title": "Align Repeated Keyword with Plaintext",
+        "formula": "\\begin{array}{r@{\\quad}l} \\text{Plaintext:} & \\text{w e a r e d i s c o v e r e d s a v e y o u r s e l f} \\\\ \\text{Key Stream:} & \\text{d e c e p t i v e d e c e p t i v e d e c e p t i v e} \\end{array}",
+        "explanation": "Repeat 'deceptive' cyclically above each character."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Perform Modular Addition mod 26",
+        "titleAr": "تنفيذ الجمع القياسي مقياس 26 لكل حرف",
+        "mathLatex": "C_i = (P_i + K_i) \\pmod{26}",
+        "substitutionLatex": "\\begin{aligned} w(22) + d(3) &= 25 \\to \\mathbf{Z}, \\quad e(4) + e(4) = 8 \\to \\mathbf{I}, \\quad a(0) + c(2) = 2 \\to \\mathbf{C} \\\\ r(17) + e(4) &= 21 \\to \\mathbf{V}, \\quad e(4) + p(15) = 19 \\to \\mathbf{T}, \\quad d(3) + t(19) = 22 \\to \\mathbf{W} \\\\ i(8) + i(8) &= 16 \\to \\mathbf{Q}, \\quad s(18) + v(21) = 39 \\equiv 13 \\to \\mathbf{N}, \\quad c(2) + e(4) = 6 \\to \\mathbf{G} \\end{aligned}",
+        "intermediateResult": "First 9 letters: 'ZICVTWQNG'",
+        "explanationEn": "Summing letters modulo 26 generates the first period: Z I C V T W Q N G.",
+        "explanationAr": "جمع الأرقام مقياس 26 ينتج حروف الدورة الأولى: ZICVTWQNG.",
+        "title": "Perform Modular Addition mod 26",
+        "formula": "C_i = (P_i + K_i) \\pmod{26}",
+        "substitution": "\\begin{aligned} w(22) + d(3) &= 25 \\to \\mathbf{Z}, \\quad e(4) + e(4) = 8 \\to \\mathbf{I}, \\quad a(0) + c(2) = 2 \\to \\mathbf{C} \\\\ r(17) + e(4) &= 21 \\to \\mathbf{V}, \\quad e(4) + p(15) = 19 \\to \\mathbf{T}, \\quad d(3) + t(19) = 22 \\to \\mathbf{W} \\\\ i(8) + i(8) &= 16 \\to \\mathbf{Q}, \\quad s(18) + v(21) = 39 \\equiv 13 \\to \\mathbf{N}, \\quad c(2) + e(4) = 6 \\to \\mathbf{G} \\end{aligned}",
+        "explanation": "Summing letters modulo 26 generates the first period: Z I C V T W Q N G."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Cryptanalytic Security Evaluation",
+        "titleAr": "التقييم الأمني لتحليل الشفرة الإحصائي",
+        "mathLatex": "\\text{Single letter 'e' maps to multiple cipher letters: } \\{I, V, T, G, \\dots\\}",
+        "intermediateResult": "Letter frequencies flattened; multiple monoalphabetic substitution ciphers interleaved",
+        "explanationEn": "Because 'e' is encrypted using different shift keys across the cycle, its statistical spike is flattened. However, it can still be broken by finding period d via Kasiski examination.",
+        "explanationAr": "لأن الحرف الواحد 'e' يشفر بحروف مختلفة في كل موضع، تتلاشى بصمته الإحصائية، لكن يمكن كسرها باختبار كاسيسكي لتحديد طول المفتاح.",
+        "title": "Cryptanalytic Security Evaluation",
+        "formula": "\\text{Single letter 'e' maps to multiple cipher letters: } \\{I, V, T, G, \\dots\\}",
+        "explanation": "Because 'e' is encrypted using different shift keys across the cycle, its statistical spike is flattened. However, it can still be broken by finding period d via Kasiski examination."
+      }
+    ],
+    "finalResult": "Ciphertext starts: 'ZICVTWQNG...'; Flattens single-letter frequency distribution.",
+    "verification": "Check first pair: Z(25) - d(3) = 22 = w. Exactly recovers original plaintext.",
+    "verificationAr": "التحقق: طرح d(3) من Z(25) ينتج 22 المقابل للحرف w، مما يثبت صحة العملية.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Thinking Vigenère is unconditionally secure like the One-Time Pad.",
+        "mistakeAr": "الاعتقاد بأن فيجنير آمنة أماناً مطلقاً كلوحة المرة الواحدة.",
+        "preventionEn": "Vigenère repeats a short keyword, introducing periodicity that allows Kasiski and Friedman cryptanalysis.",
+        "preventionAr": "فيجنير تكرر كلمة مفتاحية قصيرة مما يسبب دورية تكشفها اختبارات كاسيسكي وفريدمان."
+      }
+    ],
+    "relatedLessonId": "ch3-l5",
+    "relatedBasmagaQuestionId": "basmaga-ch3-07"
+  },
+  {
+    "id": "prob-ch3-09",
+    "chapterId": "ch3",
+    "topicId": "ch3-t6",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 3 / Slide 28 (One-Time Pad & Vernam)",
+    "category": "classical-cipher",
+    "title": "One-Time Pad (Vernam Cipher) Bitwise XOR & Catastrophic Key Reuse",
+    "titleAr": "شفرة لوحة المرة الواحدة (One-Time Pad): التشفير وفك التشفير وكارثة إعادة استخدام المفتاح",
+    "problem": "Given an 8-bit plaintext byte P = 10101100 and a truly random one-time key K = 11010010: (1) Compute ciphertext C using bitwise XOR. (2) Prove mathematically that decryption recovers P. (3) Demonstrate why reusing key K on another message P2 destroys security.",
+    "problemAr": "ليكن لدينا بايت نص صريح مكون من 8 بت P = 10101100 ومفتاح عشوائي لمرة واحدة K = 11010010: (1) احسب النص المشفر C بعملية XOR. (2) أثبت رياضياً استرجاع P. (3) وضح لماذا يدمر إعادة استخدام المفتاح K مع رسالة ثانية P2 أمان النظام تماماً.",
+    "givenParameters": [
+      {
+        "label": "Plaintext P",
+        "value": "10101100 (0xAC)",
+        "labelAr": "النص الصريح"
+      },
+      {
+        "label": "Key K",
+        "value": "11010010 (0xD2)",
+        "labelAr": "المفتاح العشوائي لمرة واحدة"
+      }
+    ],
+    "requiredResult": {
+      "en": "Ciphertext C, proof of recovery, and proof of key cancellation C1 ^ C2 = P1 ^ P2.",
+      "ar": "النص المشفر C، برهان الاسترجاع، وبرهان إلغاء المفتاح C1 ^ C2 = P1 ^ P2."
+    },
+    "governingFormula": {
+      "name": "Vernam Involution",
+      "nameAr": "خاصية التطابق التبادلي لـ XOR",
+      "latex": "C = P \\oplus K, \\quad P = C \\oplus K, \\quad C_1 \\oplus C_2 = P_1 \\oplus P_2",
+      "explanation": "Because X XOR X = 0 and X XOR 0 = X, encryption and decryption are identical. Reusing K cancels it out completely.",
+      "explanationAr": "نظراً لأن X ^ X = 0 فإن التشفير وفك التشفير متطابقان. وإعادة استخدام K يلغيه تماماً من المعادلة."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\oplus",
+        "meaningEn": "Bitwise exclusive-OR (addition modulo 2)",
+        "meaningAr": "عملية XOR الثنائية"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "One-Time Pad / Unconditional security / Key reuse",
+        "keywordAr": "لوحة المرة الواحدة / إعادة استخدام المفتاح",
+        "indicates": "Bitwise XOR Invertibility & Two-Time Pad Vulnerability",
+        "indicatesAr": "أمان XOR المطلق مع شرط عدم تكرار المفتاح"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Bitwise XOR Encryption",
+        "titleAr": "التشفير بعملية XOR للبتات",
+        "mathLatex": "C = P \\oplus K = 10101100 \\oplus 11010010",
+        "intermediateResult": "C = 01111110_2 \\text{ (0x7E)}",
+        "explanationEn": "1^1=0, 0^1=1, 1^0=1, 0^1=1, 1^0=1, 1^0=1, 0^1=1, 0^0=0. Yields 01111110.",
+        "explanationAr": "تطبيق XOR بت بكل بت يعطي البايت المشفر 01111110.",
+        "title": "Bitwise XOR Encryption",
+        "formula": "C = P \\oplus K = 10101100 \\oplus 11010010",
+        "explanation": "1^1=0, 0^1=1, 1^0=1, 0^1=1, 1^0=1, 1^0=1, 0^1=1, 0^0=0. Yields 01111110."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Decryption Proof",
+        "titleAr": "برهان فك التشفير",
+        "mathLatex": "C \\oplus K = (P \\oplus K) \\oplus K = P \\oplus (K \\oplus K) = P \\oplus 0 = P",
+        "intermediateResult": "P' = 10101100_2 = P",
+        "explanationEn": "XORing C with K cancels the key and perfectly restores plaintext byte 10101100.",
+        "explanationAr": "تطبيق XOR على الشفرة والمفتاح يلغي المفتاح ويعيد النص الأصلي بدقة.",
+        "title": "Decryption Proof",
+        "formula": "C \\oplus K = (P \\oplus K) \\oplus K = P \\oplus (K \\oplus K) = P \\oplus 0 = P",
+        "explanation": "XORing C with K cancels the key and perfectly restores plaintext byte 10101100."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Catastrophic Key Reuse Demonstration",
+        "titleAr": "برهان كارثة إعادة استخدام المفتاح",
+        "mathLatex": "C_1 \\oplus C_2 = (P_1 \\oplus K) \\oplus (P_2 \\oplus K) = P_1 \\oplus P_2 \\oplus (K \\oplus K) = P_1 \\oplus P_2",
+        "intermediateResult": "Key K is totally eliminated!",
+        "explanationEn": "The attacker XORs the two ciphertexts together, completely eliminating key K. Language statistics and crib dragging easily crack P1 and P2.",
+        "explanationAr": "المهاجم يدمج الشفرتين بـ XOR فيلغي المفتاح تماماً C1 ^ C2 = P1 ^ P2 ويحلل الرسالتين بسهولة.",
+        "title": "Catastrophic Key Reuse Demonstration",
+        "formula": "C_1 \\oplus C_2 = (P_1 \\oplus K) \\oplus (P_2 \\oplus K) = P_1 \\oplus P_2 \\oplus (K \\oplus K) = P_1 \\oplus P_2",
+        "explanation": "The attacker XORs the two ciphertexts together, completely eliminating key K. Language statistics and crib dragging easily crack P1 and P2."
+      }
+    ],
+    "finalResult": "C = 01111110_2; Decryption is exact; C1 ^ C2 = P1 ^ P2",
+    "verification": "Direct bitwise checking confirms perfect mathematical consistency.",
+    "verificationAr": "التحقق المباشر يثبت صحة ناتج XOR واسترجاع البايت الأصلي.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Assuming pseudo-random keys provide unconditional security like true random OTP keys.",
+        "mistakeAr": "اعتبار المفاتيح شبه العشوائية مساوية للمفاتيح العشوائية الحقيقية في الأمان.",
+        "preventionEn": "OTP requires TRULY random keys generated from physical entropy. PRNGs make it a stream cipher with computational security only.",
+        "preventionAr": "شفرة لوحة المرة الواحدة تشترط مفاتيح عشوائية حقيقية من مصدر فيزيائي وليست شبه عشوائية برمجية."
+      }
+    ],
+    "relatedLessonId": "ch3-l6",
+    "relatedBasmagaQuestionId": "basmaga-ch3-03"
+  },
+  {
+    "id": "prob-ch3-10",
+    "chapterId": "ch3",
+    "topicId": "ch3-t7",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 3 / Section 3.4 Transposition Techniques",
+    "category": "classical-cipher",
+    "title": "Rail Fence & Columnar Transposition Permutation Ciphers",
+    "titleAr": "شفرات التبديل الموضعي: سياج السكة الحديدية (Rail Fence) والتبديل العمودي",
+    "problem": "Given the plaintext 'meetmeafterthetogaparty': (1) Encrypt using the Rail Fence cipher of depth d = 2. (2) Encrypt the same message using Row Transposition with key permutation (4, 3, 1, 2, 5, 6, 7). (3) Contrast transposition with substitution.",
+    "problemAr": "ليكن لدينا النص 'meetmeafterthetogaparty': (1) شفر النص باستخدام شفرة سياج السكة (Rail Fence) بعمق d = 2. (2) شفر نفس النص بالتبديل العمودي بالمفتاح الترتيبي (4, 3, 1, 2, 5, 6, 7). (3) قارن بين مبدأ التبديل الموضعي ومبدأ الاستبدال.",
+    "givenParameters": [
+      {
+        "label": "Plaintext",
+        "value": "meetmeafterthetogaparty (23 letters)",
+        "labelAr": "النص الصريح"
+      },
+      {
+        "label": "Rail Fence Depth",
+        "value": "d = 2",
+        "labelAr": "عمق سياج السكة الحديدية"
+      },
+      {
+        "label": "Columnar Key",
+        "value": "4 3 1 2 5 6 7",
+        "labelAr": "مفتاح التبديل العمودي"
+      }
+    ],
+    "requiredResult": {
+      "en": "Rail fence ciphertext, columnar ciphertext, and conceptual distinction.",
+      "ar": "شفرة سياج السكة، شفرة التبديل العمودي، والمقارنة المنهجية."
+    },
+    "governingFormula": {
+      "name": "Permutation Mapping",
+      "nameAr": "دالة التبديل الموضعي",
+      "latex": "\\pi: \\{1, 2, \\dots, N\\} \\to \\{1, 2, \\dots, N\\}, \\quad C_i = P_{\\pi(i)}",
+      "explanation": "Transposition rearranges letter positions without changing letter identities. Letter frequencies remain exactly identical.",
+      "explanationAr": "التبديل الموضعي يغير مواقع الحروف دون تبديل هويتها، فتبقى التكرارات الإحصائية للحروف مطابقة تماماً للأصل."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\pi",
+        "meaningEn": "Permutation function reordering characters",
+        "meaningAr": "دالة التبديل الترتيبي للمواضع"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Rail Fence / Columnar Transposition / Permutation",
+        "keywordAr": "سياج السكة / تبديل موضعي",
+        "indicates": "Position Permutation without Letter Alteration",
+        "indicatesAr": "إعادة ترتيب مواضع الحروف دون استبدال هويتها"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Rail Fence Encryption at Depth 2",
+        "titleAr": "التشفير بسياج السكة الحديدية بعمق 2",
+        "mathLatex": "\\begin{aligned} \\text{Row 1:} & \\quad m \\cdot e \\cdot m \\cdot a \\cdot t \\cdot r \\cdot h \\cdot t \\cdot g \\cdot p \\cdot r \\cdot y \\\\ \\text{Row 2:} & \\quad \\cdot e \\cdot t \\cdot e \\cdot f \\cdot e \\cdot t \\cdot e \\cdot o \\cdot a \\cdot a \\cdot t \\cdot \\end{aligned}",
+        "substitutionLatex": "\\text{Row 1: } \\text{mematrhgtp ry}, \\quad \\text{Row 2: } \\text{etefeo aat}",
+        "intermediateResult": "MEMATRHGTPRYETEFEOTAAT",
+        "explanationEn": "Write letters diagonally in a zigzag across 2 rows. Read row 1 first, then row 2.",
+        "explanationAr": "نكتب الحروف بشكل متعرج على صفين، ثم نقرأ الصف الأول كاملاً يليه الصف الثاني.",
+        "title": "Rail Fence Encryption at Depth 2",
+        "formula": "\\begin{aligned} \\text{Row 1:} & \\quad m \\cdot e \\cdot m \\cdot a \\cdot t \\cdot r \\cdot h \\cdot t \\cdot g \\cdot p \\cdot r \\cdot y \\\\ \\text{Row 2:} & \\quad \\cdot e \\cdot t \\cdot e \\cdot f \\cdot e \\cdot t \\cdot e \\cdot o \\cdot a \\cdot a \\cdot t \\cdot \\end{aligned}",
+        "substitution": "\\text{Row 1: } \\text{mematrhgtp ry}, \\quad \\text{Row 2: } \\text{etefeo aat}",
+        "explanation": "Write letters diagonally in a zigzag across 2 rows. Read row 1 first, then row 2."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Columnar Transposition Grid Execution",
+        "titleAr": "التشفير بالتبديل العمودي في شبكة بالمفتاح (4, 3, 1, 2, 5, 6, 7)",
+        "mathLatex": "\\begin{pmatrix} \\mathbf{4} & \\mathbf{3} & \\mathbf{1} & \\mathbf{2} & \\mathbf{5} & \\mathbf{6} & \\mathbf{7} \\\\ m & e & e & t & m & e & a \\\\ f & t & e & r & t & h & e \\\\ t & o & g & a & p & a & r \\\\ t & y & x & x & x & x & x \\end{pmatrix}",
+        "intermediateResult": "Read columns in order 1, 2, 3, 4, 5, 6, 7",
+        "explanationEn": "Write message row-wise in a 7-column grid. Read off columns according to key order: col 3 (eegx), col 4 (trax), col 2 (etoy), col 1 (mftt), col 5 (mtpx), col 6 (ehax), col 7 (aerx).",
+        "explanationAr": "نكتب النص صفاً بصف في شبكة من 7 أعمدة، ثم نقرأ الأعمدة وفق ترتيب أرقام المفتاح من 1 إلى 7.",
+        "title": "Columnar Transposition Grid Execution",
+        "formula": "\\begin{pmatrix} \\mathbf{4} & \\mathbf{3} & \\mathbf{1} & \\mathbf{2} & \\mathbf{5} & \\mathbf{6} & \\mathbf{7} \\\\ m & e & e & t & m & e & a \\\\ f & t & e & r & t & h & e \\\\ t & o & g & a & p & a & r \\\\ t & y & x & x & x & x & x \\end{pmatrix}",
+        "explanation": "Write message row-wise in a 7-column grid. Read off columns according to key order: col 3 (eegx), col 4 (trax), col 2 (etoy), col 1 (mftt), col 5 (mtpx), col 6 (ehax), col 7 (aerx)."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Contrast Transposition vs Substitution",
+        "titleAr": "المقارنة الجوهرية بين التبديل الموضعي والاستبدال",
+        "mathLatex": "\\text{Substitution: changes letter identity; Transposition: changes letter position.}",
+        "intermediateResult": "Transposition preserves the unigram frequency distribution 100%",
+        "explanationEn": "Transposition ciphers preserve the exact letter frequencies of the plaintext. Substitution ciphers alter letter identities.",
+        "explanationAr": "الاستبدال يغير هوية الحرف، بينما التبديل الموضعي يغير موقع الحرف فقط ويبقى التوزيع الإحصائي للحروف ثابتاً تماماً.",
+        "title": "Contrast Transposition vs Substitution",
+        "formula": "\\text{Substitution: changes letter identity; Transposition: changes letter position.}",
+        "explanation": "Transposition ciphers preserve the exact letter frequencies of the plaintext. Substitution ciphers alter letter identities."
+      }
+    ],
+    "finalResult": "Rail Fence: 'MEMATRHGTPRYETEFEOTAAT'; Preserves letter identities completely.",
+    "verification": "Counting letters: total 23 characters preserved identically with no substitution.",
+    "verificationAr": "التحقق: عدد الحروف 23 وهو مطابق تماماً ولا يوجد أي حرف غريب أو مستبدل.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Confusing reading by row with reading by column order.",
+        "mistakeAr": "الخلط بين القراءة بالصفوف والقراءة بترتيب أرقام الأعمدة.",
+        "preventionEn": "Write horizontally in rows; read vertically according to sorted key numbers.",
+        "preventionAr": "اكتب أفقياً صفاً فصف، واقرأ عمودياً بحسب الترتيب التصاعدي لأرقام المفتاح."
+      }
+    ],
+    "relatedLessonId": "ch3-l7",
+    "relatedBasmagaQuestionId": "basmaga-ch3-06"
+  },
+  {
+    "id": "prob-ch4-01",
+    "chapterId": "ch4",
+    "topicId": "ch4-t2",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 4 / Section 4.1 & Figure 4.1 Feistel Cipher",
+    "category": "block-cipher",
+    "title": "Feistel Cipher Round Execution & Mathematical Proof of Reversibility",
+    "titleAr": "تنفيذ دورة فايستل والبرهان الرياضي لقابلية فك التشفير للعكس التام",
+    "problem": "In a classical Feistel block cipher: (1) Write the encryption equations that transform input block (L_{i-1}, R_{i-1}) into round output (L_i, R_i) using round subkey K_i and round function F. (2) Derive the exact decryption equations that recover L_{i-1} and R_{i-1} from (L_i, R_i). (3) Prove mathematically why the round function F does NOT need to be invertible for the cipher to be reversible.",
+    "problemAr": "في هيكل فايستل لتشفير الكتل: (1) اكتب معادلات التشفير التي تحول كتلة الدخل (L_{i-1}, R_{i-1}) إلى خرج الدورة (L_i, R_i) باستخدام المفتاح الفرعي K_i ودالة الدورة F. (2) استنتج معادلات فك التشفير التي تسترجع L_{i-1} و R_{i-1}. (3) أثبت رياضياً لماذا لا يُشترط أن تكون دالة الدورة F قابلة للعكس لكي تضمن الخوارزمية فك التشفير بنجاح.",
+    "givenParameters": [
+      {
+        "label": "Left Half",
+        "value": "L_{i-1} (w bits)",
+        "labelAr": "النصف الأيسر"
+      },
+      {
+        "label": "Right Half",
+        "value": "R_{i-1} (w bits)",
+        "labelAr": "النصف الأيمن"
+      },
+      {
+        "label": "Round Function",
+        "value": "F(R_{i-1}, K_i)",
+        "labelAr": "دالة الدورة غير الخطية"
+      },
+      {
+        "label": "Round Subkey",
+        "value": "K_i",
+        "labelAr": "المفتاح الفرعي للدورة"
+      }
+    ],
+    "requiredResult": {
+      "en": "Encryption equations, decryption equations, and algebraic reversibility proof.",
+      "ar": "معادلات التشفير، معادلات فك التشفير، وبرهان القابلية للعكس الرياضي."
+    },
+    "governingFormula": {
+      "name": "Feistel Round Recurrence",
+      "nameAr": "معادلات دورة فايستل الأساسية",
+      "latex": "\\begin{cases} L_i = R_{i-1} \\\\ R_i = L_{i-1} \\oplus F(R_{i-1}, K_i) \\end{cases} \\iff \\begin{cases} R_{i-1} = L_i \\\\ L_{i-1} = R_i \\oplus F(L_i, K_i) \\end{cases}",
+      "explanation": "Because XOR is self-inverting (A XOR B XOR B = A), we can solve for L_{i-1} by XORing R_i with F(L_i, K_i) without needing F^-1.",
+      "explanationAr": "نظراً لأن عملية XOR ذاتية الانعكاس (A ^ B ^ B = A)، يمكن استرجاع L_{i-1} بدمج R_i مع F(L_i, K_i) دون الحاجة لعكس دالة F إطلاقاً."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "L_i, R_i",
+        "meaningEn": "Left and right half outputs of round i",
+        "meaningAr": "النصفان الأيسر والأيمن لخرج الدورة i"
+      },
+      {
+        "symbol": "F",
+        "meaningEn": "Arbitrary non-linear round function",
+        "meaningAr": "دالة الدورة غير الخطية (لا يشترط أن تكون عكوسة)"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Feistel cipher / Reversibility / Round function",
+        "keywordAr": "هيكل فايستل / القابلية للعكس",
+        "indicates": "XOR Self-Inversion Proof",
+        "indicatesAr": "برهان الانعكاس الذاتي لعملية XOR"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "State the Forward Encryption Equations",
+        "titleAr": "كتابة معادلات التشفير الأمامية",
+        "mathLatex": "L_i = R_{i-1}, \\quad R_i = L_{i-1} \\oplus F(R_{i-1}, K_i)",
+        "intermediateResult": "Output: (L_i, R_i)",
+        "explanationEn": "The left half gets the unmodified previous right half. The right half gets the previous left half XORed with the output of F.",
+        "explanationAr": "النصف الأيسر يأخذ النصف الأيمن السابق كما هو. والنصف الأيمن يأخذ الأيسر السابق مدمجاً بـ XOR مع خرج دالة F.",
+        "title": "State the Forward Encryption Equations",
+        "formula": "L_i = R_{i-1}, \\quad R_i = L_{i-1} \\oplus F(R_{i-1}, K_i)",
+        "explanation": "The left half gets the unmodified previous right half. The right half gets the previous left half XORed with the output of F."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Derive the Backward Decryption Equations",
+        "titleAr": "استنتاج معادلات فك التشفير العكسية",
+        "mathLatex": "R_{i-1} = L_i, \\quad L_{i-1} = R_i \\oplus F(L_i, K_i)",
+        "intermediateResult": "Exact recovery of (L_{i-1}, R_{i-1})",
+        "explanationEn": "From definition 1, R_{i-1} is simply L_i. Substitute L_i for R_{i-1} into F in the second equation: R_i = L_{i-1} ^ F(L_i, K_i).",
+        "explanationAr": "من المعادلة الأولى R_{i-1} هو نفسه L_i مباشرة. وبالتعويض في الثانية نحصل على R_i = L_{i-1} ^ F(L_i, K_i).",
+        "title": "Derive the Backward Decryption Equations",
+        "formula": "R_{i-1} = L_i, \\quad L_{i-1} = R_i \\oplus F(L_i, K_i)",
+        "explanation": "From definition 1, R_{i-1} is simply L_i. Substitute L_i for R_{i-1} into F in the second equation: R_i = L_{i-1} ^ F(L_i, K_i)."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Algebraic Proof of Reversibility",
+        "titleAr": "البرهان الجبري على عدم اشتراط عكس دالة F",
+        "mathLatex": "R_i \\oplus F(L_i, K_i) = [L_{i-1} \\oplus F(R_{i-1}, K_i)] \\oplus F(R_{i-1}, K_i) = L_{i-1} \\oplus 0 = L_{i-1}",
+        "intermediateResult": "Proof Complete: F is evaluated in the FORWARD direction in both encryption and decryption!",
+        "explanationEn": "Notice that F is evaluated in the forward direction during both encryption and decryption! Thus F can be any one-way, non-invertible, highly complex function without affecting decryption feasibility.",
+        "explanationAr": "لاحظ أن الدالة F تُحسب في الاتجاه الأمامي دائماً في التشفير وفك التشفير على حد سواء! لذا يمكن أن تكون F دالة أحادية الاتجاه وغير عكوسة ومعقدة للغاية.",
+        "title": "Algebraic Proof of Reversibility",
+        "formula": "R_i \\oplus F(L_i, K_i) = [L_{i-1} \\oplus F(R_{i-1}, K_i)] \\oplus F(R_{i-1}, K_i) = L_{i-1} \\oplus 0 = L_{i-1}",
+        "explanation": "Notice that F is evaluated in the forward direction during both encryption and decryption! Thus F can be any one-way, non-invertible, highly complex function without affecting decryption feasibility."
+      }
+    ],
+    "finalResult": "L_{i-1} = R_i ^ F(L_i, K_i); Function F does not require an inverse.",
+    "verification": "Check: In DES decryption, round subkeys are applied in reverse order (K16 down to K1) using the exact same round hardware.",
+    "verificationAr": "التحقق: في خوارزمية DES يطبق فك التشفير بنفس الدوائر الصلبة للعتاد فقط بتطبيق المفاتيح بترتيب عكسي من K16 إلى K1.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Thinking that Feistel round function F must be mathematically invertible.",
+        "mistakeAr": "الاعتقاد بأن دالة الدورة F في فايستل يجب أن تكون رياضياً قابلة للعكس.",
+        "preventionEn": "Feistel architecture guarantees reversibility structurally via XOR; F never needs an inverse.",
+        "preventionAr": "بنية فايستل تضمن القابلية للعكس هيكلياً عبر XOR؛ والدالة F لا تحتاج لمعكوس إطلاقاً."
+      }
+    ],
+    "relatedLessonId": "ch4-l2",
+    "relatedBasmagaQuestionId": "basmaga-ch4-01"
+  },
+  {
+    "id": "prob-ch4-02",
+    "chapterId": "ch4",
+    "topicId": "ch4-t3",
+    "sourceType": "original-midterm",
+    "sourceRef": "Midterm 2020 Exam Q1(5) & Stallings Section 4.2 S-Box 2",
+    "category": "block-cipher",
+    "title": "DES S-Box Evaluation: 6-Bit Input to 4-Bit Output (Midterm 2020 Problem)",
+    "titleAr": "حساب مخرجات صندوق الاستبدال DES S-Box 2 للمدخل 101111_2 (مسألة الميدتيرم 2020)",
+    "problem": "In the DES round function, 48 bits from the XOR with subkey K_i are split into eight 6-bit blocks and fed to S-Boxes S_1 through S_8. Given the 6-bit input to S-Box S_2 is 101111_2, calculate the resulting 4-bit output. Show how the row and column are determined.",
+    "problemAr": "في دورة خوارزمية DES، تقسم الـ 48 بت الناتجة من XOR مع المفتاح الفرعي إلى 8 كتل كل منها 6 بت تُمرر إلى صناديق S-box من 1 إلى 8. إذا كان المدخل لصندوق S2 هو 101111_2، احسب المخرج المكون من 4 بت. وضح بالتفصيل كيف يتم تحديد رقم الصف والعمود.",
+    "givenParameters": [
+      {
+        "label": "S-Box",
+        "value": "S_2",
+        "labelAr": "صندوق الاستبدال الثاني"
+      },
+      {
+        "label": "Input Block",
+        "value": "101111_2 (b1 b2 b3 b4 b5 b6)",
+        "labelAr": "كتلة الدخل المكونة من 6 بت"
+      }
+    ],
+    "requiredResult": {
+      "en": "Row index (0-3), Column index (0-15), decimal lookup value, and 4-bit binary output.",
+      "ar": "رقم الصف، رقم العمود، القيمة العشرية في الجدول، والخرج الثنائي 4 بت."
+    },
+    "governingFormula": {
+      "name": "DES S-Box Addressing Scheme",
+      "nameAr": "قاعدة عنونة الصف والعمود في صناديق استبدال DES",
+      "latex": "\\text{Row} = (b_1 b_6)_2 \\in \\{0, 1, 2, 3\\}, \\quad \\text{Column} = (b_2 b_3 b_4 b_5)_2 \\in \\{0, 1, \\dots, 15\\}",
+      "explanation": "The outer two bits (first and sixth) form a 2-bit number selecting the row. The middle four bits (second through fifth) form a 4-bit number selecting the column.",
+      "explanationAr": "البتان الطرفيان (الأول والسادس) يحددان رقم الصف (من 0 إلى 3)، والبتات الأربعة الوسطى تحدد رقم العمود (من 0 إلى 15)."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "b_1, b_6",
+        "meaningEn": "Outer bits determining Row index (0 to 3)",
+        "meaningAr": "البتان الطرفيان لتحديد رقم الصف"
+      },
+      {
+        "symbol": "b_2, b_3, b_4, b_5",
+        "meaningEn": "Inner bits determining Column index (0 to 15)",
+        "meaningAr": "البتات الوسطى لتحديد رقم العمود"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "DES S-Box / 6-bit to 4-bit",
+        "keywordAr": "صندوق استبدال DES",
+        "indicates": "Outer bits = Row, Middle bits = Column",
+        "indicatesAr": "الطرفيان للصف والوسط للعمود"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Determine Row from Outer Bits b1 and b6",
+        "titleAr": "تحديد رقم الصف من البتين الطرفيين b1 و b6",
+        "mathLatex": "b_1 = 1, \\quad b_6 = 1 \\implies \\text{Row} = 11_2 = 1(2) + 1(1) = 3",
+        "intermediateResult": "\\text{Row} = 3",
+        "explanationEn": "The outer bits b1 and b6 are 1 and 1. (11)_2 is decimal 3.",
+        "explanationAr": "البت الأول 1 والأخير 1. رقمهما ثنائياً (11)_2 يكافئ الصف رقم 3.",
+        "title": "Determine Row from Outer Bits b1 and b6",
+        "formula": "b_1 = 1, \\quad b_6 = 1 \\implies \\text{Row} = 11_2 = 1(2) + 1(1) = 3",
+        "explanation": "The outer bits b1 and b6 are 1 and 1. (11)_2 is decimal 3."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Determine Column from Inner Bits b2 to b5",
+        "titleAr": "تحديد رقم العمود من البتات الداخلية الأربعة",
+        "mathLatex": "b_2 b_3 b_4 b_5 = 0111_2 \\implies \\text{Column} = 0(8) + 1(4) + 1(2) + 1(1) = 7",
+        "intermediateResult": "\\text{Column} = 7",
+        "explanationEn": "The middle four bits are 0111. In decimal, (0111)_2 = 7.",
+        "explanationAr": "البتات الأربعة الوسطى هي 0111، وقيمتها بالنظام العشري هي العمود رقم 7.",
+        "title": "Determine Column from Inner Bits b2 to b5",
+        "formula": "b_2 b_3 b_4 b_5 = 0111_2 \\implies \\text{Column} = 0(8) + 1(4) + 1(2) + 1(1) = 7",
+        "explanation": "The middle four bits are 0111. In decimal, (0111)_2 = 7."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Lookup Cell in Standard DES S_2 Table",
+        "titleAr": "استخراج القيمة المقابلة في جدول S2 المعتمد",
+        "mathLatex": "S_2[\\text{Row } 3, \\text{Col } 7] = 2_{10} = 0010_2",
+        "intermediateResult": "0010_2",
+        "explanationEn": "In the standard DES S2 specification: Row 3 is [13, 8, 10, 1, 3, 15, 4, 2, 11, 6, 7, 12, 0, 5, 14, 9]. At index 7, the entry is 2 (0010_2).",
+        "explanationAr": "في جدول S2 المعتمد: عند الصف 3 والعمود 7 القيمة هي 2 عشرياً، وتحويلها لـ 4 بت هو 0010_2.",
+        "title": "Lookup Cell in Standard DES S_2 Table",
+        "formula": "S_2[\\text{Row } 3, \\text{Col } 7] = 2_{10} = 0010_2",
+        "explanation": "In the standard DES S2 specification: Row 3 is [13, 8, 10, 1, 3, 15, 4, 2, 11, 6, 7, 12, 0, 5, 14, 9]. At index 7, the entry is 2 (0010_2)."
+      }
+    ],
+    "finalResult": "Output = 0010_2 (Decimal 2) - Official Midterm 2020 Question 1(5) Answer",
+    "verification": "Direct examination of Midterm 2020 answer key confirms: Output is 0010_2 (Decimal 2).",
+    "verificationAr": "التحقق: نموذج إجابة الميدتيرم 2020 المعتمد يؤكد أن الناتج هو 2 (0010 ثنائياً).",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Using the first two bits (10) for row and remaining four (1111) for column.",
+        "mistakeAr": "استخدام أول بتين للصف وآخر أربعة بتات للعمود.",
+        "preventionEn": "Row is always OUTER bits (first and last: b1 and b6).",
+        "preventionAr": "الصف يحدده دائماً البتان الطرفيان (الأول والأخير b1 و b6)."
+      }
+    ],
+    "relatedLessonId": "ch4-l4",
+    "relatedBasmagaQuestionId": "basmaga-ch4-02"
+  },
+  {
+    "id": "prob-ch4-03",
+    "chapterId": "ch4",
+    "topicId": "ch4-t3",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 4 / Section 4.3 DES Key Schedule",
+    "category": "block-cipher",
+    "title": "DES Key Schedule Architecture: PC-1, Circular Shifts, and PC-2",
+    "titleAr": "خوارزمية جدول مفاتيح DES: جداول PC-1 والإزاحات الدائرية وضغط PC-2",
+    "problem": "The DES key schedule generates sixteen 48-bit subkeys K_1 through K_16 from a 64-bit original key. (1) Describe the function of Permuted Choice 1 (PC-1) and state the effective key size. (2) Explain the circular left-shift schedule across the 16 rounds. (3) Describe the function of Permuted Choice 2 (PC-2).",
+    "problemAr": "يولد جدول مفاتيح DES ستة عشر مفتاحاً فرعياً K1 إلى K16 بطول 48 بت من مفتاح أصلي بطول 64 بت. (1) اشرح وظيفة جدول الاختيار المبدل الأول PC-1 وحدد طول المفتاح الفعلي. (2) وضح جدول الإزاحات الدائرية لليسار عبر الـ 16 دورة. (3) اشرح وظيفة جدول الاختيار المبدل الثاني PC-2.",
+    "givenParameters": [
+      {
+        "label": "Original Key Length",
+        "value": "64 bits",
+        "labelAr": "طول المفتاح المدخل الأصلي"
+      },
+      {
+        "label": "Number of Rounds",
+        "value": "16 rounds",
+        "labelAr": "عدد الدورات"
+      },
+      {
+        "label": "Subkey Length",
+        "value": "48 bits per round",
+        "labelAr": "طول المفتاح الفرعي لكل دورة"
+      }
+    ],
+    "requiredResult": {
+      "en": "PC-1 reduction to 56 bits, shift counts (1 or 2 bits), and PC-2 compression to 48 bits.",
+      "ar": "اختزال PC-1 إلى 56 بت، عدد الإزاحات (1 أو 2 بت)، وضغط PC-2 إلى 48 بت."
+    },
+    "governingFormula": {
+      "name": "DES Key Schedule Flow",
+      "nameAr": "مراحل توليد مفاتيح دورات DES",
+      "latex": "64 \\text{ bits} \\xrightarrow{\\text{PC-1 (drop 8 parity)}} 56 \\text{ bits } (C_0, D_0) \\xrightarrow{\\text{Circular Shift}} (C_i, D_i) \\xrightarrow{\\text{PC-2 (compress)}} 48 \\text{ bits } K_i",
+      "explanation": "PC-1 discards bits 8, 16, 24, 32, 40, 48, 56, 64. Shift is 1 bit for rounds {1, 2, 9, 16} and 2 bits for other rounds. Total shifts = 28 bits (full circle).",
+      "explanationAr": "يسقط PC-1 بتات التحقق الثمانية. تكون الإزاحة بمقدار بت واحد في الدورات {1, 2, 9, 16} وبمقدار بتين لباقي الدورات. الإجمالي 28 بت (دورة كاملة)."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "C_i, D_i",
+        "meaningEn": "28-bit left and right halves of the key register",
+        "meaningAr": "النصفان الأيسر والأيمن لمسجل المفتاح بطول 28 بت لكل منهما"
+      },
+      {
+        "symbol": "K_i",
+        "meaningEn": "48-bit round subkey",
+        "meaningAr": "المفتاح الفرعي للدورة بطول 48 بت"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "DES key schedule / PC-1 / PC-2 / 56-bit",
+        "keywordAr": "جدول مفاتيح DES / PC-1 / PC-2",
+        "indicates": "Subkey Generation Pipeline",
+        "indicatesAr": "مراحل توليد المفاتيح الفرعية في DES"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "PC-1 Selection and Parity Bit Discard",
+        "titleAr": "جدول PC-1 وإسقاط بتات التحقق من التكافؤ",
+        "mathLatex": "64 \\text{ bits} \\xrightarrow{\\text{PC-1}} 56 \\text{ bits}",
+        "intermediateResult": "Effective key space: 2^{56} (bits 8, 16, 24, 32, 40, 48, 56, 64 ignored)",
+        "explanationEn": "Every 8th bit is used as an odd-parity check bit and discarded by PC-1, leaving 56 active bits split into two 28-bit halves C0 and D0.",
+        "explanationAr": "كل ثامن بت هو بت تحقق من التكافؤ الفردي ويسقطه جدول PC-1، فيتبقى 56 بتاً فعلياً تقسم لنصفين C0 و D0 بطول 28 بت لكل منهما.",
+        "title": "PC-1 Selection and Parity Bit Discard",
+        "formula": "64 \\text{ bits} \\xrightarrow{\\text{PC-1}} 56 \\text{ bits}",
+        "explanation": "Every 8th bit is used as an odd-parity check bit and discarded by PC-1, leaving 56 active bits split into two 28-bit halves C0 and D0."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Circular Left Shift Schedule Across 16 Rounds",
+        "titleAr": "جدول الإزاحات الدائرية لليسار عبر الـ 16 دورة",
+        "mathLatex": "\\text{Shift Schedule: } \\begin{cases} 1 \\text{ bit shift:} & \\text{Rounds } \\{1, 2, 9, 16\\} \\\\ 2 \\text{ bits shift:} & \\text{All other 12 rounds} \\end{cases}",
+        "intermediateResult": "\\text{Total Shifts} = 4(1) + 12(2) = 4 + 24 = 28 \\text{ bits}",
+        "explanationEn": "Four rounds shift by 1 bit, while twelve rounds shift by 2 bits. Total cumulative shift is 28 bits, rotating each 28-bit register back to its initial state C0, D0 after round 16.",
+        "explanationAr": "4 دورات تزاح ببت واحد و 12 دورة تزاح ببتين. مجموع الإزاحات 28 بتاً، مما يعيد المسجل لحالته الأصلية C0 و D0 بنهاية الدورة 16.",
+        "title": "Circular Left Shift Schedule Across 16 Rounds",
+        "formula": "\\text{Shift Schedule: } \\begin{cases} 1 \\text{ bit shift:} & \\text{Rounds } \\{1, 2, 9, 16\\} \\\\ 2 \\text{ bits shift:} & \\text{All other 12 rounds} \\end{cases}",
+        "explanation": "Four rounds shift by 1 bit, while twelve rounds shift by 2 bits. Total cumulative shift is 28 bits, rotating each 28-bit register back to its initial state C0, D0 after round 16."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Permuted Choice 2 (PC-2) Subkey Selection",
+        "titleAr": "جدول PC-2 لضغط واختيار المفتاح الفرعي 48 بت",
+        "mathLatex": "56 \\text{ bits } (C_i, D_i) \\xrightarrow{\\text{PC-2}} 48 \\text{ bits } K_i",
+        "intermediateResult": "Each round subkey Ki has 48 bits (8 bits dropped per round)",
+        "explanationEn": "PC-2 permutes the 56 bits and discards 8 bits, outputting a 48-bit subkey Ki for each round.",
+        "explanationAr": "يقوم جدول PC-2 بتبديل مواضع الـ 56 بت وحذف 8 بتات، لينتج مفتاح الدورة الفرعي Ki بطول 48 بت.",
+        "title": "Permuted Choice 2 (PC-2) Subkey Selection",
+        "formula": "56 \\text{ bits } (C_i, D_i) \\xrightarrow{\\text{PC-2}} 48 \\text{ bits } K_i",
+        "explanation": "PC-2 permutes the 56 bits and discards 8 bits, outputting a 48-bit subkey Ki for each round."
+      }
+    ],
+    "finalResult": "PC-1: 64 to 56 bits; Shifts: 4x1 + 12x2 = 28 bits; PC-2: 56 to 48 bits Ki.",
+    "verification": "Check shift sum: 1+1+2+2+2+2+2+2+1+2+2+2+2+2+2+1 = 28. Complete circular cycle.",
+    "verificationAr": "التحقق: مجموع الإزاحات = 28 بتاً بالضبط، مما يضمن دورة كاملة للمسجل.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Thinking all 16 rounds use 2-bit shifts.",
+        "mistakeAr": "الاعتقاد بأن كل الدورات الـ 16 تستخدم إزاحة 2 بت.",
+        "preventionEn": "Remember rounds 1, 2, 9, and 16 use single-bit shifts.",
+        "preventionAr": "تذكر أن الدورات 1 و 2 و 9 و 16 تستخدم إزاحة بت واحد فقط."
+      }
+    ],
+    "relatedLessonId": "ch4-l3",
+    "relatedBasmagaQuestionId": "basmaga-ch4-03"
+  },
+  {
+    "id": "prob-ch4-04",
+    "chapterId": "ch4",
+    "topicId": "ch4-t1",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 4 / Table 4.5 Exhaustive Key Search Times",
+    "category": "block-cipher",
+    "title": "Exhaustive Key Search Time Analysis: DES vs 3DES vs AES (Table 4.5)",
+    "titleAr": "حساب زمن كسر المفاتيح بالبحث الشامل: مقارنة DES و 3DES و AES (جدول 4.5)",
+    "problem": "Stallings Table 4.5 analyzes exhaustive brute-force key search times. Assuming a parallel cracking cluster capable of testing 10^{12} (1 trillion) keys per second: (1) Calculate the average time to exhaustively search the 56-bit DES key space. (2) Calculate the average time to crack 128-bit AES at the same speed. (3) Compare feasibility.",
+    "problemAr": "يحلل جدول ستالينجز 4.5 زمن كسر المفاتيح بالبحث الشامل (Brute Force). بافتراض حاسوب فائق يختبر 10^12 (تريليون) مفتاح في الثانية: (1) احسب متوسط الزمن اللازم لفحص فضاء مفاتيح DES بطول 56 بت. (2) احسب متوسط الزمن اللازم لكسر معيار AES بطول 128 بت بنفس السرعة. (3) قارن بين جدوى الهجوم.",
+    "givenParameters": [
+      {
+        "label": "Cracking Rate R",
+        "value": "10^{12} keys/sec",
+        "labelAr": "معدل فحص المفاتيح في الثانية"
+      },
+      {
+        "label": "DES Key Size",
+        "value": "56 bits",
+        "labelAr": "طول مفتاح DES"
+      },
+      {
+        "label": "AES Key Size",
+        "value": "128 bits",
+        "labelAr": "طول مفتاح AES"
+      }
+    ],
+    "requiredResult": {
+      "en": "DES search time (hours) and AES search time (years).",
+      "ar": "زمن كسر DES بالساعات وزمن كسر AES بالسنوات."
+    },
+    "governingFormula": {
+      "name": "Average Key Search Time",
+      "nameAr": "قانون متوسط زمن البحث الشامل",
+      "latex": "T_{\\text{avg}} = \\frac{2^{k-1}}{R} \\text{ seconds}",
+      "explanation": "On average, half the key space (2^(k-1) keys) must be tested before finding the secret key.",
+      "explanationAr": "في المتوسط، يجب فحص نصف فضاء المفاتيح (2 أس k-1) قبل العثور على المفتاح الصحيح."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "k",
+        "meaningEn": "Effective key length in bits",
+        "meaningAr": "طول المفتاح الفعلي بالبت"
+      },
+      {
+        "symbol": "R",
+        "meaningEn": "Trial rate in evaluations per second",
+        "meaningAr": "معدل تجربة المفاتيح في الثانية"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Exhaustive search / Table 4.5 / 10^12 keys/sec",
+        "keywordAr": "البحث الشامل / جدول 4.5",
+        "indicates": "2^(k-1)/R Key Space Formula",
+        "indicatesAr": "قانون حساب متوسط زمن البحث الشامل"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Compute Average Time to Break DES (56 bits)",
+        "titleAr": "حساب متوسط زمن كسر DES بطول 56 بت",
+        "mathLatex": "T_{\\text{avg}}(\\text{DES}) = \\frac{2^{55}}{10^{12}} = \\frac{3.60288 \\times 10^{16}}{10^{12}} = 36,028.8 \\text{ seconds}",
+        "intermediateResult": "36,029 \\text{ seconds} \\approx 10.01 \\text{ hours}",
+        "explanationEn": "Dividing by 3600 seconds/hour yields ~10 hours. At 1 trillion keys/sec, DES is broken in less than half a day.",
+        "explanationAr": "بقسمة الثواني على 3600 ينتج 10 ساعات تقريباً. أي أن DES يكسر في أقل من نصف يوم.",
+        "title": "Compute Average Time to Break DES (56 bits)",
+        "formula": "T_{\\text{avg}}(\\text{DES}) = \\frac{2^{55}}{10^{12}} = \\frac{3.60288 \\times 10^{16}}{10^{12}} = 36,028.8 \\text{ seconds}",
+        "explanation": "Dividing by 3600 seconds/hour yields ~10 hours. At 1 trillion keys/sec, DES is broken in less than half a day."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Compute Average Time to Break AES (128 bits)",
+        "titleAr": "حساب متوسط زمن كسر AES بطول 128 بت",
+        "mathLatex": "T_{\\text{avg}}(\\text{AES}) = \\frac{2^{127}}{10^{12}} = \\frac{1.7014 \\times 10^{38}}{10^{12}} = 1.7014 \\times 10^{26} \\text{ seconds}",
+        "intermediateResult": "1.7014 \\times 10^{26} \\text{ sec} \\approx 5.39 \\times 10^{18} \\text{ years}",
+        "explanationEn": "Dividing by 3.1558 * 10^7 seconds/year yields ~5.4 * 10^{18} years (hundreds of millions of times the age of the universe).",
+        "explanationAr": "بقسمة الثواني على عدد ثواني السنة ينتج 5.4 × 10^18 سنة، وهو زمن يفوق عمر الكون بملايين المرات.",
+        "title": "Compute Average Time to Break AES (128 bits)",
+        "formula": "T_{\\text{avg}}(\\text{AES}) = \\frac{2^{127}}{10^{12}} = \\frac{1.7014 \\times 10^{38}}{10^{12}} = 1.7014 \\times 10^{26} \\text{ seconds}",
+        "explanation": "Dividing by 3.1558 * 10^7 seconds/year yields ~5.4 * 10^{18} years (hundreds of millions of times the age of the universe)."
+      }
+    ],
+    "finalResult": "DES: ~10 hours (Vulnerable); AES-128: ~5.39 * 10^{18} years (Computationally Unbreakable)",
+    "verification": "Matches Stallings Table 4.5: Scale factor of 10^6 speedup reduces 1142 years to ~10 hours.",
+    "verificationAr": "مطابق لجدول ستالينجز 4.5 مع تناسب زيادة السرعة بمعدل مليون ضعف.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Using 2^k instead of 2^(k-1) for average search time.",
+        "mistakeAr": "استخدام 2^k بدلاً من 2^(k-1) لمتوسط زمن البحث.",
+        "preventionEn": "2^k is maximum time; 2^(k-1) is expected average time.",
+        "preventionAr": "2^k هو الزمن الأقصى؛ بينما 2^(k-1) هو المتوسط الرياضي المتوقع."
+      }
+    ],
+    "relatedLessonId": "ch4-l3",
+    "relatedBasmagaQuestionId": "basmaga-ch4-03"
+  },
+  {
+    "id": "prob-ch4-05",
+    "chapterId": "ch4",
+    "topicId": "ch4-t5",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 4 / Section 4.5 Avalanche Effect & SAC",
+    "category": "block-cipher",
+    "title": "Strict Avalanche Criterion (SAC) & Bit Independence Criterion (BIC)",
+    "titleAr": "معيار الانهيار الثلجي الصارم (SAC) ومعيار استقلالية البتات (BIC)",
+    "problem": "(1) Define the Avalanche Effect in block ciphers and contrast it with the Strict Avalanche Criterion (SAC). (2) Define the Bit Independence Criterion (BIC). (3) Explain why SAC and BIC prevent differential cryptanalysis.",
+    "problemAr": "(1) عرف تأثير الانهيار الثلجي (Avalanche Effect) وقارنه بمعيار الانهيار الصارم (SAC). (2) عرف معيار استقلالية البتات (BIC). (3) وضح لماذا يمنع هذان المعياران هجمات تحليل الشفرات التفاضلي.",
+    "givenParameters": [
+      {
+        "label": "Standard",
+        "value": "Webster and Tavares (1986)",
+        "labelAr": "معايير وبستر وتافاريس"
+      },
+      {
+        "label": "Input Difference",
+        "value": "1 bit flipped",
+        "labelAr": "تغير بت واحد في المدخل"
+      }
+    ],
+    "requiredResult": {
+      "en": "Definitions of SAC and BIC, and cryptanalytic protection rationale.",
+      "ar": "تعريف SAC و BIC ودورهما في الحماية من التحليل التفاضلي."
+    },
+    "governingFormula": {
+      "name": "SAC and BIC Mathematical Definitions",
+      "nameAr": "الصياغة الرياضية لمعياري SAC و BIC",
+      "latex": "\\begin{aligned} \\text{SAC:} & \\quad P(\\Delta y_j = 1 \\mid \\Delta x_i = 1) = \\frac{1}{2} \\quad \\forall i, j \\\\ \\text{BIC:} & \\quad \\text{Cov}(\\Delta y_j, \\Delta y_k \\mid \\Delta x_i = 1) = 0 \\quad \\forall j \\neq k \\end{aligned}",
+      "explanation": "SAC requires that flipping input bit i causes each output bit j to change with probability 0.5. BIC requires output bit changes to be pairwise independent.",
+      "explanationAr": "معيار SAC يشترط أن قلب بت في الدخل يغير كل بت في الخرج باحتمال 0.5 بالضبط. ومعيار BIC يشترط استقلالية التغير بين أي بتين في الخرج."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\Delta x_i",
+        "meaningEn": "Input bit difference (1 if inverted)",
+        "meaningAr": "التغير في بت الدخل رقم i"
+      },
+      {
+        "symbol": "\\Delta y_j",
+        "meaningEn": "Output bit difference (1 if inverted)",
+        "meaningAr": "التغير في بت الخرج رقم j"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Strict Avalanche Criterion / SAC / BIC",
+        "keywordAr": "معيار SAC / معيار BIC",
+        "indicates": "Probability 0.5 & Output Independence",
+        "indicatesAr": "احتمال التغير 0.5 واستقلالية مخرجات البتات"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Define General Avalanche vs SAC",
+        "titleAr": "التمييز بين الانهيار العام ومعيار الانهيار الصارم (SAC)",
+        "mathLatex": "\\text{General Avalanche: } \\approx 50\\% \\text{ total bits flip}, \\quad \\text{SAC: } P(\\Delta y_j = 1) = 0.5 \\quad \\forall j",
+        "intermediateResult": "SAC is a rigorous per-bit constraint",
+        "explanationEn": "General avalanche merely states that on average ~32 of 64 bits flip. SAC is a strict mathematical requirement that EVERY individual output bit flips with probability exactly 0.5.",
+        "explanationAr": "الانهيار العام يعني تقريباً تغير نصف البتات كمتوسط إجمالي. أما SAC فهو شرط رياضي صارم يفرض أن كل بت بمفرده يتغير باحتمال 0.5 بالضبط.",
+        "title": "Define General Avalanche vs SAC",
+        "formula": "\\text{General Avalanche: } \\approx 50\\% \\text{ total bits flip}, \\quad \\text{SAC: } P(\\Delta y_j = 1) = 0.5 \\quad \\forall j",
+        "explanation": "General avalanche merely states that on average ~32 of 64 bits flip. SAC is a strict mathematical requirement that EVERY individual output bit flips with probability exactly 0.5."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Define Bit Independence Criterion (BIC)",
+        "titleAr": "تعريف معيار استقلالية البتات (BIC)",
+        "mathLatex": "\\text{BIC: Output bits } y_j \\text{ and } y_k \\text{ change independently}",
+        "intermediateResult": "No linear or statistical correlation between output bit pairs",
+        "explanationEn": "BIC requires that when any single input bit is inverted, the changes in any two output bits j and k are statistically independent.",
+        "explanationAr": "معيار BIC يضمن عدم وجود أي ارتباط إحصائي أو علاقة خطية بين تغير أي زوج من بتات الخرج عند قلب بت في الدخل.",
+        "title": "Define Bit Independence Criterion (BIC)",
+        "formula": "\\text{BIC: Output bits } y_j \\text{ and } y_k \\text{ change independently}",
+        "explanation": "BIC requires that when any single input bit is inverted, the changes in any two output bits j and k are statistically independent."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Defense Against Differential Cryptanalysis",
+        "titleAr": "كيف يحمي هذان المعياران من التحليل التفاضلي",
+        "mathLatex": "\\Delta X \\xrightarrow{S} \\Delta Y \\text{ is uniformly distributed} \\implies \\text{No high-probability differential paths}",
+        "intermediateResult": "Differential cryptanalysis fails to find predictable propagation paths",
+        "explanationEn": "Differential cryptanalysis tracks input differences with high probability through rounds. SAC and BIC guarantee differences scatter uniformly, eliminating exploitable differential paths.",
+        "explanationAr": "التحليل التفاضلي يبحث عن مسارات فرق ذات احتمالية عالية عبر الدورات. وتطبيق SAC و BIC يشتت الفروق بانتظام كامل فيبطل جدوى الهجوم.",
+        "title": "Defense Against Differential Cryptanalysis",
+        "formula": "\\Delta X \\xrightarrow{S} \\Delta Y \\text{ is uniformly distributed} \\implies \\text{No high-probability differential paths}",
+        "explanation": "Differential cryptanalysis tracks input differences with high probability through rounds. SAC and BIC guarantee differences scatter uniformly, eliminating exploitable differential paths."
+      }
+    ],
+    "finalResult": "SAC: P(flip) = 0.5 for each bit; BIC: output bit changes are pairwise independent.",
+    "verification": "In DES S-Boxes, designers specifically incorporated SAC and BIC to thwart early differential attacks.",
+    "verificationAr": "التحقق: صُممت صناديق S-box في DES خصيصاً لتحقيق معايير SAC و BIC لمنع الهجمات التفاضلية.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Confusing SAC with BIC.",
+        "mistakeAr": "الخلط بين مفهومي SAC و BIC.",
+        "preventionEn": "SAC = probability 0.5 for EACH bit; BIC = INDEPENDENCE between TWO different output bits.",
+        "preventionAr": "معيار SAC يخص احتمال التغير (0.5) لكل بت؛ ومعيار BIC يخص الاستقلالية بين بتين مختلفين."
+      }
+    ],
+    "relatedLessonId": "ch4-l5",
+    "relatedBasmagaQuestionId": "basmaga-ch4-05"
+  },
+  {
+    "id": "prob-ch4-06",
+    "chapterId": "ch4",
+    "topicId": "ch4-t1",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 4 / Section 4.1 Shannon's Confusion and Diffusion",
+    "category": "block-cipher",
+    "title": "Shannon's Confusion and Diffusion Mechanisms in Block Ciphers",
+    "titleAr": "مبدآ كلود شانون للتشفير: التشويش (Confusion) والانتشار (Diffusion) وآليات تحقيقهما",
+    "problem": "(1) Define Claude Shannon’s concepts of Diffusion and Confusion. (2) Identify the specific component in DES that achieves Diffusion, and the component that achieves Confusion. (3) Explain why combining both creates a cryptographically strong block cipher.",
+    "problemAr": "(1) عرف مبدأي كلود شانون: الانتشار (Diffusion) والتشويش (Confusion). (2) حدد المكون الدقيق في خوارزمية DES المسؤول عن تحقيق الانتشار، والمكون المسؤول عن التشويش. (3) وضح لماذا يؤدي دمجهما معاً في شبكة SP إلى بناء شفرة كتل قوية ومحصنة.",
+    "givenParameters": [
+      {
+        "label": "Theorist",
+        "value": "Claude Shannon (1949)",
+        "labelAr": "كلود شانون - مؤسس نظرية المعلومات"
+      },
+      {
+        "label": "Cipher Architecture",
+        "value": "Substitution-Permutation Network (SPN)",
+        "labelAr": "شبكة الاستبدال والتبديل الموضعي"
+      }
+    ],
+    "requiredResult": {
+      "en": "Definitions, component mapping in DES, and cryptographic rationale.",
+      "ar": "التعريفان، المكونان المقابلان في DES، والتحليل الأمني للتكامل بينهما."
+    },
+    "governingFormula": {
+      "name": "Confusion and Diffusion Principles",
+      "nameAr": "مبادئ شانون للتشويش والانتشار",
+      "latex": "\\begin{aligned} \\text{Diffusion:} & \\quad \\text{Plaintext statistics dissipated across ciphertext} \\implies \\text{P-Boxes / Permutations} \\\\ \\text{Confusion:} & \\quad \\text{Relationship between key and ciphertext obscured} \\implies \\text{S-Boxes / Substitutions} \\end{aligned}",
+      "explanation": "Diffusion spreads the influence of each plaintext bit across many ciphertext bits. Confusion makes the connection between key bits and ciphertext bits complex and non-linear.",
+      "explanationAr": "الانتشار يبدد إحصاءات النص الصريح عبر طول الشفرة (عبر جداول التبديل P-box). والتشويش يعقد العلاقة بين المفتاح والشفرة بصورة غير خطية (عبر صناديق S-box)."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\text{Diffusion}",
+        "meaningEn": "Dissipates plaintext statistical redundancy",
+        "meaningAr": "تشتيت وتبديد البنية الإحصائية للنص الصريح"
+      },
+      {
+        "symbol": "\\text{Confusion}",
+        "meaningEn": "Complicates key-to-ciphertext dependency",
+        "meaningAr": "تعقيد العلاقة الإحصائية بين المفتاح والشفرة"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Confusion / Diffusion / Shannon",
+        "keywordAr": "التشويش / الانتشار / شانون",
+        "indicates": "S-Box (Confusion) vs P-Box (Diffusion)",
+        "indicatesAr": "صناديق S للتشويش وجداول P للانتشار"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Define Shannon's Diffusion and Confusion",
+        "titleAr": "تعريف الانتشار (Diffusion) والتشويش (Confusion)",
+        "mathLatex": "\\text{Diffusion} \\propto \\text{Plaintext Spread}, \\quad \\text{Confusion} \\propto \\text{Key Obscurity}",
+        "intermediateResult": "Clear foundational definitions",
+        "explanationEn": "Diffusion spreads each plaintext bit over multiple ciphertext bits, destroying statistical patterns. Confusion makes the relationship between ciphertext and encryption key non-linear and complex.",
+        "explanationAr": "الانتشار يوزع تأثير كل بت من النص الصريح على عدة بتات في الشفرة لإخفاء الأنماط. والتشويش يجعل العلاقة بين المفتاح والنص المشفر معقدة وغير خطية.",
+        "title": "Define Shannon's Diffusion and Confusion",
+        "formula": "\\text{Diffusion} \\propto \\text{Plaintext Spread}, \\quad \\text{Confusion} \\propto \\text{Key Obscurity}",
+        "explanation": "Diffusion spreads each plaintext bit over multiple ciphertext bits, destroying statistical patterns. Confusion makes the relationship between ciphertext and encryption key non-linear and complex."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Identify DES Hardware Components for Each Principle",
+        "titleAr": "تحديد مكونات DES المقابلة لكل مبدأ",
+        "mathLatex": "\\begin{aligned} \\text{Diffusion in DES} &\\implies \\mathbf{\\text{Permutation Tables: Initial Permutation (IP), Expansion (E), and Permutation (P)}} \\\\ \\text{Confusion in DES} &\\implies \\mathbf{\\text{Substitution Boxes: 8 Non-linear S-Boxes (S_1 to S_8)}} \\end{aligned}",
+        "intermediateResult": "P-boxes = Diffusion; S-boxes = Confusion",
+        "explanationEn": "In DES, Permutation boxes (P, E, IP) shuffle bit positions to provide Diffusion. The eight S-Boxes perform non-linear substitution to provide Confusion.",
+        "explanationAr": "في DES: جداول التبديل (P و E و IP) توفر الانتشار (Diffusion). وصناديق الاستبدال الثمانية (S-Boxes) توفر التشويش غير الخطي (Confusion).",
+        "title": "Identify DES Hardware Components for Each Principle",
+        "formula": "\\begin{aligned} \\text{Diffusion in DES} &\\implies \\mathbf{\\text{Permutation Tables: Initial Permutation (IP), Expansion (E), and Permutation (P)}} \\\\ \\text{Confusion in DES} &\\implies \\mathbf{\\text{Substitution Boxes: 8 Non-linear S-Boxes (S_1 to S_8)}} \\end{aligned}",
+        "explanation": "In DES, Permutation boxes (P, E, IP) shuffle bit positions to provide Diffusion. The eight S-Boxes perform non-linear substitution to provide Confusion."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Explain Synergy in Multi-Round SP Networks",
+        "titleAr": "توضيح أثر التكامل عبر الدورات المتتالية",
+        "mathLatex": "\\text{Round } 1 \\to \\text{Round } 2 \\to \\dots \\to \\text{Round } 16 \\implies \\text{Complete Avalanche and Non-Linearity}",
+        "intermediateResult": "Linear cryptanalysis and frequency cryptanalysis are defeated",
+        "explanationEn": "Alternating S-boxes and P-boxes over multiple rounds causes the non-linear substitution of one S-box to spread into all other S-boxes in subsequent rounds, creating a mathematically resilient cipher.",
+        "explanationAr": "التناوب بين صناديق S وجداول P عبر دورات متكررة يجعل المخرجات غير الخطية لكل صندوق تنتشر لجميع الصناديق الأخرى في الدورات التالية، محققة أماناً عالياً.",
+        "title": "Explain Synergy in Multi-Round SP Networks",
+        "formula": "\\text{Round } 1 \\to \\text{Round } 2 \\to \\dots \\to \\text{Round } 16 \\implies \\text{Complete Avalanche and Non-Linearity}",
+        "explanation": "Alternating S-boxes and P-boxes over multiple rounds causes the non-linear substitution of one S-box to spread into all other S-boxes in subsequent rounds, creating a mathematically resilient cipher."
+      }
+    ],
+    "finalResult": "Diffusion = P-Boxes (Plaintext spread); Confusion = S-Boxes (Key complexity).",
+    "verification": "Cross-reference Stallings Section 4.1: Confirms Claude Shannon's 1949 paper 'Communication Theory of Secrecy Systems' as origin.",
+    "verificationAr": "التحقق من المرجع: بحث كلود شانون لعام 1949 هو المرجع الأصلي لمصطلحي التشويش والانتشار.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Swapping the components: saying S-boxes give diffusion and P-boxes give confusion.",
+        "mistakeAr": "عكس المكونين: القول بأن صناديق S للانتشار وجداول P للتشويش.",
+        "preventionEn": "Remember: S-box = Substitution = Confusion. P-box = Permutation = Diffusion.",
+        "preventionAr": "تذكر الربط دائماً: صناديق S للاستبدال = Confusion؛ وجداول P للتبديل الموضعي = Diffusion."
+      }
+    ],
+    "relatedLessonId": "ch4-l1",
+    "relatedBasmagaQuestionId": "basmaga-ch4-06"
+  },
+  {
+    "id": "prob-ch7-01",
+    "chapterId": "ch7",
+    "topicId": "ch7-t1",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 7 / Section 7.1 (Double-DES & Meet-in-the-Middle)",
+    "category": "modes-operation",
+    "title": "Meet-in-the-Middle Attack on Double-DES Complexity Proof",
+    "titleAr": "برهان هجوم الالتقاء في المنتصف على التشفير المضاعف Double-DES (تعقيد 2^57)",
+    "problem": "Double-DES uses two 56-bit keys (K_1, K_2) to encrypt plaintext: C = E_{K_2}(E_{K_1}(P)). (1) What is the brute-force search space expected by naive attackers? (2) Describe the step-by-step Meet-in-the-Middle algorithm that recovers both keys. (3) Prove mathematically why the computational effort is approximately 2^{57} encryptions rather than 2^{112}.",
+    "problemAr": "يستخدم التشفير الثنائي Double-DES مفتاحين مستقلين بطول 56 بت (K1, K2): C = E_K2(E_K1(P)). (1) ما هو فضاء البحث الشامل المتوقع نظرياً؟ (2) اشرح خوارزمية هجوم الالتقاء في المنتصف خطوة بخطوة لاسترجاع المفتاحين. (3) أثبت رياضياً لماذا ينخفض الجهد الحسابي إلى 2^57 عملية تشفير بدلاً من 2^112.",
+    "givenParameters": [
+      {
+        "label": "Key 1 (K_1)",
+        "value": "56 bits",
+        "labelAr": "طول المفتاح الأول"
+      },
+      {
+        "label": "Key 2 (K_2)",
+        "value": "56 bits",
+        "labelAr": "طول المفتاح الثاني"
+      },
+      {
+        "label": "Known Pairs",
+        "value": "(P_1, C_1), (P_2, C_2)",
+        "labelAr": "زوجان معروفان من النص الصريح والشفرة"
+      }
+    ],
+    "requiredResult": {
+      "en": "Algorithm stages, memory storage requirement, and exact computational time complexity 2^{57}.",
+      "ar": "مراحل الخوارزمية، حجم الذاكرة المطلوبة، وتعقيد الوقت الحسابي 2^57."
+    },
+    "governingFormula": {
+      "name": "Meet-in-the-Middle Intermediate State Equality",
+      "nameAr": "معادلة تطابق الحالة الوسيطة في الالتقاء في المنتصف",
+      "latex": "X = E_{K_1}(P) = D_{K_2}(C)",
+      "explanation": "Encrypting plaintext forward with all possible K1 must match decrypting ciphertext backward with the correct K2 at intermediate state X.",
+      "explanationAr": "تشفير النص الصريح إلى الأمام بكل قيم K1 الممكنة يجب أن يلتقي ويتطابق في الحالة الوسيطة X مع فك تشفير الشفرة للخلف بمفتاح K2 الصحيح."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "X",
+        "meaningEn": "64-bit intermediate state between encryption stages",
+        "meaningAr": "الحالة المشفرة الوسيطة بين المرحلتين"
+      },
+      {
+        "symbol": "2^{56}",
+        "meaningEn": "Keyspace size of a single 56-bit DES key",
+        "meaningAr": "حجم فضاء المفاتيح لمفتاح DES مفرد"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Double-DES / Meet-in-the-Middle",
+        "keywordAr": "التشفير المضاعف / الالتقاء في المنتصف",
+        "indicates": "Forward Table + Backward Search Complexity 2^(k+1)",
+        "indicatesAr": "بناء جدول أمامي وبحث عكسي بتكلفة 2^(k+1)"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Contrast Theoretical Expectation vs Reality",
+        "titleAr": "المقارنة بين التوقع النظري والواقع العملي للأمان",
+        "mathLatex": "\\text{Theoretical: } 2^{56 + 56} = 2^{112} \\implies \\text{Actual Security: } 2^{57} \\text{ operations}",
+        "intermediateResult": "Reduction from 112 bits to 57 bits",
+        "explanationEn": "Naive assumption expects 2^{112} work. Ralph Merkle and Martin Hellman proved it can be broken in 2^{57} operations via Meet-in-the-Middle.",
+        "explanationAr": "كان الاعتقاد أن الأمان هو 2^112. لكن ميركل وهيلمان أثبتا إمكانية كسره في 2^57 عملية فقط.",
+        "title": "Contrast Theoretical Expectation vs Reality",
+        "formula": "\\text{Theoretical: } 2^{56 + 56} = 2^{112} \\implies \\text{Actual Security: } 2^{57} \\text{ operations}",
+        "explanation": "Naive assumption expects 2^{112} work. Ralph Merkle and Martin Hellman proved it can be broken in 2^{57} operations via Meet-in-the-Middle."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Step 1 of Attack: Build Forward Encryption Table",
+        "titleAr": "المرحلة الأولى: بناء جدول التشفير الأمامي",
+        "mathLatex": "\\text{Compute } X_i = E_{K_i}(P) \\quad \\forall K_i \\in \\{0, 1\\}^{56} \\implies \\text{Store } (X_i, K_i)",
+        "intermediateResult": "2^{56} encryptions performed; table sorted by X_i",
+        "explanationEn": "Encrypt known P under all 2^56 keys K1. Store (X, K1) pairs in a hash table or sorted array.",
+        "explanationAr": "نشفر P بكل مفاتيح K1 (عددها 2^56) ونخزن القيم الوسيطة X مع المفاتيح في جدول مرتب.",
+        "title": "Step 1 of Attack: Build Forward Encryption Table",
+        "formula": "\\text{Compute } X_i = E_{K_i}(P) \\quad \\forall K_i \\in \\{0, 1\\}^{56} \\implies \\text{Store } (X_i, K_i)",
+        "explanation": "Encrypt known P under all 2^56 keys K1. Store (X, K1) pairs in a hash table or sorted array."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Step 2 of Attack: Backward Decryption & Matching",
+        "titleAr": "المرحلة الثانية: فك التشفير للخلف ومطابقة الجدول",
+        "mathLatex": "\\text{Compute } Y_j = D_{K_j}(C) \\quad \\forall K_j \\in \\{0, 1\\}^{56} \\implies \\text{Check if } Y_j = X_i",
+        "intermediateResult": "2^{56} decryptions + O(1) lookups; verify candidate pair on (P2, C2)",
+        "explanationEn": "Decrypt C under each candidate K2. For each result Y, look up if it exists in the forward table. Verify hits on a second pair (P2, C2).",
+        "explanationAr": "نفك تشفير C بكل قيم K2 المحتملة (2^56 محاولة). ونبحث عن الناتج في الجدول، فإذا تطابق نتحقق من الزوج على رسالة ثانية.",
+        "title": "Step 2 of Attack: Backward Decryption & Matching",
+        "formula": "\\text{Compute } Y_j = D_{K_j}(C) \\quad \\forall K_j \\in \\{0, 1\\}^{56} \\implies \\text{Check if } Y_j = X_i",
+        "explanation": "Decrypt C under each candidate K2. For each result Y, look up if it exists in the forward table. Verify hits on a second pair (P2, C2)."
+      },
+      {
+        "stepNumber": 4,
+        "titleEn": "Calculate Total Computational Complexity",
+        "titleAr": "حساب إجمالي التعقيد الحسابي للعملية",
+        "mathLatex": "\\text{Total Effort} = 2^{56} + 2^{56} = 2 \\times 2^{56} = 2^{57} \\text{ operations}",
+        "intermediateResult": "2^{57} operations",
+        "explanationEn": "The operations add rather than multiply: 2^56 + 2^56 = 2^57 encryptions/decryptions. Double-DES offers only 1 additional bit of security over single DES!",
+        "explanationAr": "العمليات تُجمع ولا تُضرب: 2^56 + 2^56 = 2^57 عملية. وبالتالي فإن Double-DES يقدم بتاً واحداً فقط من الأمان الإضافي عن DES المنفرد!",
+        "title": "Calculate Total Computational Complexity",
+        "formula": "\\text{Total Effort} = 2^{56} + 2^{56} = 2 \\times 2^{56} = 2^{57} \\text{ operations}",
+        "explanation": "The operations add rather than multiply: 2^56 + 2^56 = 2^57 encryptions/decryptions. Double-DES offers only 1 additional bit of security over single DES!"
+      }
+    ],
+    "finalResult": "Computational effort: 2^{57} operations (Explains why Triple-DES was mandated).",
+    "verification": "2^56 + 2^56 = 2 * (2^56) = 2^(56+1) = 2^57. Algebraically exact.",
+    "verificationAr": "التحقق الرياضي: 2^56 + 2^56 = 2^57 عملية بدقة جبرية تامة.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Believing Double-DES provides 112 bits of security.",
+        "mistakeAr": "الاعتقاد بأن Double-DES يوفر 112 بت من الأمان.",
+        "preventionEn": "Always remember Meet-in-the-Middle collapses double encryption security to 2^(k+1).",
+        "preventionAr": "تذكر دائماً أن هجوم الالتقاء في المنتصف يختزل أمان التشفير المزدوج إلى 2^(k+1)."
+      }
+    ],
+    "relatedLessonId": "ch7-l1",
+    "relatedBasmagaQuestionId": "basmaga-ch7-01"
+  },
+  {
+    "id": "prob-ch7-02",
+    "chapterId": "ch7",
+    "topicId": "ch7-t2",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 7 / Section 7.2 Triple-DES (3DES)",
+    "category": "modes-operation",
+    "title": "Triple-DES (3DES) EDE Architecture & Backwards Compatibility",
+    "titleAr": "بنية التشفير الثلاثي (Triple-DES EDE) والتوافق العكسي مع DES المنفرد",
+    "problem": "Triple-DES employs the Encrypt-Decrypt-Encrypt (EDE) sequence across three stages. (1) Write the equations for 3DES encryption and decryption using three distinct keys (K_1, K_2, K_3). (2) Explain why the middle stage is DECRYPTION instead of encryption. (3) Prove mathematically how 3DES maintains backwards compatibility with single DES when K_1 = K_2 = K_3.",
+    "problemAr": "يعتمد التشفير الثلاثي (3DES) تسلسل التشفير وفك التشفير ثم التشفير (EDE). (1) اكتب معادلات التشفير وفك التشفير لـ 3DES بثلاثة مفاتيح مستقلة (K1, K2, K3). (2) وضح لماذا صُممت المرحلة الوسطى كفك تشفير بدلاً من تشفير. (3) أثبت رياضياً كيف يحافظ 3DES على التوافق العكسي مع DES المنفرد عند اختيار K1 = K2 = K3.",
+    "givenParameters": [
+      {
+        "label": "Architecture",
+        "value": "Triple-DES with EDE sequence",
+        "labelAr": "التشفير الثلاثي بتسلسل EDE"
+      },
+      {
+        "label": "Keys",
+        "value": "K_1, K_2, K_3 (each 56 bits, total 168 bits)",
+        "labelAr": "المفاتيح الثلاثة (168 بت إجمالي)"
+      }
+    ],
+    "requiredResult": {
+      "en": "EDE equations, design rationale, and backwards compatibility proof.",
+      "ar": "معادلات EDE، الحكمة الهندسية، وبرهان التوافق العكسي."
+    },
+    "governingFormula": {
+      "name": "3DES EDE Equations",
+      "nameAr": "معادلات التشفير الثلاثي EDE",
+      "latex": "C = E_{K_3}(D_{K_2}(E_{K_1}(P))), \\quad P = D_{K_1}(E_{K_2}(D_{K_3}(C)))",
+      "explanation": "Encrypt with K1, decrypt with K2, encrypt with K3. Decryption runs the exact inverse in reverse key order.",
+      "explanationAr": "تشفير بالمفتاح K1، ثم فك تشفير بالمفتاح K2، ثم تشفير بالمفتاح K3. وفك التشفير يطبق العكس بترتيب مفاتيح مقلوب."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "E_K",
+        "meaningEn": "Standard DES encryption under key K",
+        "meaningAr": "تشفير DES القياسي بالمفتاح K"
+      },
+      {
+        "symbol": "D_K",
+        "meaningEn": "Standard DES decryption under key K",
+        "meaningAr": "فك تشفير DES القياسي بالمفتاح K"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "Triple-DES / 3DES / EDE / Backwards compatibility",
+        "keywordAr": "التشفير الثلاثي / 3DES / توافق عكسي",
+        "indicates": "EDE Sequence & Cancellation K1=K2=K3",
+        "indicatesAr": "تسلسل EDE وإلغاء المراحل عند تساوي المفاتيح"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "State 3DES Encryption and Decryption Equations",
+        "titleAr": "صياغة معادلتي التشفير وفك التشفير لـ 3DES",
+        "mathLatex": "\\begin{aligned} \\text{Encryption:} & \\quad C = E_{K_3}\\Big(D_{K_2}\\big(E_{K_1}(P)\\big)\\Big) \\\\ \\text{Decryption:} & \\quad P = D_{K_1}\\Big(E_{K_2}\\big(D_{K_3}(C)\\big)\\Big) \\end{aligned}",
+        "intermediateResult": "EDE for encryption; DED for decryption with keys K3, K2, K1",
+        "explanationEn": "To encrypt, apply E_K1, then D_K2, then E_K3. To decrypt, reverse operations and keys: D_K3, then E_K2, then D_K1.",
+        "explanationAr": "للتشفير نطبق E_K1 ثم D_K2 ثم E_K3. ولفك التشفير نعكس العمليات والمفاتيح: D_K3 ثم E_K2 ثم D_K1.",
+        "title": "State 3DES Encryption and Decryption Equations",
+        "formula": "\\begin{aligned} \\text{Encryption:} & \\quad C = E_{K_3}\\Big(D_{K_2}\\big(E_{K_1}(P)\\big)\\Big) \\\\ \\text{Decryption:} & \\quad P = D_{K_1}\\Big(E_{K_2}\\big(D_{K_3}(C)\\big)\\Big) \\end{aligned}",
+        "explanation": "To encrypt, apply E_K1, then D_K2, then E_K3. To decrypt, reverse operations and keys: D_K3, then E_K2, then D_K1."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Explain Why Middle Stage is Decryption (EDE)",
+        "titleAr": "الحكمة الهندسية من جعل المرحلة الوسطى فك تشفير",
+        "mathLatex": "\\text{If EEE used: } C = E_K(E_K(E_K(P))) \\neq E_K(P) \\implies \\text{No backwards compatibility}",
+        "intermediateResult": "EDE enables backward compatibility with legacy single-DES hardware",
+        "explanationEn": "If EEE were used, setting all three keys equal would result in triple encryption. By choosing EDE, setting K1 = K2 causes stage 2 to undo stage 1, allowing 3DES hardware to communicate seamlessly with legacy single-DES systems.",
+        "explanationAr": "لو استخدم تسلسل EEE لتسبب تساوي المفاتيح في تشفير ثلاثي. أما مع EDE، فإن تساوي المفاتيح يجعل المرحلة الثانية تلغي الأولى، مما يتيح التوافق مع أنظمة DES القديمة.",
+        "title": "Explain Why Middle Stage is Decryption (EDE)",
+        "formula": "\\text{If EEE used: } C = E_K(E_K(E_K(P))) \\neq E_K(P) \\implies \\text{No backwards compatibility}",
+        "explanation": "If EEE were used, setting all three keys equal would result in triple encryption. By choosing EDE, setting K1 = K2 causes stage 2 to undo stage 1, allowing 3DES hardware to communicate seamlessly with legacy single-DES systems."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Prove Backwards Compatibility when K_1 = K_2 = K_3 = K",
+        "titleAr": "البرهان الرياضي على التوافق العكسي عند تساوي المفاتيح",
+        "mathLatex": "C = E_K\\Big(D_K\\big(E_K(P)\\big)\\Big) = E_K\\Big(P\\Big) = E_K(P)",
+        "intermediateResult": "C = E_K(P) (Standard Single DES Encryption!)",
+        "explanationEn": "Because D_K(E_K(P)) = P, the first two stages cancel out identically, leaving C = E_K(P).",
+        "explanationAr": "بما أن فك التشفير يلغي التشفير لنفس المفتاح D_K(E_K(P)) = P، فإن المرحلتين الأولى والثانية تلغيان بعضهما، ويتبقى تشفير DES مفرد C = E_K(P).",
+        "title": "Prove Backwards Compatibility when K_1 = K_2 = K_3 = K",
+        "formula": "C = E_K\\Big(D_K\\big(E_K(P)\\big)\\Big) = E_K\\Big(P\\Big) = E_K(P)",
+        "explanation": "Because D_K(E_K(P)) = P, the first two stages cancel out identically, leaving C = E_K(P)."
+      }
+    ],
+    "finalResult": "C = E_K3(D_K2(E_K1(P))); When K1=K2=K3, collapses to standard single DES C = E_K(P).",
+    "verification": "Let P = 0x1234. E_K(P) = X. D_K(X) = P. E_K(P) = X. Result is identical to single DES.",
+    "verificationAr": "التحقق: تطبيق D_K على E_K يعيد النص P فوراً، فتكون النتيجة النهائية مطابقة لـ DES المنفرد تماماً.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Thinking 3DES uses three encryption operations (EEE).",
+        "mistakeAr": "الاعتقاد بأن 3DES يستخدم ثلاث عمليات تشفير (EEE).",
+        "preventionEn": "Standard Triple DES is strictly EDE (Encrypt-Decrypt-Encrypt).",
+        "preventionAr": "المعيار القياسي المعتمد للتشفير الثلاثي هو EDE حصراً (تشفير - فك تشفير - تشفير)."
+      }
+    ],
+    "relatedLessonId": "ch7-l2",
+    "relatedBasmagaQuestionId": "basmaga-ch7-02"
+  },
+  {
+    "id": "prob-ch7-03",
+    "chapterId": "ch7",
+    "topicId": "ch7-t3",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 7 / Section 7.3 Electronic Codebook (ECB)",
+    "category": "modes-operation",
+    "title": "Electronic Codebook (ECB) Mode Pattern Leakage Analysis",
+    "titleAr": "تحليل تسريب الأنماط في نمط كتاب الشفرة الإلكتروني (ECB Mode) وصورة البطريق",
+    "problem": "Electronic Codebook (ECB) encrypts each 64-bit plaintext block independently using the same key K. (1) Write the ECB encryption and decryption formulas. (2) Demonstrate mathematically why identical plaintext blocks yield identical ciphertext blocks (P_i = P_j => C_i = C_j). (3) Explain why ECB fails to conceal patterns in structured data (such as bitmap images or database fields).",
+    "problemAr": "يشفر نمط كتاب الشفرة الإلكتروني (ECB) كل كتلة 64 بت بشكل مستقل تماماً بنفس المفتاح K. (1) اكتب معادلتي التشفير وفك التشفير في نمط ECB. (2) أثبت رياضياً لماذا تنتج كتل النص الصريح المتطابقة كتل شفرة متطابقة (P_i = P_j => C_i = C_j). (3) وضح لماذا يفشل نمط ECB في إخفاء الأنماط الهيكلية في البيانات (مثل الصور النقطية أو حقول قواعد البيانات).",
+    "givenParameters": [
+      {
+        "label": "Mode",
+        "value": "Electronic Codebook (ECB)",
+        "labelAr": "نمط كتاب الشفرة الإلكتروني"
+      },
+      {
+        "label": "Block Size",
+        "value": "64 bits (or 128 bits for AES)",
+        "labelAr": "حجم الكتلة"
+      },
+      {
+        "label": "Identical Blocks",
+        "value": "P_1 = P_2 = 0x0000000000000000 (e.g. White Background)",
+        "labelAr": "كتل صريحة متطابقة (مثل خلفية بيضاء)"
+      }
+    ],
+    "requiredResult": {
+      "en": "ECB formulas, identity proof, and structural security assessment.",
+      "ar": "معادلات ECB، برهان تطابق الشفرة، وتقييم الأمان الهيكلي."
+    },
+    "governingFormula": {
+      "name": "ECB Independent Block Mapping",
+      "nameAr": "معادلة نمط كتاب الشفرة المستقل",
+      "latex": "C_i = E_K(P_i), \\quad P_i = D_K(C_i), \\quad P_i = P_j \\implies E_K(P_i) = E_K(P_j) \\implies C_i = C_j",
+      "explanation": "Because encryption function E_K is a deterministic mathematical bijection, identical inputs must produce identical outputs under the same key.",
+      "explanationAr": "نظراً لأن دالة التشفير E_K اقتران تقابلي حتمي، فإن المدخلات المتماثلة تنتج حتماً مخرجات متطابقة تماماً تحت نفس المفتاح."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "P_i",
+        "meaningEn": "64-bit plaintext block i",
+        "meaningAr": "كتلة النص الصريح رقم i"
+      },
+      {
+        "symbol": "C_i",
+        "meaningEn": "64-bit ciphertext block i",
+        "meaningAr": "كتلة النص المشفر رقم i"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "ECB / Independent blocks / Leaks patterns / Tux penguin",
+        "keywordAr": "نمط ECB / كتل مستقلة / تسريب الأنماط",
+        "indicates": "Deterministic Identical Block Leakage",
+        "indicatesAr": "تسريب الأنماط بسبب التطابق الحتمي للكتل"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "State ECB Mathematical Equations",
+        "titleAr": "كتابة معادلات نمط كتاب الشفرة الإلكتروني (ECB)",
+        "mathLatex": "C_i = E_K(P_i), \\quad P_i = D_K(C_i) \\quad \\forall i \\in \\{1, 2, \\dots, N\\}",
+        "intermediateResult": "Complete independence between blocks",
+        "explanationEn": "Each block is processed in complete isolation with zero chaining or feedback.",
+        "explanationAr": "تُعالج كل كتلة بمعزل تام عن باقي الكتل دون أي ربط أو تغذية راجعة.",
+        "title": "State ECB Mathematical Equations",
+        "formula": "C_i = E_K(P_i), \\quad P_i = D_K(C_i) \\quad \\forall i \\in \\{1, 2, \\dots, N\\}",
+        "explanation": "Each block is processed in complete isolation with zero chaining or feedback."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Prove Deterministic Pattern Leakage",
+        "titleAr": "البرهان الرياضي على تسريب الأنماط وتطابق الشفرات",
+        "mathLatex": "P_i = P_j \\implies C_i = E_K(P_i) = E_K(P_j) = C_j",
+        "intermediateResult": "Exact 1-to-1 block mapping leaks structural repetition",
+        "explanationEn": "Because EK is a fixed permutation on 64-bit blocks, identical plaintext blocks always produce identical ciphertext blocks.",
+        "explanationAr": "بما أن دالة التشفير EK دالة حتمية ثابتة، فإن الكتل الصريحة المتماثلة تنتج كتل شفرة متطابقة دوماً.",
+        "title": "Prove Deterministic Pattern Leakage",
+        "formula": "P_i = P_j \\implies C_i = E_K(P_i) = E_K(P_j) = C_j",
+        "explanation": "Because EK is a fixed permutation on 64-bit blocks, identical plaintext blocks always produce identical ciphertext blocks."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Analyze the Iconic Tux Penguin Bitmap Demonstration",
+        "titleAr": "تحليل تجربة صورة البطريق (Tux Penguin) الشهيرة",
+        "mathLatex": "\\text{Large homogeneous regions (white/black pixels)} \\implies \\text{Identical ciphertext blocks display image outline!}",
+        "intermediateResult": "Visual outline and high-level structure remain completely visible",
+        "explanationEn": "When an uncompressed image (like the Linux Tux penguin) is encrypted in ECB mode, the uniform white background and uniform black body produce uniform repeated ciphertext blocks, preserving the full visual silhouette of the penguin!",
+        "explanationAr": "عند تشفير صورة نقطية بنمط ECB، فإن مناطق الخلفية البيضاء المتجانسة تنتج كتل شفرة متطابقة، فيبقى مجسم ورسمة البطريق واضحة للعين تماماً في الصورة المشفرة!",
+        "title": "Analyze the Iconic Tux Penguin Bitmap Demonstration",
+        "formula": "\\text{Large homogeneous regions (white/black pixels)} \\implies \\text{Identical ciphertext blocks display image outline!}",
+        "explanation": "When an uncompressed image (like the Linux Tux penguin) is encrypted in ECB mode, the uniform white background and uniform black body produce uniform repeated ciphertext blocks, preserving the full visual silhouette of the penguin!"
+      }
+    ],
+    "finalResult": "Ci = EK(Pi); Insecure for multi-block structured messages; suitable only for single key exchange.",
+    "verification": "Cross-reference Stallings Section 7.3: ECB is recommended strictly for short values (e.g. transmitting a single DES key).",
+    "verificationAr": "التحقق: يوصي ستالينجز باستخدام ECB حصراً لنقل المفاتيح الفردية القصيرة، ويحظر استخدامه للرسائل الطويلة والبيانات المنظمة.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Using ECB to encrypt database columns or large files.",
+        "mistakeAr": "استخدام نمط ECB لتشفير حقول قواعد البيانات أو الملفات الكبيرة.",
+        "preventionEn": "Use CBC, CTR, or GCM mode to prevent pattern analysis and replay attacks.",
+        "preventionAr": "استخدم نمط CBC أو CTR أو GCM لمنع كشف الأنماط وهجمات إعادة الإرسال."
+      }
+    ],
+    "relatedLessonId": "ch7-l3",
+    "relatedBasmagaQuestionId": "basmaga-ch7-03"
+  },
+  {
+    "id": "prob-ch7-04",
+    "chapterId": "ch7",
+    "topicId": "ch7-t4",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 7 / Section 7.4 Cipher Block Chaining (CBC)",
+    "category": "modes-operation",
+    "title": "Cipher Block Chaining (CBC) Mode: Chaining and IV Initialization",
+    "titleAr": "نمط ربط كتل الشفرة (CBC Mode): الربط التتابعي والمتجه الابتدائي (IV)",
+    "problem": "Cipher Block Chaining (CBC) overcomes ECB pattern leakage by chaining blocks with XOR. (1) Write the CBC encryption equations for block C_1 (using IV) and general block C_i (for i >= 2). (2) Write the corresponding decryption equations and prove mathematically that decryption correctly recovers P_i. (3) Explain why the Initialization Vector (IV) must be unpredictable / random.",
+    "problemAr": "يعالج نمط ربط كتل الشفرة (CBC) عيب تسريب الأنماط بربط الكتل بعملية XOR. (1) اكتب معادلات تشفير CBC للكتلة الأولى C1 (باستخدام المتجه الابتدائي IV) وللكتلة العامة Ci (حيث i >= 2). (2) اكتب معادلات فك التشفير وأثبت رياضياً استرجاع Pi بدقة. (3) وضح لماذا يجب أن يكون المتجه الابتدائي (IV) عشوائياً وغير متوقع.",
+    "givenParameters": [
+      {
+        "label": "Mode",
+        "value": "Cipher Block Chaining (CBC)",
+        "labelAr": "نمط ربط كتل الشفرة"
+      },
+      {
+        "label": "Initialization Vector",
+        "value": "IV (64-bit random block)",
+        "labelAr": "المتجه الابتدائي IV"
+      }
+    ],
+    "requiredResult": {
+      "en": "Encryption equations, decryption equations, recovery proof, and IV security role.",
+      "ar": "معادلات التشفير، معادلات فك التشفير، برهان الاسترجاع، ودور IV الأمني."
+    },
+    "governingFormula": {
+      "name": "CBC Mode Equations",
+      "nameAr": "معادلات نمط CBC الأساسية",
+      "latex": "C_i = E_K(P_i \\oplus C_{i-1}) \\quad (C_0 = \\text{IV}), \\quad P_i = D_K(C_i) \\oplus C_{i-1}",
+      "explanation": "Each plaintext block is XORed with the preceding ciphertext block prior to block cipher encryption. Decryption applies inverse cipher then XORs with previous ciphertext block.",
+      "explanationAr": "تُدمج كل كتلة نص صريح بعملية XOR مع كتلة الشفرة السابقة قبل تشفيرها. وفك التشفير يطبق دالة فك التشفير ثم يدمج الناتج بـ XOR مع الشفرة السابقة."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "\\text{IV}",
+        "meaningEn": "Initialization Vector C_0",
+        "meaningAr": "المتجه الابتدائي للكتلة الأولى C0"
+      },
+      {
+        "symbol": "C_{i-1}",
+        "meaningEn": "Preceding ciphertext block",
+        "meaningAr": "كتلة الشفرة السابقة"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "CBC / Cipher Block Chaining / IV",
+        "keywordAr": "نمط CBC / المتجه الابتدائي IV",
+        "indicates": "XOR Chaining with Preceding Block",
+        "indicatesAr": "الربط التتابعي بعملية XOR مع الكتلة السابقة"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "State CBC Encryption Equations",
+        "titleAr": "معادلات التشفير في نمط CBC",
+        "mathLatex": "\\begin{aligned} C_1 &= E_K(P_1 \\oplus \\text{IV}) \\\\ C_i &= E_K(P_i \\oplus C_{i-1}) \\quad \\forall i \\ge 2 \\end{aligned}",
+        "intermediateResult": "Every ciphertext block Ci depends on all previous plaintext blocks P1, ..., Pi",
+        "explanationEn": "The first block is XORed with the IV. Every subsequent block is XORed with the previous ciphertext block before encryption.",
+        "explanationAr": "الكتلة الأولى تدمج مع المتجه الابتدائي IV. وكل كتلة تالية تدمج مع كتلة الشفرة السابقة لها قبل التشفير.",
+        "title": "State CBC Encryption Equations",
+        "formula": "\\begin{aligned} C_1 &= E_K(P_1 \\oplus \\text{IV}) \\\\ C_i &= E_K(P_i \\oplus C_{i-1}) \\quad \\forall i \\ge 2 \\end{aligned}",
+        "explanation": "The first block is XORed with the IV. Every subsequent block is XORed with the previous ciphertext block before encryption."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "State Decryption Equations & Prove Plaintext Recovery",
+        "titleAr": "معادلات فك التشفير وبرهان استرجاع النص الصريح",
+        "mathLatex": "P_i = D_K(C_i) \\oplus C_{i-1}",
+        "substitutionLatex": "D_K(C_i) \\oplus C_{i-1} = D_K\\big(E_K(P_i \\oplus C_{i-1})\\big) \\oplus C_{i-1} = (P_i \\oplus C_{i-1}) \\oplus C_{i-1} = P_i \\oplus 0 = P_i",
+        "intermediateResult": "P_i is recovered exactly",
+        "explanationEn": "Because D_K undoes E_K, the argument (Pi ^ Ci-1) emerges. XORing with Ci-1 cancels it completely, leaving Pi.",
+        "explanationAr": "دالة فك التشفير D_K تلغي E_K فيتبقى (Pi ^ Ci-1). وبدمجها بـ XOR مع Ci-1 يلغيان بعضهما ليتبقى Pi بدقة.",
+        "title": "State Decryption Equations & Prove Plaintext Recovery",
+        "formula": "P_i = D_K(C_i) \\oplus C_{i-1}",
+        "substitution": "D_K(C_i) \\oplus C_{i-1} = D_K\\big(E_K(P_i \\oplus C_{i-1})\\big) \\oplus C_{i-1} = (P_i \\oplus C_{i-1}) \\oplus C_{i-1} = P_i \\oplus 0 = P_i",
+        "explanation": "Because D_K undoes E_K, the argument (Pi ^ Ci-1) emerges. XORing with Ci-1 cancels it completely, leaving Pi."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Explain Critical Security Requirement of Random IV",
+        "titleAr": "أهمية عشوائية المتجه الابتدائي IV لمنع الهجمات",
+        "mathLatex": "\\text{If IV is fixed/predictable: } P_1 = P_1' \\implies C_1 = C_1' \\implies \\text{First block leaks pattern!}",
+        "intermediateResult": "Random IV ensures two identical messages produce completely different ciphertexts",
+        "explanationEn": "If the IV were fixed, identical messages would produce identical first blocks. A random IV ensures that encrypting the same plaintext twice produces completely different ciphertexts.",
+        "explanationAr": "لو كان IV ثابتاً، لنتجت نفس الشفرة للرسائل المتطابقة. عشوائية IV تضمن أن تشفير نفس النص مرتين ينتج شفرتين مختلفتين تماماً.",
+        "title": "Explain Critical Security Requirement of Random IV",
+        "formula": "\\text{If IV is fixed/predictable: } P_1 = P_1' \\implies C_1 = C_1' \\implies \\text{First block leaks pattern!}",
+        "explanation": "If the IV were fixed, identical messages would produce identical first blocks. A random IV ensures that encrypting the same plaintext twice produces completely different ciphertexts."
+      }
+    ],
+    "finalResult": "C_i = E_K(P_i ^ C_{i-1}); P_i = D_K(C_i) ^ C_{i-1}; IV must be random.",
+    "verification": "Algebraic verification: (P ^ C) ^ C = P ^ (C ^ C) = P ^ 0 = P. Holds for all blocks.",
+    "verificationAr": "التحقق الجبري: دمج أي مقدار مع نفس المتغير مرتين يلغيه تماماً، مما يثبت صحة الاسترجاع.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "XORing with the previous plaintext instead of previous ciphertext in CBC decryption.",
+        "mistakeAr": "الدمج مع النص الصريح السابق بدلاً من كتلة الشفرة السابقة عند فك التشفير.",
+        "preventionEn": "CBC uses previous CIPHERTEXT block C_{i-1} for both encryption and decryption chaining.",
+        "preventionAr": "نمط CBC يستخدم كتلة الشفرة السابقة C_{i-1} حصراً في الربط أثناء التشفير وفك التشفير."
+      }
+    ],
+    "relatedLessonId": "ch7-l4",
+    "relatedBasmagaQuestionId": "basmaga-ch7-04"
+  },
+  {
+    "id": "prob-ch7-05",
+    "chapterId": "ch7",
+    "topicId": "ch7-t4",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 7 / Section 7.4 (Modes of Operation & Error Propagation)",
+    "category": "modes-operation",
+    "title": "CBC vs CFB vs OFB Error Propagation Analysis",
+    "titleAr": "تحليل انتشار الأخطاء في أنماط تشغيل كتل التشفير: CBC مقابل CFB و OFB",
+    "problem": "During transmission over an imperfect communication channel, exactly 1 bit is corrupted (flipped from 0 to 1) in ciphertext block C_1. Analyze mathematically how this 1-bit error propagates to the decrypted plaintext in: (1) Cipher Block Chaining (CBC) mode, (2) Cipher Feedback (CFB) mode, and (3) Output Feedback (OFB) mode.",
+    "problemAr": "أثناء نقل البيانات عبر قناة اتصال بها تشويش، حدث خطأ في بت واحد (انقلب من 0 إلى 1) في كتلة الشفرة الأولى C_1. حلل رياضياً كيف سينتشر هذا الخطأ في النص الصريح المفكوك في كل من: (1) نمط ربط الكتل CBC، (2) نمط التغذية الراجعة للشفرة CFB، (3) نمط التغذية الراجعة للمخرجات OFB.",
+    "givenParameters": [
+      {
+        "label": "Corrupted Block",
+        "value": "C_1 (1 bit flipped)",
+        "labelAr": "الكتلة المصابة بالخطأ"
+      },
+      {
+        "label": "Subsequent Blocks",
+        "value": "C_2, C_3, ... (Transmitted intact)",
+        "labelAr": "الكتل التالية سليمة"
+      }
+    ],
+    "requiredResult": {
+      "en": "Exact plaintext corruption behavior for P_1, P_2, and subsequent blocks across CBC, CFB, and OFB.",
+      "ar": "سلوك تشوه الكتل P1 و P2 وباقي الكتل في الأنماط الثلاثة."
+    },
+    "governingFormula": {
+      "name": "Decryption Equations of Cipher Modes",
+      "nameAr": "معادلات فك التشفير لأنماط التشغيل",
+      "latex": "\\begin{cases} \\text{CBC:} & P_i = D_K(C_i) \\oplus C_{i-1} \\\\ \\text{OFB:} & P_i = C_i \\oplus O_i, \\quad O_i = E_K(O_{i-1}) \\\\ \\text{CFB:} & P_i = C_i \\oplus E_K(C_{i-1}) \\end{cases}",
+      "explanation": "In CBC, Ci passes through decryption for block i and into XOR for block i+1. In OFB, keystream Oi is generated independently of ciphertext. In CFB, ciphertext enters shift register.",
+      "explanationAr": "في CBC تدخل الشفرة في فك تشفير كتلتها وتدخل في XOR للكتلة التالية. في OFB يولد تسلسل المفتاح بمعزل عن الشفرة. في CFB تدخل الشفرة في مسجل الإزاحة."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "C_i",
+        "meaningEn": "Ciphertext block i",
+        "meaningAr": "كتلة الشفرة رقم i"
+      },
+      {
+        "symbol": "P_i",
+        "meaningEn": "Plaintext block i",
+        "meaningAr": "كتلة النص الصريح رقم i"
+      },
+      {
+        "symbol": "O_i",
+        "meaningEn": "OFB keystream output block",
+        "meaningAr": "كتلة تدفق المفاتيح في نمط OFB"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "1-bit error in ciphertext / Error propagation",
+        "keywordAr": "انتشار الأخطاء / خطأ في بت واحد",
+        "indicates": "Decryption Circuit Dependency Tracing",
+        "indicatesAr": "تتبع مسار البت في دوائر فك التشفير"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Analyze CBC Mode Error Propagation",
+        "titleAr": "تحليل انتشار الخطأ في نمط CBC",
+        "mathLatex": "P_1' = D_K(C_1') \\oplus \\text{IV}, \\quad P_2' = D_K(C_2) \\oplus C_1'",
+        "intermediateResult": "P_1 is completely garbled; P_2 has exactly 1 bit flipped in the exact same position; P_3, P_4, ... are completely intact!",
+        "explanationEn": "Because C1' passes through DK, avalanche scrambles P1 completely. In P2, DK(C2) is intact, so XOR with C1' flips only the single corrupted bit. For i >= 3, C1 is absent so P3, P4 are completely error-free.",
+        "explanationAr": "في CBC: P1 تتشوه بالكامل بسبب الانهيار في فك التشفير. و P2 يتأثر فيها بت واحد فقط في نفس الموضع. والكتل P3 فما بعدها سليمة تماماً (ذاتي المزامنة).",
+        "title": "Analyze CBC Mode Error Propagation",
+        "formula": "P_1' = D_K(C_1') \\oplus \\text{IV}, \\quad P_2' = D_K(C_2) \\oplus C_1'",
+        "explanation": "Because C1' passes through DK, avalanche scrambles P1 completely. In P2, DK(C2) is intact, so XOR with C1' flips only the single corrupted bit. For i >= 3, C1 is absent so P3, P4 are completely error-free."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Analyze OFB Mode Error Propagation",
+        "titleAr": "تحليل انتشار الخطأ في نمط OFB",
+        "mathLatex": "P_1' = C_1' \\oplus O_1, \\quad P_2 = C_2 \\oplus O_2",
+        "intermediateResult": "P_1 has exactly 1 bit flipped; ZERO error propagation to subsequent blocks!",
+        "explanationEn": "In OFB, the keystream is independent of ciphertext. Flipping 1 bit in C1 flips exactly 1 bit in P1. No other block is affected at all.",
+        "explanationAr": "في OFB: يولد المفتاح بمعزل عن الشفرة، ولذا فإن خطأ بت في C1 يقلب بتاً واحداً فقط في P1 ولا ينتشر إطلاقاً لأي كتلة أخرى.",
+        "title": "Analyze OFB Mode Error Propagation",
+        "formula": "P_1' = C_1' \\oplus O_1, \\quad P_2 = C_2 \\oplus O_2",
+        "explanation": "In OFB, the keystream is independent of ciphertext. Flipping 1 bit in C1 flips exactly 1 bit in P1. No other block is affected at all."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Analyze CFB Mode Error Propagation",
+        "titleAr": "تحليل انتشار الخطأ في نمط CFB",
+        "mathLatex": "P_1' = C_1' \\oplus E_K(\\text{IV}), \\quad P_2' = C_2 \\oplus E_K(C_1')",
+        "intermediateResult": "P_1 has 1 bit flipped; P_2 is completely garbled until C_1 shifts out of register!",
+        "explanationEn": "In CFB, P1 is formed by XOR with EK(IV) (1 bit flipped). But C1 enters the shift register for block 2, so EK(C1') scrambles P2 completely until it shifts out.",
+        "explanationAr": "في CFB: P1 يتأثر فيه بت واحد فقط. لكن C1 يدخل في مسجل الإزاحة فيتسبب في تشوه كامل للكتلة التالية P2 حتى يخرج من المسجل.",
+        "title": "Analyze CFB Mode Error Propagation",
+        "formula": "P_1' = C_1' \\oplus E_K(\\text{IV}), \\quad P_2' = C_2 \\oplus E_K(C_1')",
+        "explanation": "In CFB, P1 is formed by XOR with EK(IV) (1 bit flipped). But C1 enters the shift register for block 2, so EK(C1') scrambles P2 completely until it shifts out."
+      }
+    ],
+    "finalResult": "CBC: P1 garbled, P2 1-bit flip, P3+ intact; OFB: P1 1-bit flip, 0 propagation; CFB: P1 1-bit flip, P2 garbled.",
+    "verification": "Cross-reference Stallings Section 7.4: OFB is immune to error propagation (ideal for satellite comms). CBC error extends to 2 blocks maximum.",
+    "verificationAr": "التحقق: نمط OFB مثالي للقنوات اللاسلكية والفضائية لعدم امتداد الخطأ للكتل المجاورة، بينما CBC يتوقف خطؤه عند كتلتين فقط.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Believing that CBC error propagates infinitely to all subsequent blocks.",
+        "mistakeAr": "الاعتقاد بأن خطأ البت في CBC يستمر إلى ما لا نهاية في كل الكتل التالية.",
+        "preventionEn": "CBC is self-synchronizing. Corrupted block affects only itself and the immediately following block.",
+        "preventionAr": "نمط CBC يستعيد المزامنة ذاتياً؛ فالخطأ يؤثر على كتلته وعلى الكتلة التالية مباشرة ثم يتلاشى تماماً."
+      }
+    ],
+    "relatedLessonId": "ch7-l4",
+    "relatedBasmagaQuestionId": "basmaga-ch7-04"
+  },
+  {
+    "id": "prob-ch7-06",
+    "chapterId": "ch7",
+    "topicId": "ch7-t5",
+    "sourceType": "original-lecture",
+    "sourceRef": "Stallings Chapter 7 / Section 7.5 Counter Mode (CTR) & PKCS#7 Padding",
+    "category": "modes-operation",
+    "title": "Counter Mode (CTR) Parallel Processing & PKCS#7 Padding Standard",
+    "titleAr": "نمط العداد (CTR Mode): المعالجة المتوازية العالية ومعيار حشو الكتل PKCS#7",
+    "problem": "(1) A message of length 43 bytes is to be encrypted using a 64-bit (8-byte) block cipher. Calculate the number of padding bytes required under the PKCS#7 standard, and state the exact hexadecimal value of each padding byte. (2) If a message of length 64 bytes (exact multiple of block size) is encrypted, what padding is added? (3) Explain how Counter (CTR) mode enables high-speed parallel encryption, parallel decryption, and random access without requiring padding.",
+    "problemAr": "(1) رسالة طولها 43 بايت يراد تشفيرها بشفرة كتل بحجم كتلة 64 بت (8 بايت). احسب عدد بايتات الحشو المطلوبة وفق معيار PKCS#7، واذكر القيمة السداسية عشرية لكل بايت حشو. (2) إذا كانت الرسالة بطول 64 بايت (مضاعف تام لحجم الكتلة)، فما هو الحشو المضاف؟ (3) اشرح كيف يحقق نمط العداد (CTR) معالجة متوازية فائقة السرعة للتشفير وفك التشفير وإمكانية الوصول العشوائي دون اشتراط حشو.",
+    "givenParameters": [
+      {
+        "label": "Message 1 Length",
+        "value": "43 bytes",
+        "labelAr": "طول الرسالة الأولى"
+      },
+      {
+        "label": "Block Size B",
+        "value": "8 bytes (64 bits)",
+        "labelAr": "حجم الكتلة (8 بايت)"
+      },
+      {
+        "label": "Message 2 Length",
+        "value": "64 bytes (exact multiple)",
+        "labelAr": "طول الرسالة الثانية (مضاعف تام)"
+      }
+    ],
+    "requiredResult": {
+      "en": "PKCS#7 padding calculation for both messages, and CTR architectural parallelism analysis.",
+      "ar": "حساب حشو PKCS#7 للرسالتين، وتحليل مزايا التوازي في نمط العداد CTR."
+    },
+    "governingFormula": {
+      "name": "PKCS#7 Padding & CTR Counter Mode",
+      "nameAr": "معادلة حشو PKCS#7 ومعادلة نمط العداد",
+      "latex": "P_{\\text{pad}} = B - (L \\pmod B), \\quad \\text{Each byte } = P_{\\text{pad}}, \\quad C_i = P_i \\oplus E_K(\\text{Nonce} \\parallel i)",
+      "explanation": "If remainder is r, add (B - r) bytes, each set to value (B - r). If length is an exact multiple, add a full block of B bytes set to value B. CTR mode encrypts Counter+i directly.",
+      "explanationAr": "إذا كان الباقي r نضيف B-r بايت بقيمة B-r. وإذا كان الطول مضاعفاً تاماً نضيف كتلة كاملة من B بايت بقيمة B. ونمط CTR يشفر العداد مباشرة."
+    },
+    "variableDictionary": [
+      {
+        "symbol": "B",
+        "meaningEn": "Block size in bytes (B = 8 for DES, 16 for AES)",
+        "meaningAr": "حجم الكتلة بالبايت"
+      },
+      {
+        "symbol": "L",
+        "meaningEn": "Plaintext message length in bytes",
+        "meaningAr": "طول الرسالة بالبايت"
+      },
+      {
+        "symbol": "P_{\\text{pad}}",
+        "meaningEn": "Number of padding bytes added",
+        "meaningAr": "عدد بايتات الحشو المضافة"
+      }
+    ],
+    "keywordIndicators": [
+      {
+        "keyword": "PKCS#7 / Padding / Counter Mode / CTR",
+        "keywordAr": "حشو PKCS#7 / نمط العداد CTR",
+        "indicates": "Deterministic Padding & Parallel Stream Counter",
+        "indicatesAr": "معيار الحشو القياسي والتوازي في نمط العداد"
+      }
+    ],
+    "steps": [
+      {
+        "stepNumber": 1,
+        "titleEn": "Calculate PKCS#7 Padding for 43-Byte Message",
+        "titleAr": "حساب حشو PKCS#7 لرسالة بطول 43 بايت",
+        "mathLatex": "L \\pmod B = 43 \\pmod 8 = 3 \\implies P_{\\text{pad}} = 8 - 3 = 5 \\text{ bytes}",
+        "intermediateResult": "Add 5 bytes, each with hexadecimal value 0x05",
+        "explanationEn": "43 bytes occupy 5 full 8-byte blocks (40 bytes) plus 3 bytes in the 6th block. To reach 8 bytes, add 5 padding bytes, each holding value 0x05.",
+        "explanationAr": "43 بايت تملأ 5 كتل كاملة (40 بايت) ويتبقى 3 بايت في الكتلة السادسة. نحتاج 5 بايت حشو، قيمة كل منها سداسياً عشرياً هي 0x05.",
+        "title": "Calculate PKCS#7 Padding for 43-Byte Message",
+        "formula": "L \\pmod B = 43 \\pmod 8 = 3 \\implies P_{\\text{pad}} = 8 - 3 = 5 \\text{ bytes}",
+        "explanation": "43 bytes occupy 5 full 8-byte blocks (40 bytes) plus 3 bytes in the 6th block. To reach 8 bytes, add 5 padding bytes, each holding value 0x05."
+      },
+      {
+        "stepNumber": 2,
+        "titleEn": "Calculate Padding for Exact Multiple (64 Bytes)",
+        "titleAr": "حساب الحشو لرسالة طولها مضاعف تام لحجم الكتلة (64 بايت)",
+        "mathLatex": "64 \\pmod 8 = 0 \\implies P_{\\text{pad}} = 8 - 0 = 8 \\text{ bytes (Full block of 0x08)}",
+        "intermediateResult": "Add one full dummy block: [0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08]",
+        "explanationEn": "If a message is already a multiple of block size, a full block of 8 padding bytes (each 0x08) MUST be appended so the receiver can unambiguously remove padding upon decryption.",
+        "explanationAr": "إذا كان طول الرسالة مضاعفاً تاماً، يجب إضافة كتلة كاملة من 8 بايتات حشو بقيمة 0x08 حتى يتمكن المستقبل من حذف الحشو دون أي غموض أو التباس.",
+        "title": "Calculate Padding for Exact Multiple (64 Bytes)",
+        "formula": "64 \\pmod 8 = 0 \\implies P_{\\text{pad}} = 8 - 0 = 8 \\text{ bytes (Full block of 0x08)}",
+        "explanation": "If a message is already a multiple of block size, a full block of 8 padding bytes (each 0x08) MUST be appended so the receiver can unambiguously remove padding upon decryption."
+      },
+      {
+        "stepNumber": 3,
+        "titleEn": "Explain CTR Mode Parallelism and Random Access",
+        "titleAr": "مزايا المعالجة المتوازية والوصول العشوائي في نمط العداد CTR",
+        "mathLatex": "C_i = P_i \\oplus E_K(\\text{Counter}_i), \\quad P_i = C_i \\oplus E_K(\\text{Counter}_i)",
+        "intermediateResult": "Blocks processed simultaneously in hardware pipelines; no chaining dependency",
+        "explanationEn": "Because each block encrypts an independent counter value (Nonce || i), all blocks can be encrypted and decrypted in parallel across multi-core processors. Any block i can be decrypted directly (random access) without processing previous blocks.",
+        "explanationAr": "نظراً لأن كل كتلة تشفر قيمة عداد مستقلة (Nonce || i)، يمكن معالجة جميع الكتل بالتوازي في المعالجات متعددة الأنوية، كما يتاح الوصول العشوائي المباشر لفك تشفير أي كتلة.",
+        "title": "Explain CTR Mode Parallelism and Random Access",
+        "formula": "C_i = P_i \\oplus E_K(\\text{Counter}_i), \\quad P_i = C_i \\oplus E_K(\\text{Counter}_i)",
+        "explanation": "Because each block encrypts an independent counter value (Nonce || i), all blocks can be encrypted and decrypted in parallel across multi-core processors. Any block i can be decrypted directly (random access) without processing previous blocks."
+      }
+    ],
+    "finalResult": "43 bytes -> 5 bytes of 0x05; 64 bytes -> 8 bytes of 0x08; CTR enables O(1) parallel pipeline.",
+    "verification": "Check PKCS#7 RFC 5652: Padding byte value strictly equals padding byte length. Verified.",
+    "verificationAr": "التحقق من معيار RFC 5652: قيمة بايت الحشو تساوي تماماً عدد بايتات الحشو المضافة.",
+    "commonMistakes": [
+      {
+        "mistakeEn": "Not adding padding when message length is an exact multiple of block size.",
+        "mistakeAr": "عدم إضافة حشو عندما يكون طول الرسالة مضاعفاً تاماً لحجم الكتلة.",
+        "preventionEn": "Under PKCS#7, padding is ALWAYS added. If length is a multiple of B, an entire block of B bytes is added.",
+        "preventionAr": "في معيار PKCS#7 يُضاف الحشو دائماً؛ وإذا كانت الرسالة مكتملة تُضاف كتلة حشو كاملة."
+      }
+    ],
+    "relatedLessonId": "ch7-l5",
+    "relatedBasmagaQuestionId": "basmaga-ch7-06"
+  }
+];

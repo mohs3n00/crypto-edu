@@ -41,18 +41,18 @@ export default function MultipleSelectOptions({
         const isWrongChoice = isSubmitted && isSelected && !isExpected;
 
         let btnStyle =
-          'border-[#E5E5E5] bg-[#FFFFFF] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF] text-[#171717] group';
+          'border-[#E2E2DF] bg-[#FFFFFF] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] text-[#222222] group';
 
         if (isSubmitted) {
           if (isCorrectChoice) {
-            btnStyle = 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-bold shadow-xs';
+            btnStyle = 'border-2 border-[#222222] bg-[#FFFFFF] text-[#222222] font-bold shadow-xs';
           } else if (isWrongChoice) {
-            btnStyle = 'border-[#525252] bg-[#F2F2F2] text-[#525252] line-through';
+            btnStyle = 'border border-dashed border-[#686868] bg-[#ECEDEB] text-[#505050] line-through';
           } else {
-            btnStyle = 'border-[#E5E5E5] bg-[#FAFAFA] text-[#737373] opacity-60';
+            btnStyle = 'border-[#E2E2DF] bg-[#F7F7F5] text-[#686868] opacity-60';
           }
         } else if (isSelected) {
-          btnStyle = 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs';
+          btnStyle = 'border-2 border-[#222222] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs';
         }
 
         const primaryText = isArabic && optionsAr && optionsAr[oIdx] ? optionsAr[oIdx] : optEn;
@@ -72,20 +72,20 @@ export default function MultipleSelectOptions({
               <span
                 className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${
                   isSelected || isCorrectChoice
-                    ? 'border-[#FFFFFF] bg-[#000000]'
-                    : 'border-[#737373] group-hover:border-[#FFFFFF]'
+                    ? 'border-[#222222] bg-[#222222]'
+                    : 'border-[#D4D4D0] bg-[#FFFFFF] group-hover:border-[#222222]'
                 }`}
               >
                 {isSelected && (
-                  <Check className="w-3.5 h-3.5 text-[#FFFFFF]" />
+                  <Check className="w-3.5 h-3.5 text-[#FFFFFF] stroke-[2.5]" />
                 )}
               </span>
 
               <span
                 className={`font-mono text-xs font-bold shrink-0 ${
                   isSelected || isCorrectChoice
-                    ? 'text-[#FFFFFF]'
-                    : 'opacity-75 group-hover:text-[#FFFFFF]'
+                    ? 'text-[#222222]'
+                    : 'text-[#686868] group-hover:text-[#222222]'
                 }`}
               >
                 {String.fromCharCode(65 + oIdx)})
@@ -106,9 +106,9 @@ export default function MultipleSelectOptions({
             {isSubmitted && (
               <span className="shrink-0 ml-2">
                 {isCorrectChoice ? (
-                  <Check className="w-5 h-5 text-[#FFFFFF]" />
+                  <Check className="w-5 h-5 text-[#222222] stroke-[2.5]" />
                 ) : isWrongChoice ? (
-                  <X className="w-5 h-5 text-[#525252]" />
+                  <X className="w-5 h-5 text-[#505050] stroke-[2.5]" />
                 ) : null}
               </span>
             )}

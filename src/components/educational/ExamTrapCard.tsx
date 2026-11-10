@@ -77,7 +77,7 @@ export default function ExamTrapCard({
       <div className="space-y-1">
         <div className="flex items-center gap-2">
           <ShieldAlert size={22} className="text-[#171717] shrink-0" />
-          <h3 className="text-xl sm:text-[22px] font-bold text-[#171717] tracking-tight">
+          <h3 className="text-[22px] sm:text-[24px] font-bold text-[#222222] tracking-tight">
             Trap #{trap.id}: {trap.title}
           </h3>
         </div>
@@ -203,7 +203,7 @@ export default function ExamTrapCard({
           <span className="font-mono text-xs uppercase tracking-wider font-bold text-[#737373] block">
             Concrete Comparison / المقارنة التطبيقية:
           </span>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-[16px]">
+          <div className="flex flex-col space-y-3 w-full text-sm sm:text-[16px]">
             {/* Valid Case */}
             <div className="p-3 border border-[#171717] bg-[#FAFAFA] rounded space-y-1">
               <span className="font-mono text-[11px] uppercase font-bold text-[#171717] block">

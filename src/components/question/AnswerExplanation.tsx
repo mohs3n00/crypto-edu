@@ -33,11 +33,11 @@ export default function AnswerExplanation({
   isArabic = false,
 }: AnswerExplanationProps): React.ReactElement {
   return (
-    <div className="mt-4 p-4 border border-[#E5E5E5] bg-[#FAFAFA] rounded-md space-y-3 text-xs leading-relaxed">
+    <div className="mt-4 p-4 sm:p-5 border border-[#E2E2DF] bg-[#FFFFFF] rounded-md space-y-3.5 leading-relaxed">
       {/* Header with AI Trigger */}
-      <div className="flex items-center justify-between pb-2 border-b border-[#E5E5E5]">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#171717]">
-          <BookOpen className="w-3.5 h-3.5" />
+      <div className="flex items-center justify-between pb-2.5 border-b border-[#E2E2DF]">
+        <div className="flex items-center gap-2 text-sm sm:text-[15px] font-mono font-bold text-[#222222]">
+          <BookOpen className="w-4 h-4 text-[#222222]" />
           <span>
             {isArabic
               ? 'الشرح والتعليل الأكاديمي المعتمد'
@@ -67,23 +67,23 @@ export default function AnswerExplanation({
       </div>
 
       {/* English Rationale */}
-      <div className="space-y-1">
-        <span className="text-[10px] font-mono uppercase tracking-wider text-[#737373] block">
+      <div className="space-y-1.5">
+        <span className="text-xs sm:text-[13px] font-mono uppercase tracking-wider text-[#686868] block">
           Academic Rationale
         </span>
-        <div className="text-[#171717] font-medium leading-relaxed">
+        <div className="text-[#222222] text-[16px] sm:text-[17px] font-medium leading-[1.65]">
           {explanationEn}
         </div>
       </div>
 
       {/* Arabic Rationale */}
       {explanationAr && (
-        <div className="space-y-1 pt-2 border-t border-[#E5E5E5]" dir="rtl">
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[#737373] block">
+        <div className="space-y-1.5 pt-3 border-t border-[#E2E2DF]" dir="rtl">
+          <span className="text-xs sm:text-[13px] font-mono uppercase tracking-wider text-[#686868] block">
             الشرح والتعليل بالعربية
           </span>
           <p
-            className="text-[#171717] font-serif text-[13px] leading-relaxed"
+            className="text-[#505050] font-serif text-[17px] sm:text-[18px] leading-[1.8]"
             style={{ fontFamily: 'var(--font-arabic)' }}
           >
             {explanationAr}
@@ -93,16 +93,16 @@ export default function AnswerExplanation({
 
       {/* Related Lesson Link */}
       {relatedLessonId && (
-        <div className="pt-2 border-t border-[#E5E5E5] flex items-center justify-between text-[11px] font-mono">
-          <span className="text-[#737373]">
+        <div className="pt-2.5 border-t border-[#E2E2DF] flex items-center justify-between text-xs sm:text-[13px] font-mono">
+          <span className="text-[#686868]">
             {isArabic ? 'المفهوم مرتبط بالدرس:' : 'Related Curriculum Lesson:'}
           </span>
           <Link
             to={`/learn/${relatedLessonId}`}
-            className="inline-flex items-center gap-1 font-bold text-[#171717] hover:underline"
+            className="inline-flex items-center gap-1 font-bold text-[#222222] hover:underline"
           >
             <span>{relatedLessonId}</span>
-            <ExternalLink className="w-3 h-3" />
+            <ExternalLink className="w-3.5 h-3.5" />
           </Link>
         </div>
       )}

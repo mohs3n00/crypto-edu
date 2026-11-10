@@ -141,19 +141,44 @@ export default function ReviewHub(): React.ReactElement {
       .filter((q) => (mistakesChapter === 'all' ? true : q.chapterId === mistakesChapter));
   }, [incorrectEntryKeys, mistakesChapter]);
 
+  const getRelatedProblemHash = (formId: string): string => {
+    if (formId.includes('euclidean-ext') || formId.includes('inverse')) return '#prob-ch2-02';
+    if (formId.includes('euclidean') || formId.includes('gcd')) return '#prob-ch2-01';
+    if (formId.includes('totient') || formId.includes('phi')) return '#prob-ch2-04';
+    if (formId.includes('fermat')) return '#prob-ch2-05';
+    if (formId.includes('euler-theorem')) return '#prob-ch2-06';
+    if (formId.includes('chinese-remainder') || formId.includes('crt')) return '#prob-ch2-09';
+    if (formId.includes('primitive-root') || formId.includes('discrete-log')) return '#prob-ch2-10';
+    if (formId.includes('miller-rabin')) return '#prob-ch2-08';
+    if (formId.includes('caesar')) return '#prob-ch3-01';
+    if (formId.includes('playfair')) return '#prob-ch3-03';
+    if (formId.includes('hill')) return '#prob-ch3-05';
+    if (formId.includes('vigenere')) return '#prob-ch3-08';
+    if (formId.includes('vernam') || formId.includes('otp')) return '#prob-ch3-09';
+    if (formId.includes('rail-fence') || formId.includes('transposition')) return '#prob-ch3-10';
+    if (formId.includes('feistel')) return '#prob-ch4-01';
+    if (formId.includes('des') || formId.includes('sbox')) return '#prob-ch4-02';
+    if (formId.includes('avalanche') || formId.includes('sac')) return '#prob-ch4-05';
+    if (formId.includes('3des') || formId.includes('triple-des')) return '#prob-ch7-02';
+    if (formId.includes('cbc')) return '#prob-ch7-04';
+    if (formId.includes('ecb')) return '#prob-ch7-03';
+    if (formId.includes('ctr') || formId.includes('counter')) return '#prob-ch7-06';
+    return '';
+  };
+
   return (
     <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* 1. Page Header */}
-      <div className="border-b border-[#E5E5E5] pb-6 space-y-2">
-        <div className="flex items-center gap-2 text-xs font-mono text-[#737373] uppercase tracking-wider">
-          <Calculator className="w-4 h-4 text-[#171717]" />
+      <div className="border-b border-[#E2E2DF] pb-6 space-y-2">
+        <div className="flex items-center gap-2 text-xs font-mono text-[#686868] uppercase tracking-wider">
+          <Calculator className="w-4 h-4 text-[#222222]" />
           <span>{isArabic ? 'مركز المراجعة والملخصات الأكاديمية' : 'Academic Revision & Examination Hub'}</span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-[#171717]">
+        <h1 className="text-3xl font-bold tracking-tight text-[#222222]">
           {isArabic ? 'القوانين الرياضية، المصطلحات، وفخاخ الامتحانات' : 'Formulas, Terminology, Pitfalls & Weakness Notebook'}
         </h1>
         <p
-          className="text-sm text-[#525252] leading-relaxed"
+          className="text-sm text-[#505050] leading-relaxed"
           style={isArabic ? { fontFamily: 'var(--font-arabic)' } : undefined}
           dir={isArabic ? 'rtl' : 'ltr'}
         >
@@ -164,17 +189,16 @@ export default function ReviewHub(): React.ReactElement {
       </div>
 
       {/* 2. Navigation Tabs */}
-      <div className="border-b border-[#E5E5E5] pb-3">
+      <div className="border-b border-[#E2E2DF] pb-3">
         <div className="flex flex-wrap gap-2 sm:gap-3">
           {/* Formulas Tab */}
           <button
             type="button"
             onClick={() => handleTabChange('formulas')}
-            data-nav-item
             className={`px-4 py-2.5 rounded-md text-[14px] sm:text-[15px] font-medium transition-all inline-flex items-center gap-2.5 border group ${
               activeTab === 'formulas'
-                ? 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs'
-                : 'border-[#E5E5E5] bg-[#FFFFFF] text-[#171717] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF]'
+                ? 'border-[#D4D4D0] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs'
+                : 'border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
             }`}
           >
             <Calculator size={16} className="shrink-0" />
@@ -182,8 +206,8 @@ export default function ReviewHub(): React.ReactElement {
             <span
               className={`font-mono text-[11px] px-2 py-0.5 rounded ${
                 activeTab === 'formulas'
-                  ? 'bg-[#333333] text-[#FFFFFF]'
-                  : 'bg-[#F2F2F2] text-[#525252] group-hover:bg-[#333333] group-hover:text-[#FFFFFF]'
+                  ? 'bg-[#222222] text-[#FFFFFF]'
+                  : 'bg-[#ECEDEB] text-[#505050] group-hover:bg-[#E8E8E5] group-hover:text-[#222222]'
               }`}
             >
               {formulasData.length}
@@ -194,11 +218,10 @@ export default function ReviewHub(): React.ReactElement {
           <button
             type="button"
             onClick={() => handleTabChange('glossary')}
-            data-nav-item
             className={`px-4 py-2.5 rounded-md text-[14px] sm:text-[15px] font-medium transition-all inline-flex items-center gap-2.5 border group ${
               activeTab === 'glossary'
-                ? 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs'
-                : 'border-[#E5E5E5] bg-[#FFFFFF] text-[#171717] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF]'
+                ? 'border-[#D4D4D0] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs'
+                : 'border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
             }`}
           >
             <BookOpen size={16} className="shrink-0" />
@@ -206,8 +229,8 @@ export default function ReviewHub(): React.ReactElement {
             <span
               className={`font-mono text-[11px] px-2 py-0.5 rounded ${
                 activeTab === 'glossary'
-                  ? 'bg-[#333333] text-[#FFFFFF]'
-                  : 'bg-[#F2F2F2] text-[#525252] group-hover:bg-[#333333] group-hover:text-[#FFFFFF]'
+                  ? 'bg-[#222222] text-[#FFFFFF]'
+                  : 'bg-[#ECEDEB] text-[#505050] group-hover:bg-[#E8E8E5] group-hover:text-[#222222]'
               }`}
             >
               {glossaryData.length}
@@ -218,11 +241,10 @@ export default function ReviewHub(): React.ReactElement {
           <button
             type="button"
             onClick={() => handleTabChange('traps')}
-            data-nav-item
             className={`px-4 py-2.5 rounded-md text-[14px] sm:text-[15px] font-medium transition-all inline-flex items-center gap-2.5 border group ${
               activeTab === 'traps'
-                ? 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs'
-                : 'border-[#E5E5E5] bg-[#FFFFFF] text-[#171717] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF]'
+                ? 'border-[#D4D4D0] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs'
+                : 'border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
             }`}
           >
             <Sparkles size={16} className="shrink-0" />
@@ -230,8 +252,8 @@ export default function ReviewHub(): React.ReactElement {
             <span
               className={`font-mono text-[11px] px-2 py-0.5 rounded ${
                 activeTab === 'traps'
-                  ? 'bg-[#333333] text-[#FFFFFF]'
-                  : 'bg-[#F2F2F2] text-[#525252] group-hover:bg-[#333333] group-hover:text-[#FFFFFF]'
+                  ? 'bg-[#222222] text-[#FFFFFF]'
+                  : 'bg-[#ECEDEB] text-[#505050] group-hover:bg-[#E8E8E5] group-hover:text-[#222222]'
               }`}
             >
               {examTrapsData.length} Verified
@@ -242,11 +264,10 @@ export default function ReviewHub(): React.ReactElement {
           <button
             type="button"
             onClick={() => handleTabChange('mindmaps')}
-            data-nav-item
             className={`px-4 py-2.5 rounded-md text-[14px] sm:text-[15px] font-medium transition-all inline-flex items-center gap-2.5 border group ${
               activeTab === 'mindmaps'
-                ? 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs'
-                : 'border-[#E5E5E5] bg-[#FFFFFF] text-[#171717] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF]'
+                ? 'border-[#D4D4D0] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs'
+                : 'border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
             }`}
           >
             <GitBranch size={16} className="shrink-0" />
@@ -254,8 +275,8 @@ export default function ReviewHub(): React.ReactElement {
             <span
               className={`font-mono text-[11px] px-2 py-0.5 rounded ${
                 activeTab === 'mindmaps'
-                  ? 'bg-[#333333] text-[#FFFFFF]'
-                  : 'bg-[#F2F2F2] text-[#525252] group-hover:bg-[#333333] group-hover:text-[#FFFFFF]'
+                  ? 'bg-[#222222] text-[#FFFFFF]'
+                  : 'bg-[#ECEDEB] text-[#505050] group-hover:bg-[#E8E8E5] group-hover:text-[#222222]'
               }`}
             >
               20 Maps
@@ -266,11 +287,10 @@ export default function ReviewHub(): React.ReactElement {
           <button
             type="button"
             onClick={() => handleTabChange('recall')}
-            data-nav-item
             className={`px-4 py-2.5 rounded-md text-[14px] sm:text-[15px] font-medium transition-all inline-flex items-center gap-2.5 border group ${
               activeTab === 'recall'
-                ? 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs'
-                : 'border-[#E5E5E5] bg-[#FFFFFF] text-[#171717] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF]'
+                ? 'border-[#D4D4D0] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs'
+                : 'border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
             }`}
           >
             <Brain size={16} className="shrink-0" />
@@ -278,8 +298,8 @@ export default function ReviewHub(): React.ReactElement {
             <span
               className={`font-mono text-[11px] px-2 py-0.5 rounded ${
                 activeTab === 'recall'
-                  ? 'bg-[#333333] text-[#FFFFFF]'
-                  : 'bg-[#F2F2F2] text-[#525252] group-hover:bg-[#333333] group-hover:text-[#FFFFFF]'
+                  ? 'bg-[#222222] text-[#FFFFFF]'
+                  : 'bg-[#ECEDEB] text-[#505050] group-hover:bg-[#E8E8E5] group-hover:text-[#222222]'
               }`}
             >
               {academicKeywords.length}
@@ -290,11 +310,10 @@ export default function ReviewHub(): React.ReactElement {
           <button
             type="button"
             onClick={() => handleTabChange('mistakes')}
-            data-nav-item
             className={`px-4 py-2.5 rounded-md text-[14px] sm:text-[15px] font-medium transition-all inline-flex items-center gap-2.5 border group ${
               activeTab === 'mistakes'
-                ? 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs'
-                : 'border-[#E5E5E5] bg-[#FFFFFF] text-[#171717] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF]'
+                ? 'border-[#D4D4D0] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs'
+                : 'border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
             }`}
           >
             <RotateCcw size={16} className="shrink-0" />
@@ -302,8 +321,8 @@ export default function ReviewHub(): React.ReactElement {
             <span
               className={`font-mono text-[11px] px-2 py-0.5 rounded ${
                 activeTab === 'mistakes'
-                  ? 'bg-[#333333] text-[#FFFFFF]'
-                  : 'bg-[#F2F2F2] text-[#525252] group-hover:bg-[#333333] group-hover:text-[#FFFFFF]'
+                  ? 'bg-[#222222] text-[#FFFFFF]'
+                  : 'bg-[#ECEDEB] text-[#505050] group-hover:bg-[#E8E8E5] group-hover:text-[#222222]'
               }`}
             >
               {incorrectEntryKeys.length}
@@ -314,11 +333,10 @@ export default function ReviewHub(): React.ReactElement {
           <button
             type="button"
             onClick={() => handleTabChange('due')}
-            data-nav-item
             className={`px-4 py-2.5 rounded-md text-[14px] sm:text-[15px] font-medium transition-all inline-flex items-center gap-2.5 border group ${
               activeTab === 'due'
-                ? 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs'
-                : 'border-[#E5E5E5] bg-[#FFFFFF] text-[#171717] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF]'
+                ? 'border-[#D4D4D0] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs'
+                : 'border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
             }`}
           >
             <CalendarClock size={16} className="shrink-0" />
@@ -326,8 +344,8 @@ export default function ReviewHub(): React.ReactElement {
             <span
               className={`font-mono text-[11px] px-2 py-0.5 rounded ${
                 activeTab === 'due'
-                  ? 'bg-[#333333] text-[#FFFFFF]'
-                  : 'bg-[#F2F2F2] text-[#525252] group-hover:bg-[#333333] group-hover:text-[#FFFFFF]'
+                  ? 'bg-[#222222] text-[#FFFFFF]'
+                  : 'bg-[#ECEDEB] text-[#505050] group-hover:bg-[#E8E8E5] group-hover:text-[#222222]'
               }`}
             >
               {dueTopicsList.length} Due
@@ -346,22 +364,22 @@ export default function ReviewHub(): React.ReactElement {
           />
 
           {/* Search and Chapter Filter */}
-          <div className="p-4 border border-[#E5E5E5] bg-[#FFFFFF] rounded-lg flex flex-col sm:flex-row gap-3">
+          <div className="p-4 border border-[#E2E2DF] bg-[#FFFFFF] rounded-lg flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 text-[#A3A3A3] absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-[#686868] absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search formulas by name, concept, or variable (e.g. Bézout, Totient, Feistel, Hill, CRT)..."
                 value={formulaQuery}
                 onChange={(e) => setFormulaQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs bg-[#FFFFFF] border border-[#E5E5E5] rounded focus:outline-none focus:border-[#171717] text-[#171717]"
+                className="w-full pl-9 pr-3 py-2 text-xs bg-[#FFFFFF] border border-[#E2E2DF] rounded focus:outline-none focus:border-[#222222] text-[#222222]"
               />
             </div>
 
             <select
               value={formulaChapter}
               onChange={(e) => setFormulaChapter(e.target.value)}
-              className="p-2 border border-[#E5E5E5] rounded text-xs bg-[#FFFFFF] text-[#171717] focus:border-[#171717]"
+              className="p-2 border border-[#E2E2DF] rounded text-xs bg-[#FFFFFF] text-[#222222] focus:border-[#222222]"
             >
               <option value="all">All Units ({formulasData.length})</option>
               <option value="ch2">Unit 2: Number Theory ({formulaChapterCounts.ch2})</option>
@@ -391,7 +409,7 @@ export default function ReviewHub(): React.ReactElement {
                 />
 
                 {/* Explanation and Variables Card */}
-                <div className="border border-[#E5E5E5] rounded-lg p-5 bg-[#FAFAFA] space-y-5">
+                <div className="border border-[#E2E2DF] rounded-lg p-5 bg-[#F7F7F5] space-y-5">
                   <FormulaExplanation
                     description={form.description}
                     descriptionAr={form.descriptionAr}
@@ -421,6 +439,19 @@ export default function ReviewHub(): React.ReactElement {
                       verification={form.verification}
                     />
                   )}
+                  {/* Practical-First 7-Step Solving Link */}
+                  <div className="pt-3 border-t border-[#E2E2DF] flex items-center justify-between flex-wrap gap-2.5">
+                    <Link
+                      to={`/problem-solving${getRelatedProblemHash(form.id)}`}
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#222222] text-[#FFFFFF] text-xs font-mono font-bold hover:bg-[#333333] transition-colors shadow-xs"
+                    >
+                      <Calculator size={13} />
+                      <span>7-Step Practical Solving Board • تطبيق المسألة بالخطوات السبع</span>
+                    </Link>
+                    <span className="text-[11px] text-[#686868] font-sans" dir="rtl">
+                      تعلم تطبيق القانون بحل مسألة امتحانية عملية واستخراج المعطيات خطوة بخطوة
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -431,22 +462,22 @@ export default function ReviewHub(): React.ReactElement {
       {/* 4. Bilingual Glossary Tab */}
       {activeTab === 'glossary' && (
         <div className="space-y-6">
-          <div className="p-4 border border-[#E5E5E5] bg-[#FFFFFF] rounded-lg flex flex-col sm:flex-row gap-3">
+          <div className="p-4 border border-[#E2E2DF] bg-[#FFFFFF] rounded-lg flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 text-[#A3A3A3] absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-[#686868] absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search glossary terms in English or Arabic (e.g. Non-repudiation, Confusion, Diffusion)..."
                 value={glossaryQuery}
                 onChange={(e) => setGlossaryQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs bg-[#FFFFFF] border border-[#E5E5E5] rounded focus:outline-none focus:border-[#171717] text-[#171717]"
+                className="w-full pl-9 pr-3 py-2 text-xs bg-[#FFFFFF] border border-[#E2E2DF] rounded focus:outline-none focus:border-[#222222] text-[#222222]"
               />
             </div>
 
             <select
               value={glossaryCategory}
               onChange={(e) => setGlossaryCategory(e.target.value)}
-              className="p-2 border border-[#E5E5E5] rounded text-xs bg-[#FFFFFF] text-[#171717] focus:border-[#171717]"
+              className="p-2 border border-[#E2E2DF] rounded text-xs bg-[#FFFFFF] text-[#222222] focus:border-[#222222]"
             >
               <option value="all">All Categories ({glossaryData.length})</option>
               <option value="Security Concepts">Security Concepts</option>
@@ -461,15 +492,15 @@ export default function ReviewHub(): React.ReactElement {
             {filteredGlossary.map((term: GlossaryTerm) => (
               <div
                 key={term.id}
-                className="border border-[#E5E5E5] rounded-lg p-5 bg-[#FFFFFF] space-y-3 hover:border-[#171717] transition-colors flex flex-col justify-between"
+                className="border border-[#E2E2DF] rounded-lg p-5 bg-[#FFFFFF] space-y-3 hover:border-[#D4D4D0] transition-colors flex flex-col justify-between"
               >
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[10px] uppercase border border-[#E5E5E5] bg-[#FAFAFA] text-[#737373] px-2 py-0.5 rounded">
+                    <span className="font-mono text-[10px] uppercase border border-[#E2E2DF] bg-[#ECEDEB] text-[#505050] px-2 py-0.5 rounded">
                       {term.category}
                     </span>
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-[10px] text-[#A3A3A3] hidden sm:inline">NIST Standards</span>
+                      <span className="font-mono text-[10px] text-[#686868] hidden sm:inline">NIST Standards</span>
                       <AIProviderActions
                         context={{
                           sectionTitle: `Glossary Term: ${term.termEn} (${term.termAr})`,
@@ -482,23 +513,23 @@ export default function ReviewHub(): React.ReactElement {
                   </div>
 
                   <div className="space-y-0.5">
-                    <h3 className="text-base font-bold text-[#171717]">{term.termEn}</h3>
+                    <h3 className="text-base font-bold text-[#222222]">{term.termEn}</h3>
                     <h4
                       dir="rtl"
-                      className="text-xs font-medium text-[#525252] font-serif"
+                      className="text-xs font-medium text-[#505050] font-serif"
                       style={{ fontFamily: 'var(--font-arabic)' }}
                     >
                       {term.termAr}
                     </h4>
                   </div>
 
-                  <p className="text-xs text-[#525252] leading-relaxed">
+                  <p className="text-xs text-[#505050] leading-relaxed">
                     {term.definitionEn}
                   </p>
 
                   <p
                     dir="rtl"
-                    className="text-xs text-[#525252] font-serif leading-relaxed pt-2 border-t border-[#F2F2F2]"
+                    className="text-xs text-[#505050] font-serif leading-relaxed pt-2 border-t border-[#ECEDEB]"
                     style={{ fontFamily: 'var(--font-arabic)' }}
                   >
                     {term.definitionAr}
@@ -513,14 +544,14 @@ export default function ReviewHub(): React.ReactElement {
       {/* 5. Exam Pitfalls & Traps Tab */}
       {activeTab === 'traps' && (
         <div className="space-y-6">
-          <div className="p-5 border-2 border-[#171717] bg-[#FAFAFA] rounded-xl space-y-2">
-            <h3 className="text-base font-bold text-[#171717] flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-[#171717]" />
+          <div className="p-5 border-2 border-[#222222] bg-[#FFFFFF] rounded-xl space-y-2">
+            <h3 className="text-base font-bold text-[#222222] flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-[#222222]" />
               {isArabic
                 ? 'فخاخ امتحانات الميدتيرم والفاينل المصنفة (24 فخاً أكاديمياً)'
                 : 'Classified Examination Traps & Pitfalls (24 Verified Traps)'}
             </h3>
-            <p className="text-xs sm:text-sm text-[#525252] leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#505050] leading-relaxed">
               {isArabic
                 ? 'مستخرجة من امتحانات الميدتيرم لجامعة الزقازيق 2020 و 2022 وبنوك الأسئلة الرسمية لفصول المنهج، مصنفة في 6 فئات (تعريفات، شروط رياضية، حسابات، خوارزميات، بنية الشفرات، وأنماط التشغيل). كل فخ مزود باختبار تفاعلي مصغر.'
                 : 'Extracted from actual Zagazig University midterms (2020 & 2022) and official test banks, classified across Categories A to F and Levels 1 to 3. Each trap contains explicit conditions, refutations, and interactive mini-quizzes.'}
@@ -528,22 +559,22 @@ export default function ReviewHub(): React.ReactElement {
           </div>
 
           {/* Filter Bar for Traps */}
-          <div className="p-4 border border-[#E5E5E5] bg-[#FFFFFF] rounded-lg flex flex-col sm:flex-row gap-3">
+          <div className="p-4 border border-[#E2E2DF] bg-[#FFFFFF] rounded-lg flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 text-[#A3A3A3] absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-[#686868] absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search traps by concept, misconception, or keyword..."
                 value={trapQuery}
                 onChange={(e) => setTrapQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs bg-[#FFFFFF] border border-[#E5E5E5] rounded focus:outline-none focus:border-[#171717] text-[#171717]"
+                className="w-full pl-9 pr-3 py-2 text-xs bg-[#FFFFFF] border border-[#E2E2DF] rounded focus:outline-none focus:border-[#222222] text-[#222222]"
               />
             </div>
 
             <select
               value={trapCategory}
               onChange={(e) => setTrapCategory(e.target.value)}
-              className="p-2 border border-[#E5E5E5] rounded text-xs bg-[#FFFFFF] text-[#171717] focus:border-[#171717]"
+              className="p-2 border border-[#E2E2DF] rounded text-xs bg-[#FFFFFF] text-[#222222] focus:border-[#222222]"
             >
               <option value="all">All Categories ({examTrapsData.length})</option>
               <option value="A. Definition">Cat A: Definitions</option>
@@ -557,7 +588,7 @@ export default function ReviewHub(): React.ReactElement {
             <select
               value={trapDifficulty}
               onChange={(e) => setTrapDifficulty(e.target.value)}
-              className="p-2 border border-[#E5E5E5] rounded text-xs bg-[#FFFFFF] text-[#171717] focus:border-[#171717]"
+              className="p-2 border border-[#E2E2DF] rounded text-xs bg-[#FFFFFF] text-[#222222] focus:border-[#222222]"
             >
               <option value="all">All Difficulty Levels</option>
               <option value="Level 1: Common Misunderstanding">Level 1: Common Misunderstanding</option>
@@ -595,13 +626,13 @@ export default function ReviewHub(): React.ReactElement {
           <PersonalWeaknessReview />
 
           {/* Filter and Re-Practice Section */}
-          <div className="p-4 border border-[#E5E5E5] bg-[#FAFAFA] rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="p-4 border border-[#E2E2DF] bg-[#FFFFFF] rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h3 className="text-sm font-bold text-[#171717] flex items-center gap-2">
+              <h3 className="text-sm font-bold text-[#222222] flex items-center gap-2">
                 <RotateCcw className="w-4 h-4" />
                 Personal Mistakes Record ({incorrectEntryKeys.length} Questions Missed)
               </h3>
-              <p className="text-xs text-[#525252]">
+              <p className="text-xs text-[#505050]">
                 Every question you miss during quizzes, question bank practice, or midterm exams appears here for targeted re-practice.
               </p>
             </div>
@@ -609,7 +640,7 @@ export default function ReviewHub(): React.ReactElement {
             <select
               value={mistakesChapter}
               onChange={(e) => setMistakesChapter(e.target.value)}
-              className="p-2 border border-[#E5E5E5] rounded text-xs bg-[#FFFFFF] text-[#171717] focus:border-[#171717] shrink-0"
+              className="p-2 border border-[#E2E2DF] rounded text-xs bg-[#FFFFFF] text-[#222222] focus:border-[#222222] shrink-0"
             >
               <option value="all">All Units ({incorrectEntryKeys.length})</option>
               <option value="ch1">Unit 1: Security Concepts</option>
@@ -621,15 +652,15 @@ export default function ReviewHub(): React.ReactElement {
           </div>
 
           {mistakeQuestions.length === 0 ? (
-            <div className="p-12 text-center border border-[#E5E5E5] bg-[#FFFFFF] rounded-xl space-y-4">
-              <Check className="w-12 h-12 text-[#171717] mx-auto p-2 border border-[#171717] rounded-full" />
+            <div className="p-12 text-center border border-[#E2E2DF] bg-[#FFFFFF] rounded-xl space-y-4">
+              <Check className="w-12 h-12 text-[#222222] mx-auto p-2 border border-[#222222] rounded-full" />
               <div className="space-y-1">
-                <h4 className="text-base font-bold text-[#171717]">
+                <h4 className="text-base font-bold text-[#222222]">
                   {incorrectEntryKeys.length === 0
                     ? 'No Incorrect Answers Recorded Yet'
                     : 'No Mistakes Found in Selected Unit'}
                 </h4>
-                <p className="text-xs text-[#525252] max-w-md mx-auto leading-relaxed">
+                <p className="text-xs text-[#505050] max-w-md mx-auto leading-relaxed">
                   {incorrectEntryKeys.length === 0
                     ? 'Start testing your knowledge in the Question Bank or take a timed midterm simulation. Any incorrect answers will automatically be saved here.'
                     : 'Try selecting "All Units" to view mistakes from other chapters.'}
@@ -638,7 +669,7 @@ export default function ReviewHub(): React.ReactElement {
 
               <Link
                 to="/practice"
-                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#171717] bg-[#171717] text-[#FFFFFF] rounded-md text-xs font-semibold hover:bg-[#333333] transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#222222] bg-[#222222] text-[#FFFFFF] rounded-md text-xs font-semibold hover:bg-[#000000] transition-colors"
               >
                 <span>Practice Questions Now</span>
                 <ArrowRight className="w-4 h-4" />

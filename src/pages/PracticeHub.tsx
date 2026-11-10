@@ -137,16 +137,16 @@ export default function PracticeHub(): React.ReactElement {
   return (
     <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* 1. Header Banner */}
-      <div className="border-b border-[#E5E5E5] pb-6 space-y-2">
-        <div className="flex items-center gap-2 text-xs font-mono text-[#737373] uppercase tracking-wider">
-          <HelpCircle className="w-4 h-4 text-[#171717]" />
+      <div className="border-b border-[#E2E2DF] pb-6 space-y-2">
+        <div className="flex items-center gap-2 text-xs font-mono text-[#686868] uppercase tracking-wider">
+          <HelpCircle className="w-4 h-4 text-[#222222]" />
           <span>{isArabic ? 'مركز التدريب والتمارين' : 'Practice Hub'}</span>
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-[#171717]">
+        <h1 className="text-3xl font-bold tracking-tight text-[#222222]">
           {isArabic ? 'مركز التدريب، الامتحانات والمختبر التفاعلي' : 'Practice, Exams & Interactive Workbench'}
         </h1>
         <p
-          className="text-sm text-[#525252] leading-relaxed"
+          className="text-sm text-[#505050] leading-relaxed"
           style={isArabic ? { fontFamily: 'var(--font-arabic)' } : undefined}
           dir={isArabic ? 'rtl' : 'ltr'}
         >
@@ -159,14 +159,14 @@ export default function PracticeHub(): React.ReactElement {
       {/* 2. Top Chapter Filter Pills */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-mono uppercase tracking-wider text-[#737373]">
+          <span className="text-xs font-mono uppercase tracking-wider text-[#686868]">
             {t('filterByChapter')}
           </span>
           {selectedChapter !== 'all' && (
             <button
               type="button"
               onClick={() => handleChapterChange('all')}
-              className="text-xs font-mono text-[#525252] hover:text-[#171717] underline decoration-dotted"
+              className="text-xs font-mono text-[#505050] hover:text-[#222222] underline decoration-dotted"
             >
               Reset to All Units
             </button>
@@ -181,11 +181,10 @@ export default function PracticeHub(): React.ReactElement {
                 key={p.id}
                 type="button"
                 onClick={() => handleChapterChange(p.id)}
-                data-nav-item
                 className={`px-3.5 py-2 rounded-md text-[14px] font-medium transition-all group ${
                   isSelected
-                    ? 'border border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs'
-                    : 'border border-[#E5E5E5] bg-[#FFFFFF] text-[#171717] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF]'
+                    ? 'border border-[#222222] bg-[#222222] text-[#FFFFFF] font-semibold shadow-xs'
+                    : 'border border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
                 }`}
               >
                 {isArabic ? p.labelAr : p.label}
@@ -196,17 +195,16 @@ export default function PracticeHub(): React.ReactElement {
       </div>
 
       {/* 3. Primary Segmented Mode Tabs */}
-      <div className="border-b border-[#E5E5E5] pb-3">
+      <div className="border-b border-[#E2E2DF] pb-3">
         <div className="flex flex-wrap gap-2 sm:gap-3">
           {/* Question Bank Tab */}
           <button
             type="button"
             onClick={() => handleTabChange('questions')}
-            data-nav-item
             className={`px-4 py-2.5 rounded-md text-[14px] sm:text-[15px] font-medium transition-all inline-flex items-center gap-2.5 border group ${
               activeTab === 'questions'
-                ? 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs'
-                : 'border-[#E5E5E5] bg-[#FFFFFF] text-[#171717] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF]'
+                ? 'border-[#D4D4D0] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs'
+                : 'border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
             }`}
           >
             <HelpCircle size={16} className="shrink-0" />
@@ -214,8 +212,8 @@ export default function PracticeHub(): React.ReactElement {
             <span
               className={`font-mono text-[11px] px-2 py-0.5 rounded ${
                 activeTab === 'questions'
-                  ? 'bg-[#333333] text-[#FFFFFF]'
-                  : 'bg-[#F2F2F2] text-[#525252] group-hover:bg-[#333333] group-hover:text-[#FFFFFF]'
+                  ? 'bg-[#222222] text-[#FFFFFF]'
+                  : 'bg-[#ECEDEB] text-[#505050] group-hover:bg-[#E8E8E5] group-hover:text-[#222222]'
               }`}
             >
               {filteredQuestions.length}
@@ -226,11 +224,10 @@ export default function PracticeHub(): React.ReactElement {
           <button
             type="button"
             onClick={() => handleTabChange('exams')}
-            data-nav-item
             className={`px-4 py-2.5 rounded-md text-[14px] sm:text-[15px] font-medium transition-all inline-flex items-center gap-2.5 border group ${
               activeTab === 'exams'
-                ? 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs'
-                : 'border-[#E5E5E5] bg-[#FFFFFF] text-[#171717] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF]'
+                ? 'border-[#D4D4D0] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs'
+                : 'border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
             }`}
           >
             <Zap size={16} className="shrink-0" />
@@ -238,8 +235,8 @@ export default function PracticeHub(): React.ReactElement {
             <span
               className={`font-mono text-[11px] px-2 py-0.5 rounded ${
                 activeTab === 'exams'
-                  ? 'bg-[#333333] text-[#FFFFFF]'
-                  : 'bg-[#F2F2F2] text-[#525252] group-hover:bg-[#333333] group-hover:text-[#FFFFFF]'
+                  ? 'bg-[#222222] text-[#FFFFFF]'
+                  : 'bg-[#ECEDEB] text-[#505050] group-hover:bg-[#E8E8E5] group-hover:text-[#222222]'
               }`}
             >
               2020 & 2022
@@ -250,11 +247,10 @@ export default function PracticeHub(): React.ReactElement {
           <button
             type="button"
             onClick={() => handleTabChange('lab')}
-            data-nav-item
             className={`px-4 py-2.5 rounded-md text-[14px] sm:text-[15px] font-medium transition-all inline-flex items-center gap-2.5 border group ${
               activeTab === 'lab'
-                ? 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs'
-                : 'border-[#E5E5E5] bg-[#FFFFFF] text-[#171717] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF]'
+                ? 'border-[#D4D4D0] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs'
+                : 'border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
             }`}
           >
             <Cpu size={16} className="shrink-0" />
@@ -262,8 +258,8 @@ export default function PracticeHub(): React.ReactElement {
             <span
               className={`font-mono text-[11px] px-2 py-0.5 rounded ${
                 activeTab === 'lab'
-                  ? 'bg-[#333333] text-[#FFFFFF]'
-                  : 'bg-[#F2F2F2] text-[#525252] group-hover:bg-[#333333] group-hover:text-[#FFFFFF]'
+                  ? 'bg-[#222222] text-[#FFFFFF]'
+                  : 'bg-[#ECEDEB] text-[#505050] group-hover:bg-[#E8E8E5] group-hover:text-[#222222]'
               }`}
             >
               8 Tools
@@ -276,45 +272,45 @@ export default function PracticeHub(): React.ReactElement {
       {activeTab === 'questions' && (
         <div className="space-y-6">
           {/* Stats Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 border border-[#E5E5E5] bg-[#FAFAFA] rounded-lg text-xs font-mono">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 border border-[#E2E2DF] bg-[#FFFFFF] rounded-lg text-xs font-mono">
             <div>
-              <span className="text-[#737373] block text-[11px]">Matching Questions</span>
-              <span className="text-base font-bold text-[#171717]">{filteredQuestions.length}</span>
+              <span className="text-[#686868] block text-[11px]">Matching Questions</span>
+              <span className="text-base font-bold text-[#222222]">{filteredQuestions.length}</span>
             </div>
             <div>
-              <span className="text-[#737373] block text-[11px]">Total Answered</span>
-              <span className="text-base font-bold text-[#171717]">{answeredCount}</span>
+              <span className="text-[#686868] block text-[11px]">Total Answered</span>
+              <span className="text-base font-bold text-[#222222]">{answeredCount}</span>
             </div>
             <div>
-              <span className="text-[#737373] block text-[11px]">Correct Answers</span>
-              <span className="text-base font-bold text-[#171717]">{correctCount}</span>
+              <span className="text-[#686868] block text-[11px]">Correct Answers</span>
+              <span className="text-base font-bold text-[#222222]">{correctCount}</span>
             </div>
             <div>
-              <span className="text-[#737373] block text-[11px]">Overall Accuracy</span>
-              <span className="text-base font-bold text-[#171717]">{accuracy}%</span>
+              <span className="text-[#686868] block text-[11px]">Overall Accuracy</span>
+              <span className="text-base font-bold text-[#222222]">{accuracy}%</span>
             </div>
           </div>
 
           {/* Question Filter Controls */}
-          <div className="p-4 border border-[#E5E5E5] bg-[#FFFFFF] rounded-lg space-y-3">
+          <div className="p-4 border border-[#E2E2DF] bg-[#FFFFFF] rounded-lg space-y-3">
             <div className="relative">
-              <Search className="w-4 h-4 text-[#A3A3A3] absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-[#686868] absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search questions or keywords in English or Arabic (e.g. Feistel, SAC, Playfair, Euclidean)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 text-xs bg-[#FFFFFF] border border-[#E5E5E5] rounded focus:outline-none focus:border-[#171717] text-[#171717]"
+                className="w-full pl-9 pr-3 py-2 text-xs bg-[#FFFFFF] border border-[#E2E2DF] rounded focus:outline-none focus:border-[#222222] text-[#222222]"
               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
               <div>
-                <label className="block text-[11px] text-[#737373] mb-1">Source Filter</label>
+                <label className="block text-[11px] text-[#686868] mb-1">Source Filter</label>
                 <select
                   value={selectedSource}
                   onChange={(e) => setSelectedSource(e.target.value)}
-                  className="w-full p-2 bg-[#FFFFFF] border border-[#E5E5E5] rounded text-xs focus:border-[#171717] text-[#171717]"
+                  className="w-full p-2 bg-[#FFFFFF] border border-[#E2E2DF] rounded text-xs focus:border-[#222222] text-[#222222]"
                 >
                   <option value="all">All Sources ({allQuestions.length} Questions)</option>
                   <option value="tb01">Test Bank Unit 1 (45 Qs)</option>
@@ -327,11 +323,11 @@ export default function PracticeHub(): React.ReactElement {
               </div>
 
               <div>
-                <label className="block text-[11px] text-[#737373] mb-1">Question Type</label>
+                <label className="block text-[11px] text-[#686868] mb-1">Question Type</label>
                 <select
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value)}
-                  className="w-full p-2 bg-[#FFFFFF] border border-[#E5E5E5] rounded text-xs focus:border-[#171717] text-[#171717]"
+                  className="w-full p-2 bg-[#FFFFFF] border border-[#E2E2DF] rounded text-xs focus:border-[#222222] text-[#222222]"
                 >
                   <option value="all">All Types</option>
                   <option value="multiple-choice">Multiple Choice (MCQ)</option>
@@ -342,11 +338,11 @@ export default function PracticeHub(): React.ReactElement {
               </div>
 
               <div>
-                <label className="block text-[11px] text-[#737373] mb-1">Difficulty Level</label>
+                <label className="block text-[11px] text-[#686868] mb-1">Difficulty Level</label>
                 <select
                   value={selectedDifficulty}
                   onChange={(e) => setSelectedDifficulty(e.target.value)}
-                  className="w-full p-2 bg-[#FFFFFF] border border-[#E5E5E5] rounded text-xs focus:border-[#171717] text-[#171717]"
+                  className="w-full p-2 bg-[#FFFFFF] border border-[#E2E2DF] rounded text-xs focus:border-[#222222] text-[#222222]"
                 >
                   <option value="all">All Difficulties</option>
                   <option value="easy">Easy</option>
@@ -360,10 +356,10 @@ export default function PracticeHub(): React.ReactElement {
           {/* Question Cards List */}
           <div className="space-y-4">
             {filteredQuestions.length === 0 ? (
-              <div className="p-12 text-center border border-[#E5E5E5] rounded-lg bg-[#FAFAFA] space-y-2">
-                <HelpCircle className="w-8 h-8 text-[#A3A3A3] mx-auto" />
-                <h3 className="text-sm font-semibold text-[#171717]">No questions match your filter criteria</h3>
-                <p className="text-xs text-[#737373]">Try resetting your search query or selecting "All" in the filters.</p>
+              <div className="p-12 text-center border border-[#E2E2DF] rounded-lg bg-[#FFFFFF] space-y-2">
+                <HelpCircle className="w-8 h-8 text-[#686868] mx-auto" />
+                <h3 className="text-sm font-semibold text-[#222222]">No questions match your filter criteria</h3>
+                <p className="text-xs text-[#686868]">Try resetting your search query or selecting "All" in the filters.</p>
               </div>
             ) : (
               paginatedQuestions.map((q, idx) => {
@@ -383,8 +379,8 @@ export default function PracticeHub(): React.ReactElement {
 
           {/* Pagination Controls */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-between border-t border-[#E5E5E5] pt-4 text-xs font-mono">
-              <span className="text-[#737373]">
+            <div className="flex items-center justify-between border-t border-[#E2E2DF] pt-4 text-xs font-mono">
+              <span className="text-[#686868]">
                 Page {currentPage} of {totalPages} ({filteredQuestions.length} total questions)
               </span>
 
@@ -393,7 +389,7 @@ export default function PracticeHub(): React.ReactElement {
                   type="button"
                   disabled={currentPage <= 1}
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-                  className="px-3 py-1.5 border border-[#E5E5E5] rounded hover:border-[#171717] disabled:opacity-40 transition-colors inline-flex items-center gap-1"
+                  className="px-3 py-1.5 border border-[#E2E2DF] bg-[#FFFFFF] rounded hover:border-[#D4D4D0] hover:bg-[#ECEDEB] text-[#222222] disabled:opacity-40 transition-colors inline-flex items-center gap-1"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" /> Previous
                 </button>
@@ -412,8 +408,8 @@ export default function PracticeHub(): React.ReactElement {
                         onClick={() => setCurrentPage(pageNum)}
                         className={`w-7 h-7 rounded border text-xs flex items-center justify-center transition-colors ${
                           currentPage === pageNum
-                            ? 'border-[#171717] bg-[#171717] text-[#FFFFFF] font-bold'
-                            : 'border-[#E5E5E5] hover:border-[#171717] text-[#525252]'
+                            ? 'border-[#222222] bg-[#222222] text-[#FFFFFF] font-bold'
+                            : 'border-[#E2E2DF] bg-[#FFFFFF] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] text-[#505050]'
                         }`}
                       >
                         {pageNum}
@@ -426,7 +422,7 @@ export default function PracticeHub(): React.ReactElement {
                   type="button"
                   disabled={currentPage >= totalPages}
                   onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-                  className="px-3 py-1.5 border border-[#E5E5E5] rounded hover:border-[#171717] disabled:opacity-40 transition-colors inline-flex items-center gap-1"
+                  className="px-3 py-1.5 border border-[#E2E2DF] bg-[#FFFFFF] rounded hover:border-[#D4D4D0] hover:bg-[#ECEDEB] text-[#222222] disabled:opacity-40 transition-colors inline-flex items-center gap-1"
                 >
                   Next <ChevronRight className="w-3.5 h-3.5" />
                 </button>
@@ -438,14 +434,14 @@ export default function PracticeHub(): React.ReactElement {
 
       {/* Timed Midterm Exams Simulator Tab */}
       {activeTab === 'exams' && (
-        <div className="border border-[#E5E5E5] rounded-xl bg-[#FFFFFF] p-2 sm:p-6">
+        <div className="border border-[#D4D4D0] rounded-xl bg-[#FFFFFF] p-2 sm:p-6">
           <ExamSimulator />
         </div>
       )}
 
       {/* Interactive Crypto Lab Tab */}
       {activeTab === 'lab' && (
-        <div className="border border-[#E5E5E5] rounded-xl bg-[#FFFFFF] p-2 sm:p-6">
+        <div className="border border-[#D4D4D0] rounded-xl bg-[#FFFFFF] p-2 sm:p-6">
           <CryptoLab />
         </div>
       )}

@@ -37,26 +37,26 @@ export default function DefinitionCard({
 
   return (
     <div
-      className={`@container w-full border-2 border-[#171717] bg-[#FFFFFF] rounded-xl p-5 sm:p-6 md:p-7 space-y-4 shadow-sm hover:border-[#000000] transition-all ${className}`}
+      className={`@container w-full border border-[#D4D4D0] bg-[#FFFFFF] rounded-xl p-5 sm:p-6 md:p-7 space-y-4 hover:border-[#222222] transition-all ${className}`}
     >
       {/* Horizontally Efficient Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#E5E5E5] pb-3.5 gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#E2E2DF] pb-3.5 gap-3">
         <div className="flex items-center gap-3 min-w-0 flex-1">
-          <div className="w-8 h-8 rounded border border-[#171717] bg-[#171717] text-[#FFFFFF] flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded border border-[#222222] bg-[#222222] text-[#FFFFFF] flex items-center justify-center shrink-0">
             <BookOpen size={16} />
           </div>
           <div className="min-w-0 flex-1">
-            <span className="text-[11px] font-mono uppercase font-bold tracking-wider text-[#737373] block">
+            <span className="text-xs sm:text-[13px] font-mono uppercase font-bold tracking-wider text-[#686868] block">
               Formal Academic Definition / التعريف الأكاديمي المعتمد
             </span>
-            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mt-0.5">
-              <h3 className="text-xl sm:text-[22px] font-bold text-[#171717] tracking-tight">
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mt-1">
+              <h3 className="text-[22px] sm:text-[24px] font-bold text-[#222222] tracking-tight">
                 {term}
               </h3>
               {termAr && (
                 <span
                   dir="rtl"
-                  className="text-lg sm:text-[20px] font-bold text-[#525252] font-serif"
+                  className="text-[20px] sm:text-[22px] font-bold text-[#505050] font-serif"
                   style={{ fontFamily: 'var(--font-arabic)' }}
                 >
                   {termAr}
@@ -68,11 +68,11 @@ export default function DefinitionCard({
 
         <div className="flex items-center gap-2.5 shrink-0 self-end sm:self-auto">
           {sourceStandard && (
-            <span className="font-mono text-xs border border-[#171717] bg-[#FAFAFA] px-2.5 py-1 rounded text-[#171717] font-semibold shrink-0">
+            <span className="font-mono text-xs border border-[#222222] bg-[#F7F7F5] px-2.5 py-1 rounded text-[#222222] font-semibold shrink-0">
               {sourceStandard}
             </span>
           )}
-          <div className="border-s border-[#E5E5E5] ps-2.5 ms-1">
+          <div className="border-s border-[#E2E2DF] ps-2.5 ms-1">
             <AIProviderActions
               context={{
                 sectionTitle: `Definition: ${term}${termAr ? ` / ${termAr}` : ''}`,
@@ -87,55 +87,38 @@ export default function DefinitionCard({
         </div>
       </div>
 
-      {/* Adaptive Bilingual Content: Side-by-Side on Wide screens, Stacked on Narrow */}
-      {hasBoth ? (
-        <div className="grid grid-cols-1 @2xl:grid-cols-2 gap-6 pt-1">
-          {/* English Academic Definition Column */}
-          <div className="space-y-1.5 flex flex-col justify-start">
-            <span className="font-mono text-[11px] uppercase font-bold tracking-wider text-[#737373] block">
+      {/* Single-Column Full-Width Content: English on top, Arabic directly below */}
+      <div className="space-y-4 pt-1 w-full">
+        {formalDefinition && (
+          <div className="space-y-1.5 w-full">
+            <span className="font-mono text-xs sm:text-[13px] uppercase font-bold tracking-wider text-[#686868] block">
               Academic Definition (English)
             </span>
-            <p className="text-[16px] sm:text-[17px] leading-relaxed text-[#171717] font-sans font-medium">
+            <p className="text-[17px] sm:text-[18px] leading-[1.65] text-[#222222] font-sans font-medium">
               <HighlightedText text={formalDefinition} />
             </p>
           </div>
+        )}
 
-          {/* Arabic Academic Explanation Column */}
-          <div className="space-y-1.5 flex flex-col justify-start @2xl:border-s @2xl:border-[#E5E5E5] @2xl:ps-6 pt-4 @2xl:pt-0 border-t @2xl:border-t-0 border-[#F2F2F2]">
+        {formalDefinitionAr && (
+          <div className="space-y-1.5 w-full pt-3 border-t border-[#E2E2DF]">
             <span
               dir="rtl"
-              className="font-mono text-[11px] uppercase font-bold tracking-wider text-[#737373] block font-serif"
+              className="font-mono text-xs sm:text-[13px] uppercase font-bold tracking-wider text-[#686868] block font-serif"
               style={{ fontFamily: 'var(--font-arabic)' }}
             >
               التعريف والتأصيل الأكاديمي (بالعربية)
             </span>
             <p
               dir="rtl"
-              className="text-[16px] sm:text-[17px] leading-[2] text-[#171717] font-serif"
-              style={{ fontFamily: 'var(--font-arabic)' }}
-            >
-              <HighlightedText text={formalDefinitionAr || ''} isArabic />
-            </p>
-          </div>
-        </div>
-      ) : (
-        <div className="space-y-2 pt-1">
-          {formalDefinition && (
-            <p className="text-[16px] sm:text-[17px] leading-relaxed text-[#171717] font-sans font-medium">
-              <HighlightedText text={formalDefinition} />
-            </p>
-          )}
-          {formalDefinitionAr && (
-            <p
-              dir="rtl"
-              className="text-[16px] sm:text-[17px] leading-[2] text-[#171717] font-serif"
+              className="text-[18px] sm:text-[19px] leading-[1.8] text-[#222222] font-serif"
               style={{ fontFamily: 'var(--font-arabic)' }}
             >
               <HighlightedText text={formalDefinitionAr} isArabic />
             </p>
-          )}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
 
       {/* Memory Cue Banner (if available) */}
       {matchingKeyword?.memoryCue && (
@@ -146,15 +129,15 @@ export default function DefinitionCard({
 
       {/* Key Properties / Essential Characteristics */}
       {((keyProperties && keyProperties.length > 0) || (keyPropertiesAr && keyPropertiesAr.length > 0)) && (
-        <div className="pt-3 border-t border-[#E5E5E5] bg-[#FAFAFA] -mx-5 sm:-mx-6 md:-mx-7 -mb-5 sm:-mb-6 md:-mb-7 p-4 sm:p-5 rounded-b-xl space-y-2">
-          <span className="font-mono text-xs uppercase font-bold tracking-wider text-[#525252] block">
+        <div className="pt-3 border-t border-[#E2E2DF] bg-[#F7F7F5] -mx-5 sm:-mx-6 md:-mx-7 -mb-5 sm:-mb-6 md:-mb-7 p-4 sm:p-5 rounded-b-xl space-y-2">
+          <span className="font-mono text-xs uppercase font-bold tracking-wider text-[#505050] block">
             Essential Characteristics / الخصائص والمعايير الأساسية:
           </span>
-          <div className="grid grid-cols-1 @2xl:grid-cols-2 gap-4 text-sm">
+          <div className="flex flex-col space-y-3 text-[15px] sm:text-[16px]">
             {keyProperties && keyProperties.length > 0 && (
-              <ul className="space-y-1 text-[#171717] list-disc list-inside">
+              <ul className="space-y-1.5 text-[#222222] list-disc list-inside leading-relaxed font-sans">
                 {keyProperties.map((prop, idx) => (
-                  <li key={idx} className="leading-snug">
+                  <li key={idx} className="leading-relaxed">
                     {prop}
                   </li>
                 ))}
@@ -163,11 +146,11 @@ export default function DefinitionCard({
             {keyPropertiesAr && keyPropertiesAr.length > 0 && (
               <ul
                 dir="rtl"
-                className="space-y-1 text-[#171717] list-disc list-inside font-serif @2xl:border-s @2xl:border-[#E5E5E5] @2xl:ps-4"
+                className="space-y-1.5 text-[#222222] list-disc list-inside font-serif leading-[1.8] pt-2 border-t border-[#E2E2DF]"
                 style={{ fontFamily: 'var(--font-arabic)' }}
               >
                 {keyPropertiesAr.map((prop, idx) => (
-                  <li key={idx} className="leading-snug">
+                  <li key={idx} className="leading-relaxed">
                     {prop}
                   </li>
                 ))}

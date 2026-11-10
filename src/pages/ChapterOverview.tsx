@@ -106,7 +106,7 @@ export default function ChapterOverview(): React.ReactElement {
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              <div className="flex flex-col space-y-2.5 pt-1 w-full">
                 {topic.lessons.map((lesson) => {
                   const completed = isLessonCompleted(lesson.id);
 
@@ -114,17 +114,17 @@ export default function ChapterOverview(): React.ReactElement {
                     <Link
                       key={lesson.id}
                       to={`/learn/${chapter.id}/${lesson.id}`}
-                      className="p-3 border border-[#E5E5E5] rounded hover:border-[#171717] hover:bg-[#FAFAFA] transition-colors flex items-center justify-between text-xs group"
+                      className="p-3.5 border border-[#E2E2DF] rounded-xl hover:border-[#222222] hover:bg-[#F7F7F5] transition-colors flex items-center justify-between text-[15px] sm:text-[16px] group"
                     >
-                      <div className="flex items-center gap-2 truncate">
+                      <div className="flex items-center gap-2.5 truncate">
                         {completed ? (
-                          <CheckCircle2 className="w-4 h-4 text-[#171717] shrink-0" />
+                          <CheckCircle2 className="w-5 h-5 text-[#222222] shrink-0" />
                         ) : (
-                          <Circle className="w-4 h-4 text-[#D4D4D4] group-hover:text-[#171717] shrink-0" />
+                          <Circle className="w-5 h-5 text-[#D4D4D0] group-hover:text-[#222222] shrink-0" />
                         )}
-                        <span className="font-medium text-[#171717] truncate">{lesson.title}</span>
+                        <span className="font-medium text-[#222222] truncate">{lesson.title}</span>
                       </div>
-                      <span className="text-[10px] font-mono text-[#A3A3A3] shrink-0 ml-2">
+                      <span className="text-xs font-mono text-[#686868] shrink-0 ml-3">
                         {lesson.estimatedMinutes}m
                       </span>
                     </Link>

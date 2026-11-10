@@ -8,6 +8,8 @@ import PracticeHub from './pages/PracticeHub';
 import ReviewHub from './pages/ReviewHub';
 import LessonViewer from './pages/LessonViewer';
 import ChapterOverview from './pages/ChapterOverview';
+import BasmagaHub from './pages/BasmagaHub';
+import ProblemSolvingHub from './pages/ProblemSolvingHub';
 import NotFound from './pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -44,6 +46,18 @@ export const router = createBrowserRouter([
       {
         path: 'review',
         element: <ReviewHub />,
+      },
+
+      // 4. Section A — Basmaga Hub (Keyword-Based Exam Solving)
+      {
+        path: 'basmaga',
+        element: <BasmagaHub />,
+      },
+
+      // 5. Section B — Problem Solving Hub (Complete Worked Problems)
+      {
+        path: 'problem-solving',
+        element: <ProblemSolvingHub />,
       },
 
       // Seamless Legacy Redirects to preserve existing links and bookmarks

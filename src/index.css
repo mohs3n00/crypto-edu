@@ -1,16 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
+@config "../tailwind.config.js";
 
-/* ===== CSS Custom Properties — Monochrome Design System ===== */
+/* ===== CSS Custom Properties — Soft Monochrome Design System ===== */
 :root {
+  /* EDU 14 Core Design Tokens */
+  --edu-bg: #F7F7F5;
+  --edu-surface: #FFFFFF;
+  --edu-text-primary: #222222;
+  --edu-text-secondary: #505050;
+  --edu-text-muted: #686868;
+  --edu-border: #E2E2DF;
+  --edu-border-strong: #D4D4D0;
+  --edu-hover-bg: #ECEDEB;
+  --edu-selected-bg: #E8E8E5;
+  --edu-disabled-bg: #EFEFEC;
+  --edu-disabled-text: #777777;
+  --edu-action-bg: #222222;
+  --edu-action-hover: #000000;
+  --edu-action-text: #FFFFFF;
+  --edu-keyword-highlight: #FFF1A6;
+
+  /* Compatibility Tokens */
   --color-white: #FFFFFF;
-  --color-near-white: #FAFAFA;
-  --color-light-gray: #F2F2F2;
-  --color-neutral-gray: #E5E5E5;
-  --color-medium-gray: #A3A3A3;
-  --color-dark-gray: #525252;
-  --color-near-black: #171717;
-  --color-black: #000000;
+  --color-near-white: #F7F7F5;
+  --color-light-gray: #ECEDEB;
+  --color-neutral-gray: #E2E2DF;
+  --color-medium-gray: #686868;
+  --color-dark-gray: #505050;
+  --color-near-black: #222222;
+  --color-black: #222222;
 
   /* Typography */
   --font-sans: 'Inter', system-ui, sans-serif;
@@ -50,8 +69,8 @@ body {
   font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.65;
-  color: var(--color-near-black);
-  background-color: var(--color-white);
+  color: var(--edu-text-primary);
+  background-color: var(--edu-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -130,7 +149,7 @@ article p a:hover {
   color: var(--color-black);
 }
 
-/* ===== Strict Contrast Guarantee for Active and Hover States ===== */
+/* ===== Soft Monochrome Interactive States (No Black Inversion) ===== */
 .nav-item,
 .nav-link,
 [data-nav-item],
@@ -138,42 +157,52 @@ article p a:hover {
   transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
 }
 
-/* Hover, Active, and Selected states: ALL child elements must turn white on black */
+/* Hover states: Soft subtle background without inverting to solid black */
 .nav-item:hover,
-.nav-item.active,
-.nav-item[aria-current="page"],
-.nav-item[data-active="true"],
 .nav-link:hover,
-.nav-link.active,
-.nav-link[aria-current="page"],
 [data-nav-item]:hover,
-[data-nav-item].active,
-[data-nav-item][aria-current="page"],
-[data-nav-item][data-active="true"],
-.tab-item:hover,
-.tab-item.active,
-.tab-item[data-active="true"] {
-  background-color: #000000 !important;
-  color: #FFFFFF !important;
-  border-color: #000000 !important;
+.tab-item:hover {
+  background-color: var(--edu-hover-bg) !important;
+  color: var(--edu-text-primary) !important;
+  border-color: var(--edu-border-strong) !important;
 }
 
 .nav-item:hover *,
+.nav-link:hover *,
+[data-nav-item]:hover *,
+.tab-item:hover * {
+  color: var(--edu-text-primary) !important;
+  stroke: var(--edu-text-primary) !important;
+}
+
+/* Active and Selected states: Calm soft selected tone with clear border */
+.nav-item.active,
+.nav-item[aria-current="page"],
+.nav-item[data-active="true"],
+.nav-link.active,
+.nav-link[aria-current="page"],
+[data-nav-item].active,
+[data-nav-item][aria-current="page"],
+[data-nav-item][data-active="true"],
+.tab-item.active,
+.tab-item[data-active="true"] {
+  background-color: var(--edu-selected-bg) !important;
+  color: var(--edu-text-primary) !important;
+  border-color: var(--edu-border-strong) !important;
+}
+
 .nav-item.active *,
 .nav-item[aria-current="page"] *,
 .nav-item[data-active="true"] *,
-.nav-link:hover *,
 .nav-link.active *,
 .nav-link[aria-current="page"] *,
-[data-nav-item]:hover *,
 [data-nav-item].active *,
 [data-nav-item][aria-current="page"] *,
 [data-nav-item][data-active="true"] *,
-.tab-item:hover *,
 .tab-item.active *,
 .tab-item[data-active="true"] * {
-  color: #FFFFFF !important;
-  stroke: #FFFFFF !important;
+  color: var(--edu-text-primary) !important;
+  stroke: var(--edu-text-primary) !important;
 }
 
 /* ===== Focus styles ===== */
@@ -424,46 +453,57 @@ article p a:hover {
 }
 
 .btn-primary {
-  background: var(--color-black);
-  color: var(--color-white);
-  border-color: var(--color-black);
+  background: var(--edu-action-bg);
+  color: var(--edu-action-text);
+  border-color: var(--edu-action-bg);
 }
 
 .btn-primary:hover {
-  background: var(--color-near-black);
-  color: var(--color-white);
+  background: var(--edu-action-hover);
+  color: var(--edu-action-text);
+  border-color: var(--edu-action-hover);
 }
 
 .btn-secondary {
-  background: var(--color-white);
-  color: var(--color-near-black);
-  border-color: var(--color-near-black);
+  background: var(--edu-surface);
+  color: var(--edu-text-primary);
+  border-color: var(--edu-border-strong);
 }
 
 .btn-secondary:hover {
-  background: var(--color-near-white);
+  background: var(--edu-hover-bg);
+  color: var(--edu-text-primary);
+  border-color: var(--edu-border-strong);
 }
 
 .btn-ghost {
   background: transparent;
-  color: var(--color-dark-gray);
+  color: var(--edu-text-secondary);
   border-color: transparent;
 }
 
 .btn-ghost:hover {
-  color: var(--color-near-black);
-  background: var(--color-light-gray);
+  color: var(--edu-text-primary);
+  background: var(--edu-hover-bg);
 }
 
-/* Quiz feedback */
+.btn:disabled,
+.btn[disabled] {
+  background: var(--edu-disabled-bg);
+  color: var(--edu-disabled-text);
+  border-color: var(--edu-border);
+  cursor: not-allowed;
+}
+
+/* Quiz feedback — Calm monochrome indicators */
 .answer-correct {
-  border: 1.5px solid var(--color-near-black);
-  background: var(--color-near-white);
+  border: 1.5px solid var(--edu-text-primary);
+  background: var(--edu-surface);
 }
 
 .answer-incorrect {
-  border: 1.5px dashed var(--color-dark-gray);
-  background: var(--color-light-gray);
+  border: 1.5px dashed var(--edu-text-secondary);
+  background: var(--edu-hover-bg);
 }
 
 /* SVG diagram container */

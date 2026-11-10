@@ -12,6 +12,7 @@ import { useProgress } from '../../store/progressStore';
 import { useUI } from '../../store/uiStore';
 import QuestionSourceBadge from './QuestionSourceBadge';
 import ContextualHint from './ContextualHint';
+import ExamCluesSection from './ExamCluesSection';
 import AIProviderActions from '../ai/AIProviderActions';
 import { normalizeQuestion, validateQuestionAnswer } from '../../utils/questionNormalizer';
 
@@ -269,16 +270,21 @@ export default function KnowledgeCheck({
 
           {/* Explanation reveal */}
           {(isCorrect || showExplanation) ? (
-            <div className="pt-2 border-t border-[#E5E5E5] space-y-1.5 text-xs sm:text-[14px] leading-relaxed text-[#171717]">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#737373] block">
-                {isArabicUI ? 'التعليل الأكاديمي المعتمد من المرجع:' : 'Academic Explanation & Verified Solution Key:'}
-              </span>
-              <p
-                style={isArabicUI ? { fontFamily: 'var(--font-arabic)' } : undefined}
-                dir={isArabicUI ? 'rtl' : 'ltr'}
-              >
-                {currentExplanation}
-              </p>
+            <div className="space-y-4">
+              <div className="pt-2 border-t border-[#E5E5E5] space-y-1.5 text-xs sm:text-[14px] leading-relaxed text-[#171717]">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#737373] block">
+                  {isArabicUI ? 'التعليل الأكاديمي المعتمد من المرجع:' : 'Academic Explanation & Verified Solution Key:'}
+                </span>
+                <p
+                  style={isArabicUI ? { fontFamily: 'var(--font-arabic)' } : undefined}
+                  dir={isArabicUI ? 'rtl' : 'ltr'}
+                >
+                  {currentExplanation}
+                </p>
+              </div>
+
+              {/* Requirement 4: KEYWORDS TO REMEMBER | Exam Clues Section */}
+              <ExamCluesSection question={question} />
             </div>
           ) : (
             <button

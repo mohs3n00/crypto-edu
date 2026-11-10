@@ -45,7 +45,7 @@ export default function TrueFalseOptions({
     <div
       role="radiogroup"
       aria-label="True or False selection"
-      className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2"
+      className="flex flex-col space-y-2.5 pt-2 w-full"
       dir={isArabic ? 'rtl' : 'ltr'}
     >
       {options.map((opt) => {
@@ -54,18 +54,18 @@ export default function TrueFalseOptions({
         const isWrongChoice = isSubmitted && isSelected && correctAnswerIndex !== opt.index;
 
         let btnStyle =
-          'border-[#E5E5E5] bg-[#FFFFFF] hover:border-[#000000] hover:bg-[#000000] hover:text-[#FFFFFF] text-[#171717] group';
+          'border-[#E2E2DF] bg-[#FFFFFF] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] text-[#222222] group';
 
         if (isSubmitted) {
           if (isCorrectChoice) {
-            btnStyle = 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-bold shadow-xs';
+            btnStyle = 'border-2 border-[#222222] bg-[#FFFFFF] text-[#222222] font-bold shadow-xs';
           } else if (isWrongChoice) {
-            btnStyle = 'border-[#525252] bg-[#F2F2F2] text-[#525252] line-through';
+            btnStyle = 'border border-dashed border-[#686868] bg-[#ECEDEB] text-[#505050] line-through';
           } else {
-            btnStyle = 'border-[#E5E5E5] bg-[#FAFAFA] text-[#737373] opacity-60';
+            btnStyle = 'border-[#E2E2DF] bg-[#F7F7F5] text-[#686868] opacity-60';
           }
         } else if (isSelected) {
-          btnStyle = 'border-[#000000] bg-[#000000] text-[#FFFFFF] font-semibold shadow-xs';
+          btnStyle = 'border-2 border-[#222222] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs';
         }
 
         const displayText = isArabic ? opt.labelAr : opt.labelEn;
@@ -86,12 +86,12 @@ export default function TrueFalseOptions({
               <span
                 className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
                   isSelected || isCorrectChoice
-                    ? 'border-[#FFFFFF] bg-[#000000]'
-                    : 'border-[#737373] group-hover:border-[#FFFFFF]'
+                    ? 'border-[#222222] bg-[#222222]'
+                    : 'border-[#D4D4D0] bg-[#FFFFFF] group-hover:border-[#222222]'
                 }`}
               >
                 {isSelected && (
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FFFFFF]" />
+                  <span className="w-2 h-2 rounded-full bg-[#FFFFFF]" />
                 )}
               </span>
 
@@ -103,8 +103,8 @@ export default function TrueFalseOptions({
                   {displayText}
                 </span>
                 <span
-                  className={`text-xs opacity-60 ${
-                    isSelected || isCorrectChoice ? 'text-[#FFFFFF]' : 'text-[#737373] group-hover:text-[#FFFFFF]'
+                  className={`text-xs opacity-70 ${
+                    isSelected || isCorrectChoice ? 'text-[#222222]' : 'text-[#686868]'
                   }`}
                 >
                   ({secondaryText})
@@ -115,9 +115,9 @@ export default function TrueFalseOptions({
             {isSubmitted && (
               <span className="shrink-0 ml-2">
                 {isCorrectChoice ? (
-                  <Check className="w-5 h-5 text-[#FFFFFF]" />
+                  <Check className="w-5 h-5 text-[#222222] stroke-[2.5]" />
                 ) : isWrongChoice ? (
-                  <X className="w-5 h-5 text-[#525252]" />
+                  <X className="w-5 h-5 text-[#505050] stroke-[2.5]" />
                 ) : null}
               </span>
             )}

@@ -38,12 +38,12 @@ export const chapter1: Chapter = {
               {
                 type: 'paragraph',
                 lang: 'en',
-                content: '1. Symmetric Encryption: Used to conceal the contents of blocks or streams of data of any size, including messages, files, encryption keys, and passwords.\n2. Asymmetric Encryption: Used to conceal small blocks of data, such as encryption keys and hash function values, which are used in digital signatures and key distribution.\n3. Data Integrity Algorithms: Used to protect blocks of data, such as messages, from unauthorized alteration.\n4. Authentication Protocols: Schemes based on the use of cryptographic algorithms designed to authenticate the identity of communicating entities.',
+                content: 'Cryptographic algorithms operate together in modern secure protocols (e.g. TLS/HTTPS and IPsec):\n• Asymmetric Encryption exchanges session keys securely without prior shared secrets.\n• Symmetric Encryption encrypts high-volume application payloads with fast throughput.\n• Data Integrity Algorithms (hashes/MACs) guarantee that packets are not modified in transit.\n• Authentication Protocols verify communicating identities to prevent masquerade attacks.',
               },
               {
                 type: 'paragraph',
                 lang: 'ar',
-                content: '1. التشفير المتماثل (Symmetric Encryption): يُستخدم لإخفاء محتويات كتل أو تدفقات البيانات بأي حجم، بما في ذلك الرسائل والملفات ومفاتيح التشفير وكلمات المرور.\n2. التشفير غير المتماثل (Asymmetric Encryption): يُستخدم لإخفاء كتل البيانات الصغيرة فقط، مثل مفاتيح التشفير وقيم دوال الهاش، والمستخدمة في التوقيعات الرقمية وتبادل المفاتيح.\n3. خوارزميات سلامة البيانات (Data Integrity Algorithms): تُستخدم لحماية كتل البيانات من التعديل أو التبديل غير المصرح به.\n4. بروتوكولات المصادقة (Authentication Protocols): مخططات تعتمد على خوارزميات التشفير للتحقق من الهوية الفعلية للكيانات المتواصلة.',
+                content: 'تتكامل المجالات التشفيرية الأربعة في بروتوكولات الأمان الحديثة (مثل HTTPS و IPsec):\n• التشفير غير المتماثل: يتولى تبادل مفاتيح الجلسات بأمان دون وسيط سري مسبق.\n• التشفير المتماثل: يتولى تشفير كتل وتدفقات البيانات الضخمة بسرعة وكفاءة فائقة.\n• خوارزميات السلامة (الهاش و MAC): تضمن عدم تعديل أو تلاعب بأي جزء من الرسالة المنقولة.\n• بروتوكولات المصادقة: تثبت هوية أطراف الاتصال وتمنع هجمات انتحال الشخصية.',
               },
             ],
             formulas: [],
@@ -97,10 +97,10 @@ export const chapter1: Chapter = {
             diagrams: [],
             workedExamples: [],
             examNotes: [
-              'Verbatim True/False in testbank: "The field of network and Internet security consists of measures to deter, prevent, detect and correct security violations that involve the transmission of information." -> Answer is TRUE.',
+              'Exam Recognition Clue: In testbank True/False items, all four actions (Deter, Prevent, Detect, Correct) must be present. If an option omits "Correct" or "Deter", mark it FALSE.',
             ],
             examNotesAr: [
-              'سؤال نصي بصيغة صح أو خطأ في بنك الأسئلة: يتألف أمن الشبكات من إجراءات الردع والمنع والاكتشاف والتصحيح -> الإجابة: صواب (True).',
+              'دلالة امتحانية: في أسئلة الصواب والخطأ، يجب توافر الأفعال الأربعة معاً (الردع، المنع، الاكتشاف، التصحيح). حذف أي منها يجعل العبارة خاطئة.',
             ],
             commonMistakes: [
               'Omitting "Correct" or "Deter" from the four actions in essay/short answer questions.',
@@ -235,12 +235,12 @@ export const chapter1: Chapter = {
               {
                 type: 'paragraph',
                 lang: 'en',
-                content: '1. Confidentiality: Preserving authorized restrictions on information access.\n2. Integrity: Guarding against improper information modification or destruction.\n3. Availability: Ensuring timely and reliable access to information.\n4. Authenticity: Verifying that users are who they say they are and that each input arriving at the system came from a trusted source.\n5. Accountability: The requirement that actions of an entity can be traced uniquely to that entity, enabling nonrepudiation, deterrence, fault isolation, and intrusion detection.',
+                content: 'Stallings Figure 1.1 builds upon the classical CIA triad (Confidentiality, Integrity, Availability) by introducing two essential operational extensions:\n\n• Authenticity: Verifying that users are who they say they are and that each input arriving at the system came from a trusted source.\n• Accountability: The requirement that actions of an entity can be traced uniquely to that entity, enabling nonrepudiation, deterrence, fault isolation, and intrusion detection.',
               },
               {
                 type: 'paragraph',
                 lang: 'ar',
-                content: '1. السرية (Confidentiality): صون القيود المصرح بها للوصول إلى المعلومات.\n2. السلامة (Integrity): الحماية من التعديل أو التدمير غير المشروع للبيانات.\n3. التوافرية (Availability): ضمان الوصول الموثوق وفي الوقت المناسب إلى المعلومات.\n4. الموثوقية (Authenticity): التحقق من أن المستخدمين هم بالفعل من يدعون، وأن كل مدخل واصل إلى النظام صادر من مصدر موثوق.\n5. المساءلة (Accountability): تتبع أفعال أي مستخدم أو برنامج وربطها به حصرياً لدعم عدم الإنكار والتدقيق الأمني.',
+                content: 'يوسع الشكل 1.1 لستالينجز ثالوث CIA التقليدي (السرية، السلامة، التوافرية) عبر إضافة ركيزتين تشغيليتين أساسيتين:\n\n• الموثوقية (Authenticity): التحقق من أن المستخدمين هم بالفعل من يدعون، وأن كل مدخل واصل إلى النظام صادر من مصدر موثوق.\n• المساءلة (Accountability): ربط أي إجراء أو معاملة بالمستخدم المسؤول عنها حصرياً لتمكين عدم الإنكار وتتبع الأخطاء.',
               },
             ],
             formulas: [],

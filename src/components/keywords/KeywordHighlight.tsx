@@ -84,7 +84,7 @@ export default function KeywordHighlight({
             ? `${resolvedKeyword.termEn} (${currentCategory.en}) — Click for concept details & memory cue`
             : 'Key Academic Concept'
         }
-        className={`cursor-pointer inline bg-[#FFF1A6] text-[#171717] border-b-2 border-[#E2C65A] px-1 py-0.5 rounded-[3px] font-semibold transition-all hover:bg-[#FFE873] hover:border-[#171717] focus:outline-hidden focus:ring-2 focus:ring-[#171717] ${className}`}
+        className={`cursor-pointer inline bg-[#FFF1A6] text-[#222222] border-b-2 border-[#E2C65A] px-1 py-0.5 rounded-[3px] font-semibold transition-all hover:bg-[#FFE873] hover:border-[#222222] focus:outline-hidden focus:ring-2 focus:ring-[#222222] ${className}`}
       >
         {children}
       </span>
@@ -95,21 +95,21 @@ export default function KeywordHighlight({
           ref={popoverRef}
           role="dialog"
           aria-label="Academic Concept Information"
-          className="absolute z-50 left-1/2 -translate-x-1/2 bottom-full mb-2 w-80 sm:w-96 p-4 rounded-xl border-2 border-[#171717] bg-[#FFFFFF] shadow-xl text-[#171717] space-y-3"
+          className="absolute z-50 left-1/2 -translate-x-1/2 bottom-full mb-2 w-80 sm:w-96 p-4 rounded-xl border border-[#D4D4D0] bg-[#FFFFFF] shadow-xl text-[#222222] space-y-3"
         >
           {/* Header */}
-          <div className="flex items-start justify-between border-b border-[#E5E5E5] pb-2 gap-2">
+          <div className="flex items-start justify-between border-b border-[#E2E2DF] pb-2 gap-2">
             <div className="space-y-0.5 min-w-0">
-              <span className="font-mono text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-[#171717] text-[#FFFFFF] inline-block">
+              <span className="font-mono text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-[#222222] text-[#FFFFFF] inline-block">
                 {currentCategory.en} • {currentCategory.ar}
               </span>
-              <h4 className="text-[14px] sm:text-[15px] font-bold text-[#171717] truncate">
+              <h4 className="text-[14px] sm:text-[15px] font-bold text-[#222222] truncate">
                 {resolvedKeyword?.termEn || (typeof children === 'string' ? children : 'Key Concept')}
               </h4>
               {resolvedKeyword?.termAr && (
                 <h5
                   dir="rtl"
-                  className="text-xs font-serif text-[#525252] font-bold"
+                  className="text-xs font-serif text-[#505050] font-bold"
                   style={{ fontFamily: 'var(--font-arabic)' }}
                 >
                   {resolvedKeyword.termAr}
@@ -120,7 +120,7 @@ export default function KeywordHighlight({
             <button
               type="button"
               onClick={() => setIsOpen(false)}
-              className="p-1 rounded hover:bg-[#F2F2F2] text-[#525252] transition-colors"
+              className="p-1 rounded hover:bg-[#ECEDEB] text-[#505050] hover:text-[#222222] transition-colors"
               aria-label="Close details"
             >
               <X size={14} />

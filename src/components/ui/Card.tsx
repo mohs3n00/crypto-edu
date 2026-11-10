@@ -8,9 +8,9 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const variantClasses: Record<CardVariant, string> = {
-  default: 'bg-white border border-neutral-gray rounded',
-  outline: 'bg-transparent border border-near-black rounded',
-  flat: 'bg-light-gray rounded',
+  default: 'bg-[#FFFFFF] border border-[#E2E2DF] rounded-lg',
+  outline: 'bg-transparent border border-[#D4D4D0] rounded-lg',
+  flat: 'bg-[#ECEDEB] rounded-lg',
 };
 
 export default function Card({
@@ -44,7 +44,7 @@ export function CardHeader({
 }: CardSectionProps): React.ReactElement {
   return (
     <div
-      className={`px-5 py-4 border-b border-neutral-gray ${className}`}
+      className={`px-5 py-4 border-b border-[#E2E2DF] ${className}`}
       {...rest}
     >
       {children}
@@ -71,7 +71,7 @@ export function CardFooter({
 }: CardSectionProps): React.ReactElement {
   return (
     <div
-      className={`px-5 py-3 border-t border-neutral-gray ${className}`}
+      className={`px-5 py-3 border-t border-[#E2E2DF] ${className}`}
       {...rest}
     >
       {children}

@@ -37,30 +37,30 @@ export default function FormulaBlock({
   return (
     <div
       id={id}
-      className={`border-2 border-[#171717] bg-[#FFFFFF] rounded-lg p-5 sm:p-6 space-y-4 shadow-sm hover:border-[#000000] transition-all ${className}`}
+      className={`border border-[#D4D4D0] bg-[#FFFFFF] rounded-lg p-5 sm:p-6 space-y-4 shadow-xs hover:border-[#222222] transition-all ${className}`}
     >
       {/* Header: Name, Arabic, Pills & AI Action */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5E5E5] pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E2E2DF] pb-3.5">
         <div className="space-y-1">
           <div className="flex flex-wrap items-center gap-2">
             {chapterTitle && (
-              <span className="font-mono text-[11px] uppercase border border-[#171717] bg-[#171717] text-[#FFFFFF] px-2 py-0.5 rounded font-bold">
+              <span className="font-mono text-xs uppercase border border-[#222222] bg-[#222222] text-[#FFFFFF] px-2.5 py-0.5 rounded font-bold">
                 {chapterTitle}
               </span>
             )}
             {sourceStandard && (
-              <span className="font-mono text-[11px] text-[#525252] border border-[#E5E5E5] bg-[#FAFAFA] px-2 py-0.5 rounded">
+              <span className="font-mono text-xs text-[#505050] border border-[#E2E2DF] bg-[#F7F7F5] px-2.5 py-0.5 rounded">
                 {sourceStandard}
               </span>
             )}
-            <h3 className="text-lg sm:text-[20px] font-bold text-[#171717] tracking-tight">
+            <h3 className="text-[22px] sm:text-[24px] font-bold text-[#222222] tracking-tight">
               {name}
             </h3>
           </div>
           {nameAr && (
             <h4
               dir="rtl"
-              className="text-base sm:text-[18px] font-bold text-[#525252] font-serif"
+              className="text-[20px] sm:text-[22px] font-bold text-[#505050] font-serif"
               style={{ fontFamily: 'var(--font-arabic)' }}
             >
               {nameAr}
@@ -72,12 +72,12 @@ export default function FormulaBlock({
           <button
             type="button"
             onClick={handleCopy}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#E5E5E5] hover:border-[#171717] rounded text-xs font-mono text-[#525252] hover:text-[#171717] bg-[#FFFFFF] transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-[#E2E2DF] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] rounded text-xs font-mono text-[#505050] hover:text-[#222222] bg-[#FFFFFF] transition-colors"
             title="Copy LaTeX Expression"
           >
             {copied ? (
               <>
-                <Check size={14} className="text-[#171717]" />
+                <Check size={14} className="text-[#222222]" />
                 <span>Copied!</span>
               </>
             ) : (
@@ -104,47 +104,36 @@ export default function FormulaBlock({
 
       {/* Prominent Formula Display: 26-32px KaTeX in isolated LTR box */}
       <div
-        className="p-5 sm:p-6 bg-[#FAFAFA] border border-[#171717] rounded-md overflow-x-auto text-center font-serif text-[24px] sm:text-[28px] md:text-[32px] leading-relaxed select-text"
+        className="p-5 sm:p-6 bg-[#F7F7F5] border border-[#D4D4D0] rounded-md overflow-x-auto text-center font-serif text-[24px] sm:text-[28px] md:text-[32px] leading-relaxed select-text text-[#222222]"
         dir="ltr"
       >
         <MathDisplay latex={latex} display />
       </div>
 
-      {/* Conditions / Usage Constraints Pill */}
+      {/* Conditions / Usage Constraints Pill — Single-Column Full-Width */}
       {(conditions || conditionsAr) && (
-        <div className="flex items-start gap-2.5 p-3.5 bg-[#FFFFFF] border border-[#E5E5E5] rounded-lg text-xs sm:text-[15px] leading-snug">
-          <Info size={16} className="text-[#171717] shrink-0 mt-0.5" />
-          <div className="space-y-1 flex-1">
-            <span className="font-mono text-[11px] uppercase tracking-wider font-bold text-[#737373] block">
+        <div className="flex items-start gap-3 p-4 bg-[#FFFFFF] border border-[#E2E2DF] rounded-xl text-sm sm:text-[16px] leading-relaxed w-full">
+          <Info size={18} className="text-[#222222] shrink-0 mt-0.5" />
+          <div className="space-y-2 flex-1 w-full">
+            <span className="font-mono text-xs sm:text-[13px] uppercase tracking-wider font-bold text-[#686868] block">
               Mathematical Assumptions & Valid Range / الشروط والمعايير الحتمية:
             </span>
-            {conditions && conditionsAr ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-start pt-0.5">
-                <p className="text-[#171717] font-mono text-xs sm:text-sm">
+            <div className="space-y-2 w-full">
+              {conditions && (
+                <p className="text-[#222222] font-mono text-[15px] sm:text-[16px] leading-[1.65]">
                   {conditions}
                 </p>
+              )}
+              {conditionsAr && (
                 <p
                   dir="rtl"
-                  className="text-[#525252] font-serif text-sm md:border-s md:border-[#E5E5E5] md:ps-3"
+                  className="text-[#505050] font-serif text-[16px] sm:text-[17px] leading-[1.8] pt-1.5 border-t border-[#F2F2F0]"
                   style={{ fontFamily: 'var(--font-arabic)' }}
                 >
                   {conditionsAr}
                 </p>
-              </div>
-            ) : (
-              <div>
-                {conditions && (
-                  <p className="text-[#171717] font-mono text-xs sm:text-sm">
-                    {conditions}
-                  </p>
-                )}
-                {conditionsAr && (
-                  <p dir="rtl" className="text-[#525252] font-serif text-sm" style={{ fontFamily: 'var(--font-arabic)' }}>
-                    {conditionsAr}
-                  </p>
-                )}
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       )}

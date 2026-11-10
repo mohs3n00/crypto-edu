@@ -35,7 +35,7 @@ export default function QuestionSubmitButton({
           <button
             type="button"
             onClick={onRetry}
-            className="inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold border border-[#171717] bg-[#FFFFFF] text-[#171717] hover:bg-[#171717] hover:text-[#FFFFFF] rounded transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 text-xs sm:text-sm font-semibold border border-[#D4D4D0] bg-[#FFFFFF] text-[#222222] hover:bg-[#ECEDEB] hover:text-[#222222] rounded transition-colors"
           >
             <RotateCcw className="w-4 h-4" />
             <span>{retryLabel || defaultRetryText}</span>
@@ -53,8 +53,8 @@ export default function QuestionSubmitButton({
         onClick={onSubmit}
         className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs sm:text-sm font-bold border rounded transition-all ${
           canSubmit
-            ? 'border-[#171717] bg-[#171717] text-[#FFFFFF] hover:bg-[#333333] cursor-pointer shadow-xs'
-            : 'border-[#E5E5E5] bg-[#F2F2F2] text-[#A3A3A3] cursor-not-allowed opacity-80'
+            ? 'border-[#222222] bg-[#222222] text-[#FFFFFF] hover:bg-[#000000] cursor-pointer shadow-xs'
+            : 'border-[#E2E2DF] bg-[#EFEFEC] text-[#777777] cursor-not-allowed'
         }`}
       >
         <Send className="w-3.5 h-3.5" />
@@ -62,7 +62,7 @@ export default function QuestionSubmitButton({
       </button>
 
       {!canSubmit && (
-        <div className="flex items-center gap-1.5 text-xs text-[#737373] font-mono">
+        <div className="flex items-center gap-1.5 text-xs text-[#686868] font-mono">
           <AlertCircle className="w-3.5 h-3.5" />
           <span>{disabledReason || defaultReason}</span>
         </div>

@@ -5,7 +5,6 @@ import {
   Circle,
   ArrowLeft,
   ArrowRight,
-  BookOpen,
   Clock,
   Check,
   Sparkles,
@@ -28,10 +27,8 @@ import {
 import WorkedSolutionPanel from '../components/educational/WorkedSolutionPanel';
 import ExamNoteCallout from '../components/educational/ExamNoteCallout';
 import AIProviderActions from '../components/ai/AIProviderActions';
-import KnowledgeCheck from '../components/educational/KnowledgeCheck';
 import SectionAssessment from '../components/educational/SectionAssessment';
 import LargeDiagramContainer from '../components/diagrams/LargeDiagramContainer';
-import { allMindMaps, InteractiveMindMap } from '../components/mindmaps';
 
 // Educational Diagrams
 import SecurityPentagonDiagram from '../components/diagrams/SecurityPentagonDiagram';
@@ -110,12 +107,7 @@ export default function LessonViewer(): React.ReactElement {
     ? lesson.practiceQuestions
     : allQuestions.filter((q) => q.chapterId === chapter.id && (q.relatedLessonId === lesson.id || !q.relatedLessonId)).slice(0, 4);
 
-  // Separation: First question used for Immediate Knowledge Check (Mode A), remaining for Section Assessment (Mode B)
-  const immediateQuestion = practiceQuestions.length > 0 ? practiceQuestions[0] : undefined;
-  const sectionQuestions = practiceQuestions.length > 1
-    ? practiceQuestions.slice(1)
-    : practiceQuestions;
-
+  // Unified Practice & Assessment Questions for this lesson
   // Extract English and Arabic paragraphs
   const enSections = content.sections?.filter((s) => s.lang === 'en' || s.lang === 'both') || [];
   const arSections = content.sections?.filter((s) => s.lang === 'ar' || s.lang === 'both') || [];
@@ -173,34 +165,6 @@ export default function LessonViewer(): React.ReactElement {
             {lesson.titleAr}
           </h2>
         </div>
-
-        {/* Learning Objectives Box — Fluid Responsive Width */}
-        {lesson.objectives && lesson.objectives.length > 0 && (
-          <div className="p-5 sm:p-6 border border-[#171717] bg-[#FAFAFA] rounded-xl space-y-3 shadow-xs w-full">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-[#171717]">
-              <BookOpen className="w-4 h-4" />
-              <span>Learning Objectives / أهداف التعلم الأكاديمية:</span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-[#171717]">
-              <ul className="space-y-1.5 list-disc list-inside leading-relaxed">
-                {lesson.objectives.map((obj, i) => (
-                  <li key={`en-${i}`}>{obj}</li>
-                ))}
-              </ul>
-              {lesson.objectivesAr && (
-                <ul
-                  dir="rtl"
-                  className="space-y-1.5 list-disc list-inside font-serif text-[15px] leading-relaxed md:border-s md:border-[#E5E5E5] md:ps-6"
-                  style={{ fontFamily: 'var(--font-arabic)' }}
-                >
-                  {lesson.objectivesAr.map((obj, i) => (
-                    <li key={`ar-${i}`}>{obj}</li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-        )}
       </header>
 
       {/* Main Educational Exposition */}
@@ -573,101 +537,14 @@ export default function LessonViewer(): React.ReactElement {
           </LargeDiagramContainer>
         )}
 
-        {/* Authoritative Academic Mind Map for Topic Overview (renders exactly once per topic) */}
-        {(() => {
-          const matchingMindMap = allMindMaps.find((mm) => mm.rootNode.lessonId === lesson.id);
-          return matchingMindMap ? (
-            <div className="w-full my-6">
-              <InteractiveMindMap data={matchingMindMap} />
-            </div>
-          ) : null;
-        })()}
-
-        {/* Detailed Academic Exposition — Adaptive Bilingual Layout */}
-        {enSections.length > 0 && arSections.length > 0 ? (
-          <div className="w-full pt-2">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-              {/* Column 1: English Exposition */}
-              <div className="space-y-4 prose-reading">
-                <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-2">
-                  <div className="text-xs font-mono font-bold tracking-wider uppercase text-[#737373]">
-                    Academic Exposition & Theoretical Foundations (English)
-                  </div>
-                  <AIProviderActions
-                    context={{
-                      sectionTitle: `${lesson.title} - Academic Exposition (English)`,
-                      content: enSections
-                        .map((s) => (typeof s.content === 'string' ? s.content : JSON.stringify(s.content)))
-                        .join('\n\n'),
-                      promptType: 'concept',
-                      lessonTitle: lesson.title,
-                      chapterTitle: `Chapter ${chapter.number}: ${chapter.title}`,
-                    }}
-                    variant="compact"
-                  />
-                </div>
-                <div className="text-[#171717] text-[17px] sm:text-[18px] space-y-5 leading-relaxed font-sans">
-                  {enSections.map((sec, idx) => (
-                    <div key={idx} className="whitespace-pre-line">
-                      {typeof sec.content === 'string' ? (
-                        <HighlightedText text={sec.content} />
-                      ) : (
-                        JSON.stringify(sec.content)
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Column 2: Arabic Exposition */}
-              <div className="space-y-4 prose-reading lg:border-s lg:border-[#E5E5E5] lg:ps-8 pt-6 lg:pt-0 border-t lg:border-t-0 border-[#E5E5E5]">
-                <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-2">
-                  <div
-                    dir="rtl"
-                    className="text-xs font-mono font-bold tracking-wider uppercase text-[#737373] font-serif"
-                    style={{ fontFamily: 'var(--font-arabic)' }}
-                  >
-                    التأصيل والتحليل الأكاديمي الشامل (اللغة العربية)
-                  </div>
-                  <AIProviderActions
-                    context={{
-                      sectionTitle: `${lesson.titleAr || lesson.title} - التحليل الأكاديمي الشامل`,
-                      content: arSections
-                        .map((s) => (typeof s.content === 'string' ? s.content : JSON.stringify(s.content)))
-                        .join('\n\n'),
-                      promptType: 'concept',
-                      lessonTitle: lesson.titleAr || lesson.title,
-                      chapterTitle: `Chapter ${chapter.number}: ${chapter.titleAr || chapter.title}`,
-                      language: 'ar',
-                    }}
-                    variant="compact"
-                  />
-                </div>
-                <div
-                  dir="rtl"
-                  className="text-[#171717] text-[17px] sm:text-[18px] space-y-5 leading-[2.1] whitespace-pre-line font-serif"
-                  style={{ fontFamily: 'var(--font-arabic)' }}
-                >
-                  {arSections.map((sec, idx) => (
-                    <div key={idx} className="whitespace-pre-line">
-                      {typeof sec.content === 'string' ? (
-                        <HighlightedText text={sec.content} isArabic />
-                      ) : (
-                        JSON.stringify(sec.content)
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="w-full max-w-3xl space-y-8">
-            {/* Detailed Exposition: English */}
+        {/* Detailed Academic Exposition — Single-Column Full-Width Layout */}
+        {(enSections.length > 0 || arSections.length > 0) && (
+          <div className="w-full pt-2 space-y-6">
+            {/* English Academic Exposition Card */}
             {enSections.length > 0 && (
-              <div className="space-y-4 pt-2 prose-reading">
-                <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-2">
-                  <div className="text-xs font-mono font-bold tracking-wider uppercase text-[#737373]">
+              <div className="w-full border border-[#D4D4D0] bg-[#FFFFFF] rounded-2xl p-6 sm:p-8 space-y-5 shadow-xs hover:border-[#222222] transition-colors">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#E2E2DF] pb-3.5 gap-2">
+                  <div className="text-xs sm:text-[13px] font-mono font-bold tracking-wider uppercase text-[#686868]">
                     Academic Exposition & Theoretical Foundations (English)
                   </div>
                   <AIProviderActions
@@ -683,7 +560,7 @@ export default function LessonViewer(): React.ReactElement {
                     variant="compact"
                   />
                 </div>
-                <div className="text-[#171717] text-[17px] sm:text-[18px] space-y-5 leading-relaxed font-sans">
+                <div className="text-[#222222] text-[17px] sm:text-[18px] space-y-5 leading-[1.65] font-sans">
                   {enSections.map((sec, idx) => (
                     <div key={idx} className="whitespace-pre-line">
                       {typeof sec.content === 'string' ? (
@@ -697,13 +574,13 @@ export default function LessonViewer(): React.ReactElement {
               </div>
             )}
 
-            {/* Detailed Exposition: Arabic */}
+            {/* Arabic Academic Exposition Card — Directly Below English */}
             {arSections.length > 0 && (
-              <div className="space-y-4 pt-6 border-t border-[#E5E5E5] prose-reading">
-                <div className="flex items-center justify-between border-b border-[#E5E5E5] pb-2">
+              <div className="w-full border border-[#D4D4D0] bg-[#FFFFFF] rounded-2xl p-6 sm:p-8 space-y-5 shadow-xs hover:border-[#222222] transition-colors">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#E2E2DF] pb-3.5 gap-2">
                   <div
                     dir="rtl"
-                    className="text-xs font-mono font-bold tracking-wider uppercase text-[#737373] font-serif"
+                    className="text-xs sm:text-[13px] font-mono font-bold tracking-wider uppercase text-[#686868] font-serif"
                     style={{ fontFamily: 'var(--font-arabic)' }}
                   >
                     التأصيل والتحليل الأكاديمي الشامل (اللغة العربية)
@@ -724,7 +601,7 @@ export default function LessonViewer(): React.ReactElement {
                 </div>
                 <div
                   dir="rtl"
-                  className="text-[#171717] text-[17px] sm:text-[18px] space-y-5 leading-[2.1] whitespace-pre-line font-serif"
+                  className="text-[#222222] text-[18px] sm:text-[19px] space-y-5 leading-[1.8] whitespace-pre-line font-serif"
                   style={{ fontFamily: 'var(--font-arabic)' }}
                 >
                   {arSections.map((sec, idx) => (
@@ -813,24 +690,24 @@ export default function LessonViewer(): React.ReactElement {
           </div>
         )}
 
-        {/* Formulas Callouts */}
+        {/* Formulas Callouts — Single-Column Full-Width */}
         {content.formulas && content.formulas.length > 0 && (
-          <div className="border-2 border-[#171717] rounded-xl p-6 bg-[#FAFAFA] space-y-5">
-            <div className="text-xs font-mono font-bold tracking-wider uppercase text-[#171717] flex items-center gap-2">
-              <span className="font-mono text-base font-bold">∑</span>
+          <div className="border border-[#D4D4D0] rounded-2xl p-6 sm:p-8 bg-[#FFFFFF] space-y-6 shadow-xs hover:border-[#222222] transition-colors w-full">
+            <div className="text-xs sm:text-[13px] font-mono font-bold tracking-wider uppercase text-[#686868] flex items-center gap-2 border-b border-[#E2E2DF] pb-3">
+              <span className="font-mono text-base font-bold text-[#222222]">∑</span>
               <span>Mathematical Formulas / الصيغ والقوانين الرياضية:</span>
             </div>
-            <div className="space-y-4 divide-y divide-[#E5E5E5]">
+            <div className="space-y-6 divide-y divide-[#E2E2DF]">
               {content.formulas.map((form) => (
-                <div key={form.id} className="pt-4 first:pt-0 space-y-2">
-                  <div className="flex items-center justify-between text-sm font-bold text-[#171717]">
+                <div key={form.id} className="pt-6 first:pt-0 space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span>{form.label || form.name}</span>
+                      <h4 className="text-[20px] sm:text-[22px] font-bold text-[#222222]">{form.label || form.name}</h4>
                     </div>
                     <div className="flex items-center gap-3">
                       <span
                         dir="rtl"
-                        className="font-serif font-semibold text-[#525252]"
+                        className="font-serif text-[18px] sm:text-[20px] font-bold text-[#505050]"
                         style={{ fontFamily: 'var(--font-arabic)' }}
                       >
                         {form.labelAr || form.nameAr}
@@ -847,28 +724,12 @@ export default function LessonViewer(): React.ReactElement {
                       />
                     </div>
                   </div>
-                  <div className="p-5 bg-[#FFFFFF] border border-[#171717] rounded-md overflow-x-auto text-center font-serif text-[24px] sm:text-[28px]" dir="ltr">
+                  <div className="p-6 bg-[#F7F7F5] border border-[#D4D4D0] rounded-xl overflow-x-auto text-center font-serif text-[24px] sm:text-[28px] text-[#222222]" dir="ltr">
                     <MathDisplay latex={form.latex} display />
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-        )}
-
-        {/* ======================================================== */}
-        {/* MODE A: Immediate Knowledge Check (Right After Concepts) */}
-        {/* ======================================================== */}
-        {immediateQuestion && (
-          <div className="pt-2">
-            <KnowledgeCheck
-              question={immediateQuestion}
-              topicId={lesson.topicId || lesson.id}
-              topicTitle={lesson.title}
-              topicTitleAr={lesson.titleAr}
-              chapterId={chapter.id}
-              lessonId={lesson.id}
-            />
           </div>
         )}
 
@@ -891,12 +752,18 @@ export default function LessonViewer(): React.ReactElement {
                   key={exIdx}
                   title={ex.title}
                   titleAr={ex.titleAr}
+                  sourceRef={ex.sourceRef || lesson.sourceRef?.file}
                   problem={ex.problem || 'Perform the required mathematical steps and calculate the exact cryptographic value.'}
                   problemAr={ex.problemAr}
+                  initialParameters={ex.givenParameters}
                   steps={ex.steps.map((st, sIdx) => ({
                     stepNumber: st.stepNumber || sIdx + 1,
-                    title: st.label || `Step ${sIdx + 1}`,
-                    titleAr: st.labelAr,
+                    title: st.title || st.label || `Step ${sIdx + 1}`,
+                    titleAr: st.titleAr || st.labelAr,
+                    whyThisStep: st.whyThisStep,
+                    whyThisStepAr: st.whyThisStepAr,
+                    formula: st.formula || st.math,
+                    substitution: st.substitution,
                     math: st.math,
                     explanation: st.explanation,
                     explanationAr: st.explanationAr,
@@ -904,6 +771,9 @@ export default function LessonViewer(): React.ReactElement {
                   }))}
                   finalResult={ex.result || 'Calculation complete'}
                   verification={ex.verification}
+                  verificationAr={ex.verificationAr}
+                  examTrapNote={ex.examTrapNote}
+                  examTrapNoteAr={ex.examTrapNoteAr}
                 />
               ))}
             </div>
@@ -936,77 +806,71 @@ export default function LessonViewer(): React.ReactElement {
         })()}
 
         {/* ======================================================== */}
-        {/* MODE B: Section Assessment with Submit Button (Graded)   */}
+        {/* Comprehensive Examination Assessment (Graded)            */}
         {/* ======================================================== */}
-        {sectionQuestions && sectionQuestions.length > 0 && (
+        {practiceQuestions && practiceQuestions.length > 0 && (
           <SectionAssessment
             id={`assessment-${lesson.id}`}
-            title={`End-of-Section Assessment: ${lesson.title}`}
-            titleAr={`اختبار تقييم استيعاب الوحدة: ${lesson.titleAr || lesson.title}`}
-            description="Complete the following evaluation questions independently to verify your understanding before progressing. All answers will be evaluated upon clicking Submit."
-            descriptionAr="أجب عن الأسئلة التالية لاختبار استيعابك للمفاهيم والقوانين. يتم التدقيق والتصحيح الشامل فور الضغط على زر تسليم الإجابات أدناه."
-            questions={sectionQuestions}
+            title={`Lesson Assessment & Exam Questions: ${lesson.title}`}
+            titleAr={`اختبار تقييم استيعاب الدرس: ${lesson.titleAr || lesson.title}`}
+            description="Complete the following examination questions independently to verify your understanding. Solutions, scores, and exam clues are evaluated upon clicking Submit."
+            descriptionAr="أجب عن الأسئلة الامتحانية التالية لاختبار استيعابك للمفاهيم والقوانين. يتم التدقيق والتصحيح الشامل مع كشف دلالات الامتحان فور الضغط على زر التسليم."
+            questions={practiceQuestions}
             chapterId={chapter.id}
             lessonId={lesson.id}
             topicId={lesson.topicId || lesson.id}
           />
         )}
-        {/* Contextual Keyword Recall Entry Point */}
-        <div className="p-4 sm:p-5 rounded-xl border border-[#E5E5E5] bg-[#FAFAFA] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs font-mono text-[#737373] uppercase tracking-wider">
-              <Brain className="w-4 h-4 text-[#171717]" />
-              <span>{isArabic ? 'استرجاع الكلمات المفتاحية النشط' : 'Active Keyword Recall'}</span>
-            </div>
-            <h4 className="text-sm sm:text-base font-bold text-[#171717]">
-              {isArabic ? 'هل ترغب باختبار استرجاعك لمفاهيم هذا الفصل؟' : 'Practice Keyword Recall for This Chapter'}
-            </h4>
-            <p className="text-xs text-[#525252]">
-              {isArabic
-                ? 'اختبر سرعتك في ربط الكلمات المفتاحية بتعريفاتها وشروطها الرياضية ومؤشرات أسئلة الامتحان.'
-                : 'Test your rapid recognition of key terms, mathematical conditions, and exam trigger clues.'}
-            </p>
-          </div>
-          <Link
-            to={`/review?tab=recall&chapter=${chapter.id}`}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#171717] text-[#FFFFFF] text-xs font-bold hover:bg-[#000000] transition-colors shrink-0 shadow-xs"
-          >
-            <span>{isArabic ? 'بدء استرجاع الكلمات' : 'Launch Keyword Recall'}</span>
-            <ArrowRight className={`w-3.5 h-3.5 ${isArabic ? 'rotate-180' : ''}`} />
-          </Link>
-        </div>
       </section>
 
-      {/* Completion Toggle Banner & Navigation */}
-      <footer className="pt-8 border-t border-[#E5E5E5] space-y-6">
-        <div className="p-5 border-2 border-[#171717] rounded-xl bg-[#FAFAFA] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <h4 className="text-base font-bold text-[#171717]">
-              {completed ? 'Lesson Mastered & Completed' : 'Completed Studying This Lesson?'}
-            </h4>
-            <p className="text-xs text-[#525252]">
-              Marking complete updates your curriculum progress and exam readiness metrics.
-            </p>
+      {/* Completion & Next Lesson Footer Bar */}
+      <footer className="pt-6 border-t border-[#E2E2DF] space-y-4">
+        <div className="p-4 border border-[#E2E2DF] rounded-xl bg-[#F7F7F5] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-[#222222] text-[#FFFFFF] flex items-center justify-center shrink-0">
+              <Brain size={16} />
+            </div>
+            <div>
+              <h4 className="text-sm font-bold text-[#222222]">
+                {isArabic ? 'المراجعة النشطة واستيعاب الدرس' : 'Active Review & Lesson Mastery'}
+              </h4>
+              <p className="text-xs text-[#505050]">
+                {isArabic
+                  ? 'اختبر سرعتك في ربط المفاهيم والكلمات المفتاحية، أو حدد الدرس كمكتمل لتحديث مؤشرات التقدم.'
+                  : 'Practice rapid term recognition in Review Hub or mark this lesson completed.'}
+              </p>
+            </div>
           </div>
-          <button
-            type="button"
-            onClick={() => toggleLessonCompleted(lesson.id)}
-            className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs font-bold rounded transition-colors ${
-              completed
-                ? 'border border-[#171717] bg-[#FFFFFF] text-[#171717] hover:bg-[#F2F2F2]'
-                : 'border border-[#171717] bg-[#171717] text-[#FFFFFF] hover:bg-[#333333]'
-            }`}
-          >
-            {completed ? (
-              <>
-                <CheckCircle2 className="w-4 h-4" /> Mark as Incomplete
-              </>
-            ) : (
-              <>
-                <Circle className="w-4 h-4" /> Mark as Completed
-              </>
-            )}
-          </button>
+
+          <div className="flex items-center gap-2.5 self-end sm:self-auto shrink-0">
+            <Link
+              to={`/review?tab=recall&chapter=${chapter.id}`}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[#E2E2DF] bg-[#FFFFFF] text-xs font-mono font-bold text-[#222222] hover:bg-[#ECEDEB] transition-colors"
+            >
+              <span>{isArabic ? 'استرجاع الكلمات' : 'Recall Terms'}</span>
+              <ArrowRight size={13} className={isArabic ? 'rotate-180' : ''} />
+            </Link>
+
+            <button
+              type="button"
+              onClick={() => toggleLessonCompleted(lesson.id)}
+              className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-lg transition-colors border ${
+                completed
+                  ? 'border-[#222222] bg-[#FFFFFF] text-[#222222] hover:bg-[#ECEDEB]'
+                  : 'border-[#222222] bg-[#222222] text-[#FFFFFF] hover:bg-[#333333]'
+              }`}
+            >
+              {completed ? (
+                <>
+                  <CheckCircle2 size={14} /> <span>{isArabic ? 'مكتمل' : 'Completed'}</span>
+                </>
+              ) : (
+                <>
+                  <Circle size={14} /> <span>{isArabic ? 'تحديد كمكتمل' : 'Mark Completed'}</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Previous and Next Navigation */}

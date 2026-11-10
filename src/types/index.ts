@@ -115,18 +115,31 @@ export interface WorkedExample {
   id?: string;
   title: string;
   titleAr?: string;
+  sourceRef?: string;
   problem?: string;
   problemAr?: string;
+  givenParameters?: { label: string; value: string; labelAr?: string }[];
   steps: WorkedStep[];
   result?: string;
   verification?: string;
+  verificationAr?: string;
+  examTrapNote?: string;
+  examTrapNoteAr?: string;
 }
 
 export interface WorkedStep {
   stepNumber?: number;
   label?: string;
   labelAr?: string;
+  title?: string;
+  titleAr?: string;
+  whyThisStep?: string;
+  whyThisStepAr?: string;
+  formula?: string;
+  substitution?: string;
   math?: string;
+  calculation?: string;
+  calculationAr?: string;
   explanation: string;
   explanationAr?: string;
   intermediateResult?: string;

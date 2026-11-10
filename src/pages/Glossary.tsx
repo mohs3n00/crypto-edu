@@ -79,40 +79,41 @@ export default function Glossary(): React.ReactElement {
         </select>
       </div>
 
-      {/* Terms Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {/* Terms List — Single-Column Full-Width */}
+      <div className="flex flex-col space-y-5 w-full">
         {filteredItems.map((item: GlossaryTerm) => (
           <div
             key={item.id}
-            className="border border-[#E5E5E5] rounded-lg p-5 bg-[#FFFFFF] space-y-3 hover:border-[#171717] transition-colors"
+            className="w-full border border-[#D4D4D0] rounded-2xl p-6 sm:p-7 bg-[#FFFFFF] space-y-4 hover:border-[#222222] transition-colors shadow-xs"
           >
-            <div className="flex items-center justify-between border-b border-[#F2F2F2] pb-2">
-              <span className="font-mono text-[10px] uppercase border border-[#E5E5E5] px-2 py-0.5 rounded text-[#737373]">
-                {item.category.toUpperCase()}
-              </span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#E2E2DF] pb-3 gap-2">
+              <div className="flex items-center gap-2.5">
+                <span className="font-mono text-xs uppercase border border-[#222222] bg-[#222222] text-[#FFFFFF] px-2.5 py-1 rounded-lg font-bold">
+                  {item.category.toUpperCase()}
+                </span>
+                <h3 className="text-[22px] sm:text-[24px] font-bold text-[#222222]">{item.termEn}</h3>
+              </div>
               <span
                 dir="rtl"
-                className="text-xs font-semibold text-[#171717] font-serif"
+                className="text-[20px] sm:text-[22px] font-bold text-[#505050] font-serif"
                 style={{ fontFamily: 'var(--font-arabic)' }}
               >
                 {item.termAr}
               </span>
             </div>
 
-            <h3 className="text-base font-bold text-[#171717]">{item.termEn}</h3>
-
-            <div className="space-y-2 text-xs text-[#525252] leading-relaxed">
-              <p>{item.definitionEn}</p>
+            <div className="space-y-3 text-[#222222] w-full">
+              <p className="text-[17px] sm:text-[18px] leading-[1.65] font-sans">{item.definitionEn}</p>
               <p
                 dir="rtl"
-                className="pt-2 border-t border-[#F2F2F2] font-serif text-[#525252]"
+                className="pt-2 border-t border-[#E8E8E5] font-serif text-[18px] sm:text-[19px] leading-[1.8] text-[#505050]"
                 style={{ fontFamily: 'var(--font-arabic)' }}
               >
                 {item.definitionAr}
               </p>
               {item.examContext && (
-                <div className="mt-2 p-2 bg-[#FAFAFA] border border-[#E5E5E5] rounded text-[11px] text-[#171717] font-mono">
-                  Exam Note: {item.examContext}
+                <div className="mt-3 p-3.5 bg-[#F7F7F5] border border-[#E2E2DF] rounded-xl text-sm sm:text-[15px] text-[#222222] font-mono leading-relaxed">
+                  <strong className="text-[#222222]">Exam Clue: </strong>{item.examContext}
                 </div>
               )}
             </div>

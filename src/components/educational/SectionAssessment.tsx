@@ -15,6 +15,7 @@ import { useUI } from '../../store/uiStore';
 import QuestionSourceBadge from './QuestionSourceBadge';
 import ContextualHint from './ContextualHint';
 import TopicMasteryBadge from './TopicMasteryBadge';
+import ExamCluesSection from './ExamCluesSection';
 import { normalizeQuestion, validateQuestionAnswer } from '../../utils/questionNormalizer';
 
 export interface SectionAssessmentProps {
@@ -149,13 +150,13 @@ export default function SectionAssessment({
               <TopicMasteryBadge state={reviewRecord.masteryState} />
             )}
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold text-[#171717] tracking-tight">
+          <h3 className="text-[22px] sm:text-[24px] font-bold text-[#222222] tracking-tight">
             {title}
           </h3>
           {titleAr && (
             <h4
               dir="rtl"
-              className="text-base sm:text-lg font-bold text-[#525252] font-serif"
+              className="text-[20px] sm:text-[22px] font-bold text-[#505050] font-serif"
               style={{ fontFamily: 'var(--font-arabic)' }}
             >
               {titleAr}
@@ -231,20 +232,16 @@ export default function SectionAssessment({
 
               {/* Question Stem */}
               <h5
-                className="text-[16px] sm:text-[17px] font-bold text-[#171717] leading-relaxed"
+                className="text-[17px] sm:text-[18px] font-bold text-[#222222] leading-relaxed"
                 dir={isArabicView ? 'rtl' : 'ltr'}
                 style={isArabicView ? { fontFamily: 'var(--font-arabic)' } : undefined}
               >
                 {currentStem}
               </h5>
 
-              {/* Options: Structured Responsive Grid for Short Choices, Stacked for Long */}
+              {/* Options: Single-Column Full-Width Stack */}
               <div
-                className={
-                  rawOptions.length <= 4 && rawOptions.every((o) => (o || '').length < 60)
-                    ? 'grid grid-cols-1 md:grid-cols-2 gap-2.5'
-                    : 'space-y-2'
-                }
+                className="flex flex-col space-y-2.5 w-full"
                 role="radiogroup"
               >
                 {rawOptions.map((opt, optIdx) => {
@@ -322,6 +319,9 @@ export default function SectionAssessment({
                       {isArabicUI ? q.explanationAr || q.explanation : q.explanation}
                     </p>
                   </div>
+
+                  {/* Requirement 4: KEYWORDS TO REMEMBER | Exam Clues Section */}
+                  <ExamCluesSection question={q} />
                 </div>
               )}
             </div>

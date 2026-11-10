@@ -84,26 +84,26 @@ export default function FormulaLibrary(): React.ReactElement {
         </select>
       </div>
 
-      {/* Formula Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Formula Cards — Single-Column Full-Width */}
+      <div className="flex flex-col space-y-6 w-full">
         {filteredFormulas.map((form: FormulaItem) => (
           <div
             key={form.id}
-            className="border border-[#E5E5E5] rounded-lg p-5 bg-[#FFFFFF] space-y-4 hover:border-[#171717] transition-colors flex flex-col justify-between"
+            className="w-full border border-[#D4D4D0] rounded-2xl p-6 sm:p-7 bg-[#FFFFFF] space-y-5 hover:border-[#222222] transition-colors shadow-xs"
           >
             <div>
               {/* Title & Badge */}
-              <div className="flex items-center justify-between border-b border-[#F2F2F2] pb-3">
-                <div className="space-y-0.5">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono text-[10px] uppercase border border-[#171717] bg-[#171717] text-[#FFFFFF] px-2 py-0.5 rounded">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#E2E2DF] pb-3.5 gap-2">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2.5">
+                    <span className="font-mono text-xs uppercase border border-[#222222] bg-[#222222] text-[#FFFFFF] px-2.5 py-1 rounded-lg font-bold">
                       {form.chapterId.toUpperCase()}
                     </span>
-                    <h3 className="text-base font-bold text-[#171717]">{form.name}</h3>
+                    <h3 className="text-[22px] sm:text-[24px] font-bold text-[#222222]">{form.name}</h3>
                   </div>
                   <h4
                     dir="rtl"
-                    className="text-xs font-medium text-[#525252] font-serif"
+                    className="text-[18px] sm:text-[20px] font-bold text-[#505050] font-serif"
                     style={{ fontFamily: 'var(--font-arabic)' }}
                   >
                     {form.nameAr}
@@ -113,35 +113,35 @@ export default function FormulaLibrary(): React.ReactElement {
                 <button
                   type="button"
                   onClick={() => handleCopyLatex(form.id, form.latex)}
-                  className="p-1.5 border border-[#E5E5E5] rounded text-xs text-[#525252] hover:text-[#171717] hover:bg-[#FAFAFA] transition-colors flex items-center gap-1 font-mono text-[11px]"
+                  className="p-2 border border-[#E2E2DF] rounded-lg text-xs text-[#505050] hover:text-[#222222] hover:bg-[#ECEDEB] transition-colors flex items-center gap-1.5 font-mono text-[12px] self-start sm:self-auto"
                   title="Copy LaTeX code"
                 >
                   {copiedId === form.id ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-[#171717]" /> Copied!
+                      <Check className="w-4 h-4 text-[#222222]" /> Copied!
                     </>
                   ) : (
                     <>
-                      <Copy className="w-3.5 h-3.5" /> LaTeX
+                      <Copy className="w-4 h-4" /> LaTeX
                     </>
                   )}
                 </button>
               </div>
 
               {/* Formula LaTeX Display */}
-              <div className="my-3 p-4 bg-[#FAFAFA] border border-[#E5E5E5] rounded-md overflow-x-auto text-center font-serif text-lg">
+              <div className="my-4 p-6 bg-[#F7F7F5] border border-[#D4D4D0] rounded-xl overflow-x-auto text-center font-serif text-[24px] sm:text-[28px] text-[#222222]">
                 <MathDisplay latex={form.latex} display />
               </div>
 
-              {/* Explanations */}
-              <div className="text-xs space-y-1.5 text-[#525252]">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-start">
-                  <p>
-                    <strong className="text-[#171717]">Definition & Context: </strong>
+              {/* Explanations: Single-Column Full-Width */}
+              <div className="space-y-3 text-[#222222] w-full pt-1">
+                <div className="space-y-3 w-full">
+                  <p className="text-[17px] sm:text-[18px] leading-[1.65]">
+                    <strong className="text-[#222222] font-semibold">Definition & Context: </strong>
                     {form.description}
                   </p>
-                  <p dir="rtl" className="font-serif text-[#525252] md:border-s md:border-[#E5E5E5] md:ps-3" style={{ fontFamily: 'var(--font-arabic)' }}>
-                    <strong className="text-[#171717]">الشرح الأكاديمي: </strong>
+                  <p dir="rtl" className="font-serif text-[18px] sm:text-[19px] leading-[1.8] text-[#505050] pt-2 border-t border-[#F2F2F0]" style={{ fontFamily: 'var(--font-arabic)' }}>
+                    <strong className="text-[#222222] font-semibold">الشرح الأكاديمي: </strong>
                     {form.descriptionAr}
                   </p>
                 </div>
@@ -150,20 +150,20 @@ export default function FormulaLibrary(): React.ReactElement {
 
             {/* Variables / Parameters Breakdown */}
             {form.variables && form.variables.length > 0 && (
-              <div className="pt-3 border-t border-[#F2F2F2] space-y-2">
-                <span className="text-[11px] font-mono uppercase text-[#737373]">
+              <div className="pt-4 border-t border-[#E2E2DF] space-y-2.5">
+                <span className="text-xs sm:text-[13px] font-mono uppercase font-bold text-[#686868] block">
                   Variables & Symbols / الرموز والمتغيرات:
                 </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-sm">
                   {form.variables.map((v, vIdx) => (
                     <div
                       key={vIdx}
-                      className="p-2 border border-[#E5E5E5] rounded bg-[#FFFFFF] flex items-center gap-2"
+                      className="p-3 border border-[#E2E2DF] rounded-xl bg-[#F7F7F5] flex items-center gap-2.5"
                     >
-                      <span className="font-mono font-bold text-[#171717] px-1.5 py-0.5 bg-[#F2F2F2] rounded text-xs">
+                      <span className="font-mono font-bold text-[#222222] px-2 py-0.5 bg-[#FFFFFF] border border-[#D4D4D0] rounded text-xs sm:text-sm">
                         {v.symbol}
                       </span>
-                      <span className="text-[#525252] text-[11px] truncate">{v.meaning}</span>
+                      <span className="text-[#505050] text-[13px] sm:text-[14px] truncate">{v.meaning}</span>
                     </div>
                   ))}
                 </div>

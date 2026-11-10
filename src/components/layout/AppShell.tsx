@@ -75,7 +75,7 @@ export default function AppShell(): React.ReactElement {
 
   return (
     <BreadcrumbContext.Provider value={{ crumbs, setCrumbs }}>
-      <div className="flex flex-col h-screen overflow-hidden bg-white">
+      <div className="flex flex-col h-screen overflow-hidden bg-[#F7F7F5]">
         {/* Fixed top nav */}
         <TopNav crumbs={crumbs} />
 
@@ -84,7 +84,7 @@ export default function AppShell(): React.ReactElement {
           {/* Mobile overlay */}
           {sidebarOpen && (
             <div
-              className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+              className="fixed inset-0 z-40 bg-black/30 lg:hidden"
               aria-hidden="true"
               onClick={handleOverlayClick}
             />
@@ -95,7 +95,7 @@ export default function AppShell(): React.ReactElement {
             id="course-sidebar"
             aria-label="Course navigation"
             className={[
-              'fixed top-14 bottom-0 z-50 flex flex-col bg-white border-e border-[#E5E5E5] start-0',
+              'fixed top-14 bottom-0 z-50 flex flex-col bg-[#FFFFFF] border-e border-[#E2E2DF] start-0',
               'transition-all duration-200 ease-in-out',
               sidebarOpen
                 ? 'translate-x-0 lg:static lg:flex lg:z-auto'
@@ -110,7 +110,7 @@ export default function AppShell(): React.ReactElement {
           <main
             id="main-content"
             tabIndex={-1}
-            className="flex-1 overflow-y-auto bg-near-white focus:outline-none"
+            className="flex-1 overflow-y-auto bg-[#F7F7F5] focus:outline-none"
           >
             <Outlet />
           </main>

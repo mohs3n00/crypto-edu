@@ -50,7 +50,7 @@ export default function QuestionStatement({
     <div className="space-y-1.5">
       <div
         dir={isDisplayingArabic ? 'rtl' : 'ltr'}
-        className={`text-base sm:text-lg font-bold text-[#171717] leading-relaxed ${
+        className={`text-[17px] sm:text-[18px] font-bold text-[#222222] leading-relaxed ${
           isDisplayingArabic ? 'font-serif' : 'font-sans'
         }`}
         style={isDisplayingArabic ? { fontFamily: 'var(--font-arabic)' } : undefined}
@@ -59,7 +59,7 @@ export default function QuestionStatement({
       </div>
 
       {altLangActive && (
-        <p className="text-[11px] font-mono text-[#737373]">
+        <p className="text-xs font-mono text-[#686868]">
           {isDisplayingArabic ? '(Arabic Translation)' : '(Original English Exam Stem)'}
         </p>
       )}

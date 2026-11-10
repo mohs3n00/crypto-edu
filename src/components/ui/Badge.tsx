@@ -18,23 +18,23 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 
 const variantClasses: Record<BadgeVariant, string> = {
   default:
-    'bg-light-gray text-dark-gray border border-neutral-gray',
+    'bg-[#ECEDEB] text-[#505050] border border-[#E2E2DF]',
   outline:
-    'bg-transparent text-dark-gray border border-neutral-gray',
+    'bg-transparent text-[#505050] border border-[#E2E2DF]',
   solid:
-    'bg-near-black text-white border border-near-black',
+    'bg-[#222222] text-[#FFFFFF] border border-[#222222]',
   'difficulty-1':
-    'bg-white text-dark-gray border border-neutral-gray',
+    'bg-[#FFFFFF] text-[#505050] border border-[#E2E2DF]',
   'difficulty-2':
-    'bg-light-gray text-near-black border border-medium-gray',
+    'bg-[#ECEDEB] text-[#222222] border border-[#D4D4D0]',
   'difficulty-3':
-    'bg-near-black text-white border border-near-black',
+    'bg-[#222222] text-[#FFFFFF] border border-[#222222]',
   'source-original':
-    'bg-white text-near-black border border-near-black font-semibold',
+    'bg-[#FFFFFF] text-[#222222] border border-[#222222] font-semibold',
   'source-generated':
-    'bg-light-gray text-dark-gray border border-neutral-gray',
+    'bg-[#ECEDEB] text-[#505050] border border-[#E2E2DF]',
   'source-exam':
-    'bg-near-black text-white border border-near-black',
+    'bg-[#222222] text-[#FFFFFF] border border-[#222222]',
 };
 
 export default function Badge({

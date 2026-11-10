@@ -101,7 +101,7 @@ export default function SemanticHighlight({
             ? `${resolvedKeyword.termEn} (${currentRole.en}) — Click for concept details & memory cue`
             : `${currentRole.en} — Click to view explanation`
         }
-        className={`cursor-pointer inline bg-[#FFF1A6] text-[#171717] border-b-2 border-[#E2C65A] px-1 py-0.5 rounded-[3px] font-semibold transition-all hover:bg-[#FFE873] hover:border-[#171717] focus:outline-hidden focus:ring-2 focus:ring-[#171717] ${className}`}
+        className={`cursor-pointer inline bg-[#FFF1A6] text-[#222222] border-b-2 border-[#E2C65A] px-1 py-0.5 rounded-[3px] font-semibold transition-all hover:bg-[#FFE873] hover:border-[#222222] focus:outline-hidden focus:ring-2 focus:ring-[#222222] ${className}`}
       >
         {children}
       </span>
@@ -111,7 +111,7 @@ export default function SemanticHighlight({
         <span
           role="tooltip"
           dir={isArabic ? 'rtl' : 'ltr'}
-          className="absolute z-40 bottom-full left-1/2 -translate-x-1/2 mb-1.5 w-60 sm:w-72 p-2 rounded-lg border border-[#171717] bg-[#171717] text-[#FFFFFF] shadow-md text-left pointer-events-none transition-opacity"
+          className="absolute z-40 bottom-full left-1/2 -translate-x-1/2 mb-1.5 w-60 sm:w-72 p-2 rounded-lg border border-[#222222] bg-[#222222] text-[#FFFFFF] shadow-md text-left pointer-events-none transition-opacity"
         >
           <span className="flex items-center justify-between text-[10px] font-mono uppercase text-[#A3A3A3] pb-1 border-b border-[#333333] mb-1">
             <span>{isArabic ? currentRole.ar : currentRole.en}</span>
@@ -136,21 +136,21 @@ export default function SemanticHighlight({
           role="dialog"
           aria-label="Academic Concept Information"
           dir={isArabic ? 'rtl' : 'ltr'}
-          className="absolute z-50 left-1/2 -translate-x-1/2 bottom-full mb-2 w-80 sm:w-96 p-4 rounded-xl border-2 border-[#171717] bg-[#FFFFFF] shadow-xl text-[#171717] space-y-3"
+          className="absolute z-50 left-1/2 -translate-x-1/2 bottom-full mb-2 w-80 sm:w-96 p-4 rounded-xl border border-[#D4D4D0] bg-[#FFFFFF] shadow-xl text-[#222222] space-y-3"
         >
           {/* Header */}
-          <div className="flex items-start justify-between border-b border-[#E5E5E5] pb-2 gap-2">
+          <div className="flex items-start justify-between border-b border-[#E2E2DF] pb-2 gap-2">
             <div className="space-y-0.5 min-w-0">
-              <span className="font-mono text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-[#171717] text-[#FFFFFF] inline-block">
+              <span className="font-mono text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-[#222222] text-[#FFFFFF] inline-block">
                 {currentRole.en} • {currentRole.ar}
               </span>
-              <h4 className="text-[14px] sm:text-[15px] font-bold text-[#171717] truncate">
+              <h4 className="text-[14px] sm:text-[15px] font-bold text-[#222222] truncate">
                 {phraseLabelEn || resolvedKeyword?.termEn || (typeof children === 'string' ? children : 'Key Academic Phrase')}
               </h4>
               {(phraseLabelAr || resolvedKeyword?.termAr) && (
                 <h5
                   dir="rtl"
-                  className="text-xs font-serif text-[#525252] font-bold"
+                  className="text-xs font-serif text-[#505050] font-bold"
                   style={{ fontFamily: 'var(--font-arabic)' }}
                 >
                   {phraseLabelAr || resolvedKeyword?.termAr}
@@ -161,7 +161,7 @@ export default function SemanticHighlight({
             <button
               type="button"
               onClick={() => setIsOpen(false)}
-              className="p-1 rounded hover:bg-[#F2F2F2] text-[#525252] transition-colors"
+              className="p-1 rounded hover:bg-[#ECEDEB] text-[#505050] hover:text-[#222222] transition-colors"
               aria-label="Close details"
             >
               <X size={14} />
@@ -169,12 +169,12 @@ export default function SemanticHighlight({
           </div>
 
           {/* Academic Explanation */}
-          <div className="text-xs sm:text-[13px] leading-relaxed text-[#171717] space-y-1.5 font-sans">
+          <div className="text-xs sm:text-[13px] leading-relaxed text-[#222222] space-y-1.5 font-sans">
             <p>{effectiveExplanationEn}</p>
             {effectiveExplanationAr && (
               <p
                 dir="rtl"
-                className="font-serif text-[#525252] pt-1 border-t border-[#F2F2F2]"
+                className="font-serif text-[#505050] pt-1 border-t border-[#E2E2DF]"
                 style={{ fontFamily: 'var(--font-arabic)' }}
               >
                 {effectiveExplanationAr}
