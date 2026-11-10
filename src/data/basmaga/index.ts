@@ -52,10 +52,13 @@ export function filterBasmagaQuestions(params: {
         (kw) => kw.en.toLowerCase().includes(q) || kw.ar.toLowerCase().includes(q)
       );
       const inConcept =
-        item.basmagaRule.targetConcept.toLowerCase().includes(q) ||
-        item.basmagaRule.targetConceptAr.toLowerCase().includes(q);
+        item.basmagaRule?.targetConcept?.toLowerCase().includes(q) ||
+        item.basmagaRule?.targetConceptAr?.toLowerCase().includes(q) ||
+        false;
       const inRule =
-        item.basmagaRule.en.toLowerCase().includes(q) || item.basmagaRule.ar.toLowerCase().includes(q);
+        item.basmagaRule?.en?.toLowerCase().includes(q) ||
+        item.basmagaRule?.ar?.toLowerCase().includes(q) ||
+        false;
       return inEn || inAr || inKeywords || inConcept || inRule;
     });
   }

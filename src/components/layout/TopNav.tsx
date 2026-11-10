@@ -4,12 +4,14 @@ import {
   Menu,
   ChevronDown,
   BookOpen,
+  HelpCircle,
   CheckCircle2,
   Sparkles,
   Check,
   GraduationCap,
   Key,
   Calculator,
+  Presentation,
 } from 'lucide-react';
 import { useUI } from '../../store/uiStore';
 import { useProgress } from '../../store/progressStore';
@@ -81,7 +83,7 @@ export default function TopNav({ crumbs = [] }: TopNavProps): React.ReactElement
         </button>
 
         <Link
-          to="/learn"
+          to="/study"
           className="flex items-center gap-2.5 no-underline group"
           aria-label="EDU Home"
         >
@@ -217,12 +219,16 @@ export default function TopNav({ crumbs = [] }: TopNavProps): React.ReactElement
 
         {/* The 3 Primary Destinations: Learn, Practice, Review */}
         <nav className="flex items-center gap-1 sm:gap-2 text-[15px] sm:text-[16px]">
-          {/* 1. Learn */}
+          {/* 1. Study (Unified Complete Curriculum Guide) */}
           <NavLink
-            to="/learn"
+            to="/study"
             data-nav-item
             className={({ isActive }) => {
-              const active = isActive || location.pathname === '/' || location.pathname.startsWith('/learn');
+              const active =
+                isActive ||
+                location.pathname === '/' ||
+                location.pathname.startsWith('/study') ||
+                location.pathname.startsWith('/learn');
               return `px-3 py-1.5 rounded-md transition-colors flex items-center gap-2 border font-medium ${
                 active
                   ? 'bg-[#E8E8E5] text-[#222222] border-[#D4D4D0] font-semibold'
@@ -231,20 +237,18 @@ export default function TopNav({ crumbs = [] }: TopNavProps): React.ReactElement
             }}
           >
             <BookOpen size={16} className="shrink-0" />
-            <span>{t('learn')}</span>
+            <span>{isRTL ? 'الدراسة' : 'Study'}</span>
           </NavLink>
 
-          {/* 2. Practice */}
+          {/* 2. Questions (Centralized Question Bank & Exams) */}
           <NavLink
-            to="/practice"
+            to="/questions"
             data-nav-item
             className={({ isActive }) => {
               const active =
                 isActive ||
-                location.pathname.startsWith('/practice') ||
-                location.pathname === '/questions' ||
-                location.pathname === '/exams' ||
-                location.pathname === '/lab';
+                location.pathname.startsWith('/questions') ||
+                location.pathname.startsWith('/practice');
               return `px-3 py-1.5 rounded-md transition-colors flex items-center gap-2 border font-medium ${
                 active
                   ? 'bg-[#E8E8E5] text-[#222222] border-[#D4D4D0] font-semibold'
@@ -252,8 +256,8 @@ export default function TopNav({ crumbs = [] }: TopNavProps): React.ReactElement
               }`;
             }}
           >
-            <CheckCircle2 size={16} className="shrink-0" />
-            <span>{t('practice')}</span>
+            <HelpCircle size={16} className="shrink-0" />
+            <span>{isRTL ? 'الأسئلة' : 'Questions'}</span>
           </NavLink>
 
           {/* 3. Review */}
@@ -311,6 +315,23 @@ export default function TopNav({ crumbs = [] }: TopNavProps): React.ReactElement
           >
             <Calculator size={15} className="shrink-0 text-[#505050]" />
             <span>{isRTL ? 'حل المسائل' : 'Problems'}</span>
+          </NavLink>
+
+          {/* 6. Interactive Learning (PowerPoint-Style Digital Classroom) */}
+          <NavLink
+            to="/interactive"
+            data-nav-item
+            className={({ isActive }) => {
+              const active = isActive || location.pathname.startsWith('/interactive');
+              return `px-3 py-1.5 rounded-md transition-colors flex items-center gap-1.5 border font-medium ${
+                active
+                  ? 'bg-[#E8E8E5] text-[#222222] border-[#D4D4D0] font-semibold'
+                  : 'border-transparent text-[#222222] hover:bg-[#ECEDEB] hover:text-[#222222] hover:border-[#D4D4D0]'
+              }`;
+            }}
+          >
+            <Presentation size={15} className="shrink-0 text-[#505050]" />
+            <span>{isRTL ? 'تعلّم تفاعلي' : 'Lectures'}</span>
           </NavLink>
         </nav>
       </div>

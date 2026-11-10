@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import MathDisplay from '../ui/MathDisplay';
 
-export default function FermatEulerDiagram(): React.ReactElement {
-  const [selectedTheorem, setSelectedTheorem] = useState<'fermat' | 'euler'>('fermat');
+interface FermatEulerDiagramProps {
+  initialTheorem?: 'fermat' | 'euler';
+}
+
+export default function FermatEulerDiagram({ initialTheorem = 'fermat' }: FermatEulerDiagramProps): React.ReactElement {
+  const [selectedTheorem, setSelectedTheorem] = useState<'fermat' | 'euler'>(initialTheorem);
 
   return (
     <div className="border border-[#171717] rounded-lg p-6 bg-[#FFFFFF] space-y-6">
@@ -10,10 +14,14 @@ export default function FermatEulerDiagram(): React.ReactElement {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#E5E5E5] pb-3 gap-2">
         <div>
           <h3 className="text-sm font-bold text-[#171717]">
-            Fermat's Little Theorem &amp; Euler's Generalization (Stallings Ch 2)
+            {selectedTheorem === 'fermat'
+              ? "Fermat's Little Theorem (Stallings Ch 2 / Slide 26)"
+              : "Euler's Generalization & Totient Function φ(n) (Stallings Ch 2 / Slide 27-28)"}
           </h3>
           <p className="text-xs text-[#737373]">
-            Conditions, Totient Function Calculation, and Modular Exponent Reduction Flow
+            {selectedTheorem === 'fermat'
+              ? "Conditions: p is Prime, gcd(a, p) = 1. Reduces exponents via a^(p-1) ≡ 1 (mod p)."
+              : "Conditions: Modulus n is composite, gcd(a, n) = 1. Reduces exponents via a^φ(n) ≡ 1 (mod n)."}
           </p>
         </div>
         <span
@@ -21,7 +29,9 @@ export default function FermatEulerDiagram(): React.ReactElement {
           className="text-xs font-semibold text-[#525252] font-serif"
           style={{ fontFamily: 'var(--font-arabic)' }}
         >
-          مبرهنة فيرما الصغرى ومبرهنة أويلر المعممة واختزال الأسس المعيارية
+          {selectedTheorem === 'fermat'
+            ? 'مبرهنة فيرما الصغرى (المقياس الأولي p)'
+            : 'دالة مؤشر أويلر ومبرهنة أويلر المعممة (المقياس n)'}
         </span>
       </div>
 
@@ -129,4 +139,3 @@ export default function FermatEulerDiagram(): React.ReactElement {
     </div>
   );
 }
-

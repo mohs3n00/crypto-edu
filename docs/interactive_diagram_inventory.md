@@ -1,0 +1,40 @@
+# EDU — Interactive Diagram Inventory & Visual Pedagogy Guide
+
+## 1. Overview & Pedagogical Philosophy
+
+In the **EDU** Interactive Learning subsystem, diagrams are not passive illustrations or static images extracted from slides. Every diagram is an interactive web component built with SVG, HTML5, and React, allowing students to inspect individual components, explore state changes, trace input-to-output cryptographic transformations, and visualize complex abstract relationships.
+
+---
+
+## 2. Comprehensive Interactive Diagram Catalog
+
+| Diagram ID | Component File | Associated Lesson(s) | Primary Slide Reference | Pedagogical Objective & Interactive Capabilities |
+|:---|:---|:---|:---|:---|
+| `security-pentagon` | `SecurityPentagonDiagram.tsx` | `ch1-l5` | `Ch 1`, Slide 7 (Fig 1.1) | **Five Essential Security Requirements**: Interactive 5-node pentagon surrounding Data & Services. Clicking any node (`Confidentiality`, `Integrity`, `Availability`, `Authenticity`, `Accountability`) reveals its NIST definitions, real-world examples, and distinction from Non-repudiation. |
+| `cia-triad` | `CiaTriadDiagram.tsx` | `ch1-l3` | `Ch 1`, Slide 5–6 | **CIA Triad & Key Security Objectives**: Interactive triad linking Confidentiality (Data & Privacy), Integrity (Data & System), and Availability, with interactive objective badges. |
+| `passive-active-attacks` | `PassiveActiveAttacksDiagram.tsx` | `ch1-l10`, `ch1-l11` | `Ch 1`, Slides 10–14 | **Attack Taxonomy**: Interactive tabbed view contrasting Passive Attacks (Eavesdropping, Traffic Analysis) with Active Attacks (Masquerade, Replay, Modification, DoS), highlighting detection vs prevention goals. |
+| `network-security-model` | `NetworkSecurityModelDiagram.tsx` | `ch1-l16` | `Ch 1`, Slide 25 (Fig 1.2) | **Model for Network Security**: Interactive flow showing Sender ➔ Security Transformation (Cipher/MAC) ➔ Insecure Channel (Opponent interception) ➔ Recipient, plus Trusted Third Party (KDC/CA) key distribution channel. |
+| `network-access-security` | `NetworkAccessSecurityDiagram.tsx` | `ch1-l17` | `Ch 1`, Slide 26–27 (Fig 1.3) | **Network Access Security Model**: Interactive architecture displaying Opponent, Access Channel, Gatekeeper Function (Firewalls/Passswords), Internal Controls, and Computing Resources. Includes tabbed toggle between *Information Access Threats* and *Service Threats*. |
+| `euclidean-ladder` | `EuclideanLadderDiagram.tsx` | `ch2-l4` | `Ch 2`, Slides 8–11 | **Euclidean GCD Division Ladder**: Interactive division ladder demonstrating step-by-step division $a = qb + r$ until remainder zero for $\gcd(710, 310) = 10$. |
+| `extended-euclidean` | `ExtendedEuclideanDiagram.tsx` | `ch2-l7` | `Ch 2`, Slides 14–17 (Table 2.4) | **Extended Euclidean Algorithm Execution**: Interactive tabular matrix showing row-by-row state updates ($q, r_1, r_2, r, x_1, x_2, x, y_1, y_2, y$) to determine multiplicative inverses modulo $n$. |
+| `fermat-theorem` | `FermatEulerDiagram.tsx` | `ch2-l8` | `Ch 2`, Slide 20–22, 26 | **Fermat's Little Theorem**: Condition checks ($p$ prime, $\gcd(a, p) = 1$), modular exponent reduction engine, and inverse calculation via $a^{p-1} \equiv 1 \pmod p$. |
+| `euler-theorem` | `FermatEulerDiagram.tsx` | `ch2-l9` | `Ch 2`, Slide 23–25, 27–28 | **Euler's Totient Function & Generalization**: Interactive totient rules calculator ($\phi(p)$, $\phi(p^k)$, $\phi(pq)$), Table 2.6 values, and exponent reduction modulo composite $n$. |
+| `miller-rabin` | `MillerRabinDiagram.tsx` | `ch2-l10` | `Ch 2`, Slides 29–31 | **Miller-Rabin Primality Flowchart**: Interactive algorithm decision tree factoring $n - 1 = 2^k q$, evaluating $a^q \bmod n$, and testing composite vs inconclusive witnesses. |
+| `crt-workflow` | `CrtWorkflowDiagram.tsx` | `ch2-l11` | `Ch 2`, Slides 32–34 | **Chinese Remainder Theorem Reconstruction**: Step-by-step modular synthesis of $M = \prod m_i$, partial moduli $M_i$, modular inverses $y_i$, and unique solution $x \bmod M$. |
+| `symmetric-model` | `SymmetricModelDiagram.tsx` | `ch3-l1` | `Ch 3`, Slides 3–6 (Fig 3.1) | **Symmetric Cipher Model**: Five core elements (Plaintext $X$, Secret Key $K$, Encryption Algorithm $E$, Ciphertext $Y$, Decryption Algorithm $D$), with interactive component inspector. |
+| `asymmetric-vs-symmetric` | `AsymmetricVsSymmetricDiagram.tsx` | `ch3-l2` | `Ch 3`, Slides 7–8 | **Cryptographic Architecture Comparison**: Side-by-side interactive comparison of Single-Key (symmetric) vs Two-Key (public-key) cryptosystems, key distribution challenges, and speed tradeoffs. |
+| `caesar-wheel` | `CaesarWheelDiagram.tsx` | `ch3-l3` | `Ch 3`, Slides 13–17 | **Caesar Cipher Modular Shift Wheel**: Interactive rotating alphabet wheel mapping letters to $\mathbb{Z}_{26}$, demonstrating shift parameter $k \in [1, 25]$ and brute force exhaustion. |
+| `playfair-rules` | `PlayfairRulesDiagram.tsx` | `ch3-l5` | `Ch 3`, Slides 21–25 | **Playfair 5x5 Key Matrix**: Interactive 5x5 matrix illustrating the 3 geometric digram substitution rules: Same Row (shift right), Same Column (shift down), and Rectangle (horizontal opposite corners). |
+| `hill-cipher` | `HillCipherDiagram.tsx` | `ch3-l6` | `Ch 3`, Slides 26–29 | **Hill Cipher Matrix Multiplication**: Interactive 2x2 matrix multiplication modulo 26, determinant calculation, coprimality check $\gcd(\det(K), 26) = 1$, and inverse matrix derivation. |
+| `vigenere-cipher` | `VigenereDiagram.tsx` | `ch3-l7` | `Ch 3`, Slides 30–31 | **Polyalphabetic Vigenère Tableau**: Interactive 26x26 Vigenère square, keyword stream alignment, and Kasiski test explanation. |
+| `vernam-otp` | `VernamOtpDiagram.tsx` | `ch3-l8` | `Ch 3`, Slides 32–33 | **Vernam One-Time Pad & XOR Logic**: Bit-level interactive XOR truth table ($C_i = P_i \oplus K_i$) and demonstration of Shannon's Perfect Secrecy conditions. |
+| `feistel-network` | `FeistelNetworkDiagram.tsx` | `ch4-l4` | `Ch 04`, Slides 8–12 | **Feistel Network Architecture**: Interactive 16-round Feistel structure showing splitting into $L_i$ and $R_i$, round function $F(R_{i-1}, K_i)$, XOR mixing, and swap operations. |
+| `des-architecture` | `DesArchitectureDiagram.tsx` | `ch4-l5` | `Ch 04`, Slides 13–17 | **DES 16-Round Flow**: 64-bit plaintext ➔ IP ➔ 16 Feistel rounds with 48-bit subkeys ➔ 32-bit swap ➔ $\text{IP}^{-1}$ ➔ 64-bit ciphertext. |
+| `des-key-schedule` | `DesKeyScheduleDiagram.tsx` | `ch4-l5` | `Ch 04`, Slide 17 | **DES Subkey Generation**: 64-bit key ➔ PC-1 (56 bits) ➔ 28-bit halves ($C_0, D_0$) ➔ 16 rounds of 1-bit / 2-bit circular left shifts ➔ PC-2 (48-bit $K_i$). |
+| `des-round-function` | `DesRoundFunctionDiagram.tsx` | `ch4-l6` | `Ch 04`, Slides 18–21 | **DES Round Function F & S-Boxes**: 32-bit input ➔ Expansion E (48 bits) ➔ XOR $K_i$ ➔ 8 non-linear S-boxes (6-to-4 bits) ➔ 32-bit Permutation P. |
+| `avalanche-effect` | `AvalancheEffectDiagram.tsx` | `ch4-l7` | `Ch 04`, Slides 22–23 | **Avalanche Effect & Diffusion**: Interactive bit-flip simulator demonstrating Strict Avalanche Criterion (SAC) where changing 1 bit in plaintext or key flips ~50% of ciphertext bits. |
+| `double-des-mitm` | `DoubleDesMitMDiagram.tsx` | `ch7-l1` | `Ch 07`, Slides 4–7 | **Meet-in-the-Middle Attack**: Interactive visualization of encryption forward $X = E(K_1, P)$ meeting decryption backward $Y = D(K_2, C)$ at intermediate state, reducing attack complexity from $2^{112}$ to $2^{57}$. |
+| `modes-ecb` | `BlockCipherModesDiagram.tsx` | `ch7-l3` | `Ch 07`, Slides 11–14 | **ECB Mode & Cut-and-Paste**: Demonstrates independent block processing, pixel pattern leakage in bitmap encryption, and block reordering vulnerabilities. |
+| `modes-cbc` | `BlockCipherModesDiagram.tsx` | `ch7-l4` | `Ch 07`, Slides 15–18 | **CBC Mode & Error Propagation**: Illustrates XOR chaining with IV, error propagation (1-bit flip in $C_1$ corrupts $P_1$ completely and flips 1 bit in $P_2$), and sequential dependencies. |
+| `modes-ctr` | `BlockCipherModesDiagram.tsx` | `ch7-l6` | `Ch 07`, Slides 28–31 | **Counter (CTR) Mode**: Stream-like parallel block processing with counter incrementation, random access decryption, and zero error extension. |
+

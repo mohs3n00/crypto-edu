@@ -35,6 +35,7 @@ import SecurityPentagonDiagram from '../components/diagrams/SecurityPentagonDiag
 import CiaTriadDiagram from '../components/diagrams/CiaTriadDiagram';
 import PassiveActiveAttacksDiagram from '../components/diagrams/PassiveActiveAttacksDiagram';
 import NetworkSecurityModelDiagram from '../components/diagrams/NetworkSecurityModelDiagram';
+import NetworkAccessSecurityDiagram from '../components/diagrams/NetworkAccessSecurityDiagram';
 import SymmetricModelDiagram from '../components/diagrams/SymmetricModelDiagram';
 import PlayfairRulesDiagram from '../components/diagrams/PlayfairRulesDiagram';
 import FeistelNetworkDiagram from '../components/diagrams/FeistelNetworkDiagram';
@@ -199,18 +200,6 @@ export default function LessonViewer(): React.ReactElement {
           </LargeDiagramContainer>
         )}
 
-        {/* 2. Chapter 1: Asymmetric vs Symmetric Cryptographic Architecture */}
-        {lesson.id === 'ch1-l2' && (
-          <LargeDiagramContainer
-            title="Symmetric vs. Asymmetric (Public-Key) Cryptographic Architecture"
-            titleAr="المقارنة المعمارية بين التشفير المتماثل والتشفير غير المتماثل (المفتاح العام)"
-            description="Comparative analysis of shared secret keys vs. mathematical public/private key pairs for confidentiality and digital signatures."
-            sourceStandard="Stallings Fig 1.2"
-            widthMode="full"
-          >
-            <AsymmetricVsSymmetricDiagram />
-          </LargeDiagramContainer>
-        )}
 
         {/* 3. Chapter 1: CIA Triad Diagram */}
         {lesson.id === 'ch1-l3' && (
@@ -228,10 +217,10 @@ export default function LessonViewer(): React.ReactElement {
         {/* 4. Chapter 1: Security Pentagon Diagram */}
         {lesson.id === 'ch1-l5' && (
           <LargeDiagramContainer
-            title="Security Pentagon Model (Five Pillars of Information Assurance)"
-            titleAr="نموذج البنتاغون الأمني (الركائز الخمس لضمان أمن المعلومات)"
-            description="Five security pillars: Confidentiality, Integrity, Availability, Authenticity, and Non-repudiation."
-            sourceStandard="Stallings Fig 1.1"
+            title="Security Pentagon Model (Five Essential Security Requirements)"
+            titleAr="نموذج البنتاغون الأمني (المتطلبات الأمنية الخمسة الأساسية)"
+            description="Five essential security requirements guarding data and services: Confidentiality, Integrity, Availability, Authenticity, and Accountability (Stallings Fig 1.1 / Slide 7)."
+            sourceStandard="Stallings Fig 1.1 / Slide 7"
             widthMode="wide"
           >
             <SecurityPentagonDiagram />
@@ -251,16 +240,29 @@ export default function LessonViewer(): React.ReactElement {
           </LargeDiagramContainer>
         )}
 
-        {/* 6. Chapter 1: Network Security Model */}
-        {(lesson.id === 'ch1-l16' || lesson.id === 'ch1-l17') && (
+        {/* 6a. Chapter 1: Model for Network Security (Figure 1.2) */}
+        {lesson.id === 'ch1-l16' && (
           <LargeDiagramContainer
-            title="Model for Network Security Architecture (Stallings Fig 1.3)"
-            titleAr="نموذج أمن الشبكات والبيئة الأمنية العامة"
+            title="Model for Network Security Architecture (Stallings Fig 1.2 / Slide 25)"
+            titleAr="نموذج أمان الشبكات (شكل 1.2)"
             description="Network security model: sender, receiver, insecure channel, security transformation (cipher/MAC), trusted third party (KDC/CA), and opponent interception points."
-            sourceStandard="Stallings Fig 1.3"
+            sourceStandard="Stallings Fig 1.2 / Slide 25"
             widthMode="wide"
           >
             <NetworkSecurityModelDiagram />
+          </LargeDiagramContainer>
+        )}
+
+        {/* 6b. Chapter 1: Network Access Security Model (Figure 1.3) */}
+        {lesson.id === 'ch1-l17' && (
+          <LargeDiagramContainer
+            title="Network Access Security Model & Unwanted Access (Stallings Fig 1.3 / Slide 26)"
+            titleAr="نموذج أمان الوصول إلى الشبكات ومصادر الحاسوب (شكل 1.3)"
+            description="Network access security model: opponent, access channel, gatekeeper function, internal security controls, protecting computing resources against information access threats and service threats."
+            sourceStandard="Stallings Fig 1.3 / Slide 26"
+            widthMode="full"
+          >
+            <NetworkAccessSecurityDiagram />
           </LargeDiagramContainer>
         )}
 
@@ -290,16 +292,29 @@ export default function LessonViewer(): React.ReactElement {
           </LargeDiagramContainer>
         )}
 
-        {/* 9. Chapter 2: Fermat's Little Theorem & Euler's Generalization */}
-        {(lesson.id === 'ch2-l8' || lesson.id === 'ch2-l9') && (
+        {/* 9a. Chapter 2: Fermat's Little Theorem */}
+        {lesson.id === 'ch2-l8' && (
           <LargeDiagramContainer
-            title="Fermat's Little Theorem & Euler's Totient Generalization"
-            titleAr="مبرهنة فيرما الصغرى ومبرهنة أويلر المعممة ودالة المؤشر"
-            description="Theorem conditions, modular exponent reduction methods, and totient function calculation for prime, prime power, and composite moduli."
-            sourceStandard="Stallings Ch 2"
+            title="Fermat's Little Theorem & Modular Exponent Reduction"
+            titleAr="مبرهنة فيرما الصغرى واختزال الأسس المعيارية"
+            description="Theorem conditions (p prime, gcd(a, p) = 1), modular exponent reduction methods, and inverse computation via a^(p-1) ≡ 1 (mod p)."
+            sourceStandard="Stallings Ch 2 / Slide 26"
             widthMode="full"
           >
-            <FermatEulerDiagram />
+            <FermatEulerDiagram initialTheorem="fermat" />
+          </LargeDiagramContainer>
+        )}
+
+        {/* 9b. Chapter 2: Euler's Totient Function & Euler's Generalization */}
+        {lesson.id === 'ch2-l9' && (
+          <LargeDiagramContainer
+            title="Euler's Totient Function φ(n) & Euler's Generalization"
+            titleAr="دالة مؤشر أويلر ومبرهنة أويلر المعممة للأعداد المركبة"
+            description="Generalization for composite moduli: φ(n) calculation rules, Table 2.6, and modular exponent reduction via a^φ(n) ≡ 1 (mod n)."
+            sourceStandard="Stallings Ch 2 / Slide 27-28"
+            widthMode="full"
+          >
+            <FermatEulerDiagram initialTheorem="euler" />
           </LargeDiagramContainer>
         )}
 
@@ -342,6 +357,19 @@ export default function LessonViewer(): React.ReactElement {
               <SymmetricModelDiagram />
               <SymmetricVsAsymmetricTable />
             </div>
+          </LargeDiagramContainer>
+        )}
+
+        {/* 12b. Chapter 3: Asymmetric vs Symmetric Cryptographic Architecture */}
+        {lesson.id === 'ch3-l2' && (
+          <LargeDiagramContainer
+            title="Symmetric vs. Asymmetric (Public-Key) Cryptographic Architecture"
+            titleAr="المقارنة المعمارية بين التشفير المتماثل والتشفير غير المتماثل (المفتاح العام)"
+            description="Comparative analysis of shared secret keys vs. mathematical public/private key pairs for confidentiality and digital signatures (Dimension 2 of Cryptographic Classification)."
+            sourceStandard="Stallings Ch 3 / Slide 7-8"
+            widthMode="full"
+          >
+            <AsymmetricVsSymmetricDiagram />
           </LargeDiagramContainer>
         )}
 

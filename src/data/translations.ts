@@ -98,7 +98,12 @@ export type TranslationKey =
   | 'back'
   | 'verified'
   | 'universityLevel'
-  | 'examTarget';
+  | 'examTarget'
+  | 'study'
+  | 'studyDesc'
+  | 'questionsTab'
+  | 'interactiveLearning'
+  | 'interactiveLearningDesc';
 
 export const translations: Record<TranslationKey, { en: string; ar: string }> = {
   // Top Navigation & Subject
@@ -486,9 +491,29 @@ export const translations: Record<TranslationKey, { en: string; ar: string }> = 
     en: 'Year 4 — Computer Science',
     ar: 'الفرقة الرابعة — علوم الحاسب',
   },
+  study: {
+    en: 'Study',
+    ar: 'الدراسة',
+  },
+  studyDesc: {
+    en: 'Complete 5-unit university curriculum in one unified study guide',
+    ar: 'المنهج الجامعي الكامل في مذكرة دراسية واحدة وشاملة',
+  },
+  questionsTab: {
+    en: 'Questions',
+    ar: 'الأسئلة',
+  },
   examTarget: {
     en: 'University Final Examination Preparation',
     ar: 'الاستعداد للامتحانات النهائية الجامعية',
+  },
+  interactiveLearning: {
+    en: 'Interactive Learning',
+    ar: 'التعلّم التفاعلي',
+  },
+  interactiveLearningDesc: {
+    en: 'PowerPoint-style digital classroom with interactive diagrams and step-by-step calculations',
+    ar: 'محاضرات رقمية تفاعلية بنمط العروض التقديمية مع مخططات تفاعلية وحل مسائل خطوة بخطوة',
   },
 };
 

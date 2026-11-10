@@ -3,13 +3,13 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import AppShell from './components/layout/AppShell';
 
 // Primary Destination Pages
-import SubjectHome from './pages/SubjectHome';
-import PracticeHub from './pages/PracticeHub';
+import StudyGuide from './pages/StudyGuide';
+import QuestionsHub from './pages/QuestionsHub';
 import ReviewHub from './pages/ReviewHub';
-import LessonViewer from './pages/LessonViewer';
-import ChapterOverview from './pages/ChapterOverview';
 import BasmagaHub from './pages/BasmagaHub';
 import ProblemSolvingHub from './pages/ProblemSolvingHub';
+import InteractiveHub from './pages/InteractiveHub';
+import InteractivePresentationViewer from './pages/InteractivePresentationViewer';
 import NotFound from './pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -20,26 +20,36 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <SubjectHome />,
+        element: <StudyGuide />,
       },
-      // 1. Learn Destination
+      // 1. Primary Unified Curriculum Study Guide
+      {
+        path: 'study',
+        element: <StudyGuide />,
+      },
+
+      // 2. Centralized Questions Bank & Exams
+      {
+        path: 'questions',
+        element: <QuestionsHub />,
+      },
+      {
+        path: 'practice',
+        element: <QuestionsHub />,
+      },
+
+      // Legacy Learn Routes redirected to Unified Study Guide
       {
         path: 'learn',
-        element: <SubjectHome />,
+        element: <Navigate to="/study" replace />,
       },
       {
         path: 'learn/:chapterId',
-        element: <ChapterOverview />,
+        element: <Navigate to="/study" replace />,
       },
       {
         path: 'learn/:chapterId/:lessonId',
-        element: <LessonViewer />,
-      },
-
-      // 2. Practice Destination
-      {
-        path: 'practice',
-        element: <PracticeHub />,
+        element: <Navigate to="/study" replace />,
       },
 
       // 3. Review Destination
@@ -60,6 +70,20 @@ export const router = createBrowserRouter([
         element: <ProblemSolvingHub />,
       },
 
+      // 6. Interactive Learning — Digital Classroom Lectures
+      {
+        path: 'interactive',
+        element: <InteractiveHub />,
+      },
+      {
+        path: 'interactive/:chapterId',
+        element: <InteractiveHub />,
+      },
+      {
+        path: 'interactive/:chapterId/:lessonId',
+        element: <InteractivePresentationViewer />,
+      },
+
       // Seamless Legacy Redirects to preserve existing links and bookmarks
       {
         path: 'dashboard',
@@ -69,10 +93,7 @@ export const router = createBrowserRouter([
         path: 'curriculum',
         element: <Navigate to="/learn" replace />,
       },
-      {
-        path: 'questions',
-        element: <Navigate to="/practice?tab=questions" replace />,
-      },
+
       {
         path: 'exams',
         element: <Navigate to="/practice?tab=exams" replace />,

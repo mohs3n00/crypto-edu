@@ -9,6 +9,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('edu_body_font_size') || localStorage.getItem('edu_explanation_font_size');
+          if (saved) {
+            var n = parseInt(saved, 10);
+            if (!isNaN(n) && n >= 17 && n <= 24) {
+              document.documentElement.style.setProperty('--body-content-font-size', n + 'px');
+            }
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body class="bg-[#FFFFFF] text-[#171717] antialiased selection:bg-[#171717] selection:text-[#FFFFFF]">
     <div id="root"></div>

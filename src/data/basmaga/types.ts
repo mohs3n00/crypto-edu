@@ -1,5 +1,12 @@
 export type QuestionFormat = 'mcq' | 'true-false';
-export type BasmagaSourceType = 'original' | 'exam-style' | 'keyword-exercise';
+export type BasmagaSourceType =
+  | 'original-exam'
+  | 'original-testbank'
+  | 'lecture'
+  | 'generated-practice'
+  | 'original'
+  | 'exam-style'
+  | 'keyword-exercise';
 
 export interface KeywordMeaning {
   en: string;
@@ -18,29 +25,34 @@ export interface BasmagaQuestion {
   chapterId: 'ch1' | 'ch2' | 'ch3' | 'ch4' | 'ch7';
   topicId: string;
   sourceType: BasmagaSourceType;
-  sourceLabel: string; // e.g. "ch01-testbank.pdf Q3", "Midterm 2022 Model 1 Q1"
+  sourceLabel: string; // e.g. "Original Exam: Midterm 2020 Q1(1)", "Original Test Bank: Stallings Ch 1 T/F 1"
   type: QuestionFormat;
   questionEn: string;
   questionAr?: string;
   options: { key: string; textEn: string; textAr?: string }[];
   correctAnswer: string; // e.g. "B" or "True"
   importantKeywords: KeywordMeaning[];
-  basmagaRule: {
+  academicPoint?: string; // Exact examinable syllabus detail tested
+  sourceRef?: {
+    file: string;
+    pageOrSlide: string;
+  };
+  basmagaRule?: {
     en: string;
     ar: string;
     targetConcept: string;
     targetConceptAr: string;
   };
-  quickReasoning: {
+  quickReasoning?: {
     en: string;
     ar: string;
   };
-  fullExplanation: {
+  fullExplanation?: {
     en: string;
     ar: string;
   };
   distractorAnalysis?: OptionDistractor[];
-  examTrap: {
+  examTrap?: {
     en: string;
     ar: string;
   };

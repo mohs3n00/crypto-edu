@@ -13,6 +13,10 @@ import {
   Layers,
   ArrowRight,
   TrendingUp,
+  ChevronLeft,
+  ChevronRight,
+  PlayCircle,
+  XCircle,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -30,6 +34,10 @@ export const BasmagaHub: React.FC = () => {
   const { isBookmarked, toggleBookmark } = useProgress();
 
   const [activeTab, setActiveTab] = useState<'questions' | 'quick-ref' | 'traps'>('questions');
+  const [viewMode, setViewMode] = useState<'feed' | 'runner'>('feed');
+  const [runnerIndex, setRunnerIndex] = useState(0);
+  const [sessionAnswers, setSessionAnswers] = useState<Record<string, boolean>>({});
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedChapter, setSelectedChapter] = useState('all');
   const [selectedSourceType, setSelectedSourceType] = useState<BasmagaSourceType | 'all'>('all');
@@ -48,9 +56,10 @@ export const BasmagaHub: React.FC = () => {
 
   const sourceTypes = [
     { id: 'all', label: 'All Sources • كل المصادر' },
-    { id: 'original', label: 'Original Exam Questions • أسئلة أصلية' },
-    { id: 'exam-style', label: 'Simulated Exam Style • نمط جامعي' },
-    { id: 'keyword-exercise', label: 'Keyword Exercises • تدريب' },
+    { id: 'original-exam', label: 'Original Exam • امتحانات سابقة' },
+    { id: 'original-testbank', label: 'Original Test Bank • بنك الأسئلة' },
+    { id: 'lecture', label: 'Lecture Question • أمثلة المحاضرة' },
+    { id: 'generated-practice', label: 'Additional Generated Practice • تدريب إضافي' },
   ];
 
   // Filter questions
@@ -80,23 +89,54 @@ export const BasmagaHub: React.FC = () => {
 
   // Statistics
   const stats = useMemo(() => {
-    const total = basmagaQuestions.length;
-    const originalCount = basmagaQuestions.filter((q) => q.sourceType === 'original').length;
+    const totalPoints = 103; // Total distinct examinable points across syllabus
+    const totalCovered = basmagaQuestions.length; // 106 questions covering all points
+    const answeredCount = Object.keys(sessionAnswers).length;
+    const correctCount = Object.values(sessionAnswers).filter(Boolean).length;
+    const incorrectCount = answeredCount - correctCount;
+    const remainingCount = Math.max(0, totalCovered - answeredCount);
+    const originalCount = basmagaQuestions.filter((q) => q.sourceType === 'original-exam' || q.sourceType === 'original-testbank' || q.sourceType === 'original').length;
     const confusedCount = basmagaQuestions.filter((q) => q.isFrequentlyConfused).length;
     const quickRefTotal = quickReferenceData.length;
-    return { total, originalCount, confusedCount, quickRefTotal };
-  }, []);
+    return {
+      totalPoints,
+      totalCovered,
+      answeredCount,
+      correctCount,
+      incorrectCount,
+      remainingCount,
+      originalCount,
+      confusedCount,
+      quickRefTotal,
+    };
+  }, [sessionAnswers]);
 
   const handleSelectQuestionFromRef = (questionId: string) => {
     setActiveTab('questions');
+    setViewMode('feed');
     setSearchQuery(questionId);
-    // Scroll to element after state updates
     setTimeout(() => {
       const el = document.getElementById(questionId);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 150);
+  };
+
+  const handleAnswerQuestion = (id: string, isCorrect: boolean) => {
+    setSessionAnswers((prev) => ({ ...prev, [id]: isCorrect }));
+  };
+
+  const handleNextRunnerQuestion = () => {
+    if (runnerIndex < filteredQuestions.length - 1) {
+      setRunnerIndex((prev) => prev + 1);
+    }
+  };
+
+  const handlePrevRunnerQuestion = () => {
+    if (runnerIndex > 0) {
+      setRunnerIndex((prev) => prev - 1);
+    }
   };
 
   return (
@@ -122,34 +162,48 @@ export const BasmagaHub: React.FC = () => {
             دون حفظ أعمى، مع فهم تعليل الإجابة وتجنب أفخاخ المشتتات.
           </p>
 
-          {/* Quick Metrics */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+          {/* Student Progress & Coverage Metrics */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-2">
             <div className="p-3 rounded-xl bg-[#2c2c2c] border border-[#404040]">
               <div className="text-xl md:text-2xl font-bold font-mono text-[#FFFFFF]">
-                {stats.total}
+                {stats.totalPoints}
               </div>
-              <div className="text-[11px] text-[#A3A3A0]">Solved Questions • سؤال محلول</div>
+              <div className="text-[11px] text-[#A3A3A0]">Examinable Points • نقطة امتحانية</div>
             </div>
 
             <div className="p-3 rounded-xl bg-[#2c2c2c] border border-[#404040]">
               <div className="text-xl md:text-2xl font-bold font-mono text-[#FFF1A6]">
-                {stats.originalCount}
+                {stats.totalCovered}
               </div>
-              <div className="text-[11px] text-[#A3A3A0]">Original Midterm/TB • أسئلة موثقة</div>
+              <div className="text-[11px] text-[#A3A3A0]">Covered Questions • سؤال شامل</div>
             </div>
 
             <div className="p-3 rounded-xl bg-[#2c2c2c] border border-[#404040]">
               <div className="text-xl md:text-2xl font-bold font-mono text-[#FFFFFF]">
-                {stats.quickRefTotal}
+                {stats.answeredCount}
               </div>
-              <div className="text-[11px] text-[#A3A3A0]">Clue Rules • قاعدة بصمجة</div>
+              <div className="text-[11px] text-[#A3A3A0]">Answered • تمت إجابتها</div>
             </div>
 
             <div className="p-3 rounded-xl bg-[#2c2c2c] border border-[#404040]">
-              <div className="text-xl md:text-2xl font-bold font-mono text-[#FFFFFF]">
-                {stats.confusedCount}
+              <div className="text-xl md:text-2xl font-bold font-mono text-[#4ade80]">
+                {stats.correctCount}
               </div>
-              <div className="text-[11px] text-[#A3A3A0]">High-Yield Traps • فخ امتحاني</div>
+              <div className="text-[11px] text-[#A3A3A0]">Correct • إجابات صحيحة</div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-[#2c2c2c] border border-[#404040]">
+              <div className="text-xl md:text-2xl font-bold font-mono text-[#f87171]">
+                {stats.incorrectCount}
+              </div>
+              <div className="text-[11px] text-[#A3A3A0]">Incorrect • إجابات خاطئة</div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-[#2c2c2c] border border-[#404040]">
+              <div className="text-xl md:text-2xl font-bold font-mono text-[#cbd5e1]">
+                {stats.remainingCount}
+              </div>
+              <div className="text-[11px] text-[#A3A3A0]">Remaining • متبقي للتدريب</div>
             </div>
           </div>
         </div>
@@ -329,6 +383,35 @@ export const BasmagaHub: React.FC = () => {
                     <span>Saved Questions • المحفوظة</span>
                   </button>
                 </div>
+
+                {/* View Mode Toggle */}
+                <div className="flex items-center gap-1 rounded-lg border border-[#E2E2DF] p-0.5 bg-[#F7F7F5] text-xs">
+                  <button
+                    onClick={() => setViewMode('feed')}
+                    className={`px-3 py-1 rounded-md font-medium transition-colors flex items-center gap-1.5 ${
+                      viewMode === 'feed'
+                        ? 'bg-[#222222] text-[#FFFFFF] font-bold shadow-xs'
+                        : 'text-[#505050] hover:text-[#222222]'
+                    }`}
+                  >
+                    <Layers size={13} />
+                    <span>Continuous Feed • القائمة الكاملة</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setViewMode('runner');
+                      setRunnerIndex(0);
+                    }}
+                    className={`px-3 py-1 rounded-md font-medium transition-colors flex items-center gap-1.5 ${
+                      viewMode === 'runner'
+                        ? 'bg-[#222222] text-[#FFFFFF] font-bold shadow-xs'
+                        : 'text-[#505050] hover:text-[#222222]'
+                    }`}
+                  >
+                    <PlayCircle size={13} />
+                    <span>Single Question Runner • مدرب الأسئلة السريع</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -355,15 +438,97 @@ export const BasmagaHub: React.FC = () => {
                 Reset All Filters • إعادة تعيين الفلاتر
               </button>
             </div>
+          ) : viewMode === 'runner' ? (
+            /* Single Question Runner Mode */
+            (() => {
+              const safeIndex = Math.min(runnerIndex, filteredQuestions.length - 1);
+              const currentQ = filteredQuestions[safeIndex];
+              const progressPct = Math.round(((safeIndex + 1) / filteredQuestions.length) * 100);
+
+              return (
+                <div className="space-y-4">
+                  {/* Runner Control Navigation Header */}
+                  <div className="bg-[#FFFFFF] border border-[#D4D4D0] rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-mono font-bold text-[#222222] uppercase px-2 py-0.5 rounded bg-[#F7F7F5] border border-[#D4D4D0]">
+                          Runner Mode • تدريب سريع
+                        </span>
+                        <span className="text-xs font-mono text-[#505050]">
+                          Question <strong className="text-[#222222] font-bold">{safeIndex + 1}</strong> of{' '}
+                          <strong className="text-[#222222] font-bold">{filteredQuestions.length}</strong>
+                        </span>
+                      </div>
+                      <div className="w-48 sm:w-64 h-1.5 bg-[#E8E8E5] rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-[#222222] transition-all duration-300"
+                          style={{ width: `${progressPct}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={handlePrevRunnerQuestion}
+                        disabled={safeIndex === 0}
+                        className={`px-3 py-1.5 rounded-lg border text-xs font-mono font-semibold flex items-center gap-1 transition-colors ${
+                          safeIndex === 0
+                            ? 'border-[#E2E2DF] text-[#A3A3A0] cursor-not-allowed bg-[#F7F7F5]'
+                            : 'border-[#D4D4D0] text-[#222222] bg-[#FFFFFF] hover:bg-[#ECEDEB]'
+                        }`}
+                      >
+                        <ChevronLeft size={14} />
+                        <span>Previous</span>
+                      </button>
+
+                      <button
+                        onClick={handleNextRunnerQuestion}
+                        disabled={safeIndex >= filteredQuestions.length - 1}
+                        className={`px-3 py-1.5 rounded-lg border text-xs font-mono font-semibold flex items-center gap-1 transition-colors ${
+                          safeIndex >= filteredQuestions.length - 1
+                            ? 'border-[#E2E2DF] text-[#A3A3A0] cursor-not-allowed bg-[#F7F7F5]'
+                            : 'border-[#222222] text-[#FFFFFF] bg-[#222222] hover:bg-[#333333]'
+                        }`}
+                      >
+                        <span>Next</span>
+                        <ChevronRight size={14} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Active Question Card */}
+                  <BasmagaCard
+                    key={currentQ.id}
+                    question={currentQ}
+                    isBookmarked={isBookmarked(currentQ.id)}
+                    onToggleBookmark={toggleBookmark}
+                    onOpenProblem={(probId) => navigate(`/problem-solving#${probId}`)}
+                    onNextQuestion={handleNextRunnerQuestion}
+                    onAnswer={handleAnswerQuestion}
+                  />
+                </div>
+              );
+            })()
           ) : (
+            /* Continuous Feed Mode */
             <div className="space-y-6">
-              {filteredQuestions.map((q) => (
+              {filteredQuestions.map((q, idx) => (
                 <BasmagaCard
                   key={q.id}
                   question={q}
                   isBookmarked={isBookmarked(q.id)}
                   onToggleBookmark={toggleBookmark}
                   onOpenProblem={(probId) => navigate(`/problem-solving#${probId}`)}
+                  onAnswer={handleAnswerQuestion}
+                  onNextQuestion={() => {
+                    const nextQ = filteredQuestions[idx + 1];
+                    if (nextQ) {
+                      const el = document.getElementById(nextQ.id);
+                      if (el) {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
+                    }
+                  }}
                 />
               ))}
             </div>

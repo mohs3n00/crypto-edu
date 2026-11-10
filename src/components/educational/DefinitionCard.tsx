@@ -94,7 +94,7 @@ export default function DefinitionCard({
             <span className="font-mono text-xs sm:text-[13px] uppercase font-bold tracking-wider text-[#686868] block">
               Academic Definition (English)
             </span>
-            <p className="text-[17px] sm:text-[18px] leading-[1.65] text-[#222222] font-sans font-medium">
+            <p className="body-content-text text-[#222222] font-sans font-medium">
               <HighlightedText text={formalDefinition} />
             </p>
           </div>
@@ -111,7 +111,7 @@ export default function DefinitionCard({
             </span>
             <p
               dir="rtl"
-              className="text-[18px] sm:text-[19px] leading-[1.8] text-[#222222] font-serif"
+              className="body-content-text text-[#222222] font-serif"
               style={{ fontFamily: 'var(--font-arabic)' }}
             >
               <HighlightedText text={formalDefinitionAr} isArabic />
@@ -133,9 +133,9 @@ export default function DefinitionCard({
           <span className="font-mono text-xs uppercase font-bold tracking-wider text-[#505050] block">
             Essential Characteristics / الخصائص والمعايير الأساسية:
           </span>
-          <div className="flex flex-col space-y-3 text-[15px] sm:text-[16px]">
+          <div className="flex flex-col space-y-3">
             {keyProperties && keyProperties.length > 0 && (
-              <ul className="space-y-1.5 text-[#222222] list-disc list-inside leading-relaxed font-sans">
+              <ul className="body-content-text space-y-1.5 text-[#222222] list-disc list-inside font-sans">
                 {keyProperties.map((prop, idx) => (
                   <li key={idx} className="leading-relaxed">
                     <HighlightedText text={prop} />
@@ -146,7 +146,7 @@ export default function DefinitionCard({
             {keyPropertiesAr && keyPropertiesAr.length > 0 && (
               <ul
                 dir="rtl"
-                className="space-y-1.5 text-[#222222] list-disc list-inside font-serif leading-[1.8] pt-2 border-t border-[#E2E2DF]"
+                className="body-content-text space-y-1.5 text-[#222222] list-disc list-inside font-serif pt-2 border-t border-[#E2E2DF]"
                 style={{ fontFamily: 'var(--font-arabic)' }}
               >
                 {keyPropertiesAr.map((prop, idx) => (

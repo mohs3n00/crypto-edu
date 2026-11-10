@@ -58,13 +58,13 @@ export function ConceptCard({ item }: ConceptCardProps): React.ReactElement {
             Academic Definition / التعريف الأكاديمي:
           </span>
           <div className="space-y-2.5 w-full">
-            <p className="text-[17px] sm:text-[18px] leading-[1.65] text-[#222222] font-medium font-sans">
+            <p className="body-content-text text-[#222222] font-medium font-sans">
               <HighlightedText text={item.academicDefinition} />
             </p>
             {item.academicDefinitionAr && (
               <p
                 dir="rtl"
-                className="text-[18px] sm:text-[19px] leading-[1.8] text-[#505050] font-serif pt-2 border-t border-[#F2F2F0]"
+                className="body-content-text text-[#505050] font-serif pt-2 border-t border-[#F2F2F0]"
                 style={{ fontFamily: 'var(--font-arabic)' }}
               >
                 <HighlightedText text={item.academicDefinitionAr} isArabic />
@@ -81,14 +81,14 @@ export function ConceptCard({ item }: ConceptCardProps): React.ReactElement {
             </span>
             <div className="space-y-2 w-full">
               {item.conceptualExplanation && (
-                <p className="text-[#222222] leading-[1.65] text-[16px] sm:text-[17px] font-sans">
+                <p className="body-content-text text-[#222222] font-sans">
                   <HighlightedText text={item.conceptualExplanation} />
                 </p>
               )}
               {item.conceptualExplanationAr && (
                 <p
                   dir="rtl"
-                  className="text-[#505050] leading-[1.8] text-[17px] sm:text-[18px] font-serif pt-2 border-t border-[#E8E8E5]"
+                  className="body-content-text text-[#505050] font-serif pt-2 border-t border-[#E8E8E5]"
                   style={{ fontFamily: 'var(--font-arabic)' }}
                 >
                   <HighlightedText text={item.conceptualExplanationAr} isArabic />
@@ -106,7 +106,7 @@ export function ConceptCard({ item }: ConceptCardProps): React.ReactElement {
             <span className="text-xs sm:text-[13px] font-mono uppercase font-bold text-[#686868] block">
               Typical Applications / التطبيقات النموذجية:
             </span>
-            <ul className="text-[15px] sm:text-[16px] text-[#222222] space-y-1.5 list-disc list-inside leading-relaxed">
+            <ul className="body-content-text text-[#222222] space-y-1.5 list-disc list-inside">
               {item.applications.map((app, idx) => (
                 <li key={idx} className="leading-relaxed">
                   {app}
@@ -122,13 +122,13 @@ export function ConceptCard({ item }: ConceptCardProps): React.ReactElement {
               Key Distinction / الفارق المميز:
             </span>
             <div className="space-y-1.5 w-full">
-              <p className="text-[#222222] text-[16px] sm:text-[17px] leading-[1.65] font-medium">
+              <p className="body-content-text text-[#222222] font-medium">
                 <HighlightedText text={item.keyDistinction} />
               </p>
               {item.keyDistinctionAr && (
                 <p
                   dir="rtl"
-                  className="text-[#505050] font-serif text-[17px] sm:text-[18px] leading-[1.8] pt-1.5 border-t border-[#E8E8E5]"
+                  className="body-content-text text-[#505050] font-serif pt-1.5 border-t border-[#E8E8E5]"
                   style={{ fontFamily: 'var(--font-arabic)' }}
                 >
                   <HighlightedText text={item.keyDistinctionAr} isArabic />

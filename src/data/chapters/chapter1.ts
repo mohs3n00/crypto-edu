@@ -235,12 +235,12 @@ export const chapter1: Chapter = {
               {
                 type: 'paragraph',
                 lang: 'en',
-                content: 'Stallings Figure 1.1 builds upon the classical CIA triad (Confidentiality, Integrity, Availability) by introducing two essential operational extensions:\n\n• Authenticity: Verifying that users are who they say they are and that each input arriving at the system came from a trusted source.\n• Accountability: The requirement that actions of an entity can be traced uniquely to that entity, enabling nonrepudiation, deterrence, fault isolation, and intrusion detection.',
+                content: 'Stallings Figure 1.1 illustrates the Five Essential Security Requirements guarding system data and services:\n1. Confidentiality: Preserves authorized restrictions on information access and disclosure, comprising Data Confidentiality and Privacy.\n2. Integrity: Guards against improper information modification or destruction, comprising Data Integrity and System Integrity.\n3. Availability: Ensures timely and reliable access to and use of information and services.\n4. Authenticity: Verifies that users are who they say they are and that each input arriving at the system came from a trusted source.\n5. Accountability: The requirement that actions of an entity can be traced uniquely to that entity, enabling fault isolation, deterrence, and intrusion detection.\n\nEssential Distinction (Accountability vs. Non-repudiation):\n• Accountability is an overarching organizational security requirement (tracked via audit logs and individual attribution).\n• Non-repudiation is a specific X.800 communication security service (addressed in Lesson ch1-l14) that prevents either sender or receiver from denying a transmitted or received message, relying technically on accountability and digital signatures.',
               },
               {
                 type: 'paragraph',
                 lang: 'ar',
-                content: 'يوسع الشكل 1.1 لستالينجز ثالوث CIA التقليدي (السرية، السلامة، التوافرية) عبر إضافة ركيزتين تشغيليتين أساسيتين:\n\n• الموثوقية (Authenticity): التحقق من أن المستخدمين هم بالفعل من يدعون، وأن كل مدخل واصل إلى النظام صادر من مصدر موثوق.\n• المساءلة (Accountability): ربط أي إجراء أو معاملة بالمستخدم المسؤول عنها حصرياً لتمكين عدم الإنكار وتتبع الأخطاء.',
+                content: 'يوضح الشكل 1.1 لستالينجز المتطلبات الأمنية الخمسة الأساسية لحماية البيانات والخدمات:\n1. السرية (Confidentiality): حماية المعلومات من الكشف غير المصرح به (تشمل سرية البيانات والخصوصية الفردية).\n2. السلامة (Integrity): منع التعديل أو التخريب غير المصرح به (تشمل سلامة البيانات وسلامة تشغيل النظام).\n3. التوافرية (Availability): ضمان الجاهزية والاستجابة الفورية للنظام دون حرمان المستخدمين المصرح لهم.\n4. الموثوقية (Authenticity): التحقق من أن المستخدمين هم من يدعون حقاً، وأن كل مدخل وارد للنظام صادر من مصدر موثوق.\n5. المساءلة (Accountability): ربط أي إجراء بالمستخدم المسؤول عنه حصرياً عبر سجلات التدقيق والتتبع.\n\nالتمييز الأكاديمي الحاسم بين المساءلة وعدم الإنكار:\n• المساءلة (Accountability): مطلب ومبدأ أمني عام يضمن تتبع تصرفات كل كيان داخل النظام لردع المتسللين وعزل الأخطاء.\n• عدم الإنكار (Nonrepudiation): خدمة أمان اتصال محددة في معيار X.800 (تُدرس تفصيلاً في الدرس ch1-l14) تمنع أياً من طرفي الاتصال من إنكار إرسال أو استلام الرسالة، وتعتمد تقنياً على المساءلة والتوقيعات الرقمية.',
               },
             ],
             formulas: [],
@@ -736,21 +736,21 @@ export const chapter1: Chapter = {
           id: 'ch1-l16',
           chapterId: 'ch1',
           topicId: 'ch1-t5',
-          title: 'Model for Network Security (Figure 1.5)',
-          titleAr: 'نموذج أمان الشبكات (شكل 1.5)',
+          title: 'Model for Network Security (Figure 1.2)',
+          titleAr: 'نموذج أمان الشبكات (شكل 1.2)',
           estimatedMinutes: 15,
           sourceRef: { file: 'Ch 1 information security.pdf', page: '25' },
           objectives: [
-            'Identify all elements of the Network Security Model in Figure 1.5.',
+            'Identify all elements of the Network Security Model in Figure 1.2 (Slide 25).',
             'Explain the role of secret information and security-related transformations.',
           ],
           objectivesAr: [
-            'تحديد كافة مكونات نموذج أمان الشبكات الواردة في الشكل 1.5.',
+            'تحديد كافة مكونات نموذج أمان الشبكات الواردة في الشكل 1.2 (شريحة 25).',
             'شرح دور المعلومات السرية (المفتاح) والتحويلات الأمنية.',
           ],
           content: {
-            enDefinition: 'Figure 1.5 models the transmission of a message across an insecure channel where an opponent may intercept or modify communications.',
-            arExplanation: 'يوضح الشكل 1.5 نموذج نقل رسالة عبر قناة اتصال غير آمنة في ظل وجود خصم أو مهاجم قد يعترض الاتصال أو يعدله.',
+            enDefinition: 'Figure 1.2 models the transmission of a message across an insecure channel where an opponent may intercept or modify communications.',
+            arExplanation: 'يوضح الشكل 1.2 نموذج نقل رسالة عبر قناة اتصال غير آمنة في ظل وجود خصم أو مهاجم قد يعترض الاتصال أو يعدله.',
             sections: [
               {
                 type: 'paragraph',
@@ -781,21 +781,21 @@ export const chapter1: Chapter = {
           id: 'ch1-l17',
           chapterId: 'ch1',
           topicId: 'ch1-t5',
-          title: 'Network Access Security Model & Unwanted Access',
-          titleAr: 'نموذج أمان الوصول للشبكة والوصول غير المرغوب',
+          title: 'Network Access Security Model & Unwanted Access (Figure 1.3)',
+          titleAr: 'نموذج أمان الوصول للشبكة والوصول غير المرغوب (شكل 1.3)',
           estimatedMinutes: 15,
           sourceRef: { file: 'Ch 1 information security.pdf', page: '26-27' },
           objectives: [
-            'Identify components of the Network Access Security Model in Figure 1.6.',
+            'Identify components of the Network Access Security Model in Figure 1.3 (Slide 26).',
             'Differentiate Information Access Threats from Service Threats.',
           ],
           objectivesAr: [
-            'تحديد عناصر نموذج أمان الوصول إلى الشبكات (شكل 1.6).',
+            'تحديد عناصر نموذج أمان الوصول إلى الشبكات (شكل 1.3 شريحة 26).',
             'التمييز بين تهديدات الوصول إلى المعلومات وتهديدات الخدمة.',
           ],
           content: {
-            enDefinition: 'Figure 1.6 models defense against unauthorized access through an access channel into computing resources protected by gatekeeper functions and internal controls.',
-            arExplanation: 'يوضح الشكل 1.6 نموذج الدفاع ضد محاولات الوصول غير المصرح بها عبر قنوات الاتصال إلى موارد الحاسوب المحمية بوظائف الحراسة والضوابط الداخلية.',
+            enDefinition: 'Figure 1.3 models defense against unauthorized access through an access channel into computing resources protected by gatekeeper functions and internal controls.',
+            arExplanation: 'يوضح الشكل 1.3 نموذج الدفاع ضد محاولات الوصول غير المصرح بها عبر قنوات الاتصال إلى موارد الحاسوب المحمية بوظائف الحراسة والضوابط الداخلية.',
             sections: [
               {
                 type: 'paragraph',

@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   XCircle,
   RotateCcw,
+  ArrowRight,
 } from 'lucide-react';
 import type { BasmagaQuestion } from '../../data/basmaga/types';
 import HighlightedText from '../keywords/HighlightedText';
@@ -15,12 +16,16 @@ interface BasmagaCardProps {
   isBookmarked?: boolean;
   onToggleBookmark?: (id: string) => void;
   onOpenProblem?: (problemId: string) => void;
+  onNextQuestion?: () => void;
+  onAnswer?: (id: string, isCorrect: boolean) => void;
 }
 
 export const BasmagaCard: React.FC<BasmagaCardProps> = ({
   question,
   isBookmarked = false,
   onToggleBookmark,
+  onNextQuestion,
+  onAnswer,
 }) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
@@ -31,6 +36,9 @@ export const BasmagaCard: React.FC<BasmagaCardProps> = ({
   const handleSelectOption = (key: string) => {
     if (isAnswered) return;
     setSelectedOption(key);
+    if (onAnswer) {
+      onAnswer(question.id, key === question.correctAnswer);
+    }
   };
 
   const handleReset = () => {
@@ -38,7 +46,20 @@ export const BasmagaCard: React.FC<BasmagaCardProps> = ({
   };
 
   // Determine source label and badge
-  const isOriginal = question.sourceType === 'original';
+  const getSourceBadge = () => {
+    if (question.sourceType === 'original-exam' || question.sourceType === 'original') {
+      return { text: 'Original Exam', style: 'bg-[#222222] text-[#FFFFFF] border-[#222222]' };
+    }
+    if (question.sourceType === 'original-testbank') {
+      return { text: 'Original Test Bank', style: 'bg-[#1e293b] text-[#f8fafc] border-[#334155]' };
+    }
+    if (question.sourceType === 'lecture') {
+      return { text: 'Lecture Question', style: 'bg-[#2e1065] text-[#f5f3ff] border-[#4c1d95]' };
+    }
+    return { text: 'Additional Generated Practice', style: 'bg-[#FFFFFF] text-[#505050] border-[#E2E2DF]' };
+  };
+
+  const badge = getSourceBadge();
 
   return (
     <article
@@ -49,13 +70,9 @@ export const BasmagaCard: React.FC<BasmagaCardProps> = ({
       <div className="px-4 py-2.5 bg-[#F7F7F5] border-b border-[#E2E2DF] flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 flex-wrap min-w-0">
           <span
-            className={`text-[11px] font-mono font-bold px-2.5 py-0.5 rounded border ${
-              isOriginal
-                ? 'bg-[#222222] text-[#FFFFFF] border-[#222222]'
-                : 'bg-[#FFFFFF] text-[#505050] border-[#E2E2DF]'
-            }`}
+            className={`text-[11px] font-mono font-bold px-2.5 py-0.5 rounded border ${badge.style}`}
           >
-            {isOriginal ? 'Official Exam' : 'Exam-Style Practice'}
+            {badge.text}
           </span>
 
           <span className="text-[11px] font-mono text-[#505050] truncate">
@@ -207,6 +224,17 @@ export const BasmagaCard: React.FC<BasmagaCardProps> = ({
                 >
                   <RotateCcw size={13} />
                 </button>
+
+                {onNextQuestion && (
+                  <button
+                    type="button"
+                    onClick={onNextQuestion}
+                    className="px-3 py-1.5 rounded-lg bg-[#222222] hover:bg-[#333333] text-[#FFFFFF] text-xs font-mono font-bold flex items-center gap-1.5 transition-colors shadow-xs"
+                  >
+                    <span>Next Question</span>
+                    <ArrowRight size={13} />
+                  </button>
+                )}
               </div>
             </div>
 
@@ -239,7 +267,7 @@ export const BasmagaCard: React.FC<BasmagaCardProps> = ({
                               </span>
                               <span className="text-[#686868] font-mono text-[11px]">→</span>
                               <span className="font-semibold text-[#222222] font-mono">
-                                {question.basmagaRule.targetConcept}
+                                {question.basmagaRule?.targetConcept || correctOpt?.textEn || question.correctAnswer}
                               </span>
                             </div>
                           </td>

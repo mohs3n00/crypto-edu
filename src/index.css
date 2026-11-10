@@ -36,6 +36,11 @@
   --font-arabic: 'Cairo', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', Menlo, monospace;
 
+  /* Academic Body Content Font Size Control (17px - 24px, default: 19px) */
+  --body-content-font-size: 19px;
+  --body-content-line-height-en: 1.68;
+  --body-content-line-height-ar: 1.85;
+
   /* Spacing rhythm */
   --space-section: 2.5rem;
   --space-block: 1.5rem;
@@ -128,6 +133,107 @@ p {
 .prose-reading,
 .reading-prose {
   max-width: 70ch;
+}
+
+/* ============================================================ */
+/* Academic Body Content Typography Engine (17px - 24px)        */
+/* Strictly controls explanation text, descriptions, & lists    */
+/* GUARANTEED ZERO EFFECT on headings, titles, buttons, or nav  */
+/* ============================================================ */
+.body-content-text,
+.academic-body-text,
+.explanation-text,
+[data-body-content],
+.academic-card-body p,
+.academic-card-body li,
+.study-content-body p,
+.study-content-body li,
+.slide-body-content p,
+.slide-body-content li {
+  font-size: var(--body-content-font-size, 19px) !important;
+  line-height: var(--body-content-line-height-en, 1.68) !important;
+}
+
+/* Arabic Body Content: Enhanced Line-Height (1.85) */
+[dir="rtl"] .body-content-text,
+[dir="rtl"] .academic-body-text,
+[dir="rtl"] .explanation-text,
+[dir="rtl"] [data-body-content],
+.body-content-text[dir="rtl"],
+.academic-body-text[dir="rtl"],
+.explanation-text[dir="rtl"],
+[dir="rtl"] .academic-card-body p,
+[dir="rtl"] .academic-card-body li,
+[dir="rtl"] .study-content-body p,
+[dir="rtl"] .study-content-body li,
+[dir="rtl"] .slide-body-content p,
+[dir="rtl"] .slide-body-content li {
+  font-size: var(--body-content-font-size, 19px) !important;
+  line-height: var(--body-content-line-height-ar, 1.85) !important;
+}
+
+/* Strict Headings & Titles Protection: NEVER scaled by body font size */
+h1, h2, h3, h4, h5, h6,
+.academic-card-body h1, .academic-card-body h2, .academic-card-body h3,
+.academic-card-body h4, .academic-card-body h5, .academic-card-body h6,
+.study-content-body h1, .study-content-body h2, .study-content-body h3,
+.study-content-body h4, .study-content-body h5, .study-content-body h6,
+.slide-body-content h1, .slide-body-content h2, .slide-body-content h3,
+.slide-body-content h4, .slide-body-content h5, .slide-body-content h6,
+.card-title,
+.section-title,
+.lesson-title,
+.slide-title,
+.topic-title,
+.unit-title,
+[data-heading] {
+  /* Retain independent clamp and typography scale */
+}
+
+/* Range Slider Styling for Font Size Control */
+input[type="range"].font-size-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #E2E2DF;
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+input[type="range"].font-size-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #222222;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 120ms ease, background-color 120ms ease;
+}
+
+input[type="range"].font-size-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  background: #000000;
+}
+
+input[type="range"].font-size-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #222222;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: transform 120ms ease, background-color 120ms ease;
+}
+
+input[type="range"].font-size-slider::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  background: #000000;
 }
 
 /* Base links: inherit color and reset text-decoration for navigation/buttons */
