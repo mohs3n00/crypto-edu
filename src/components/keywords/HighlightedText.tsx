@@ -5,10 +5,11 @@ import { academicPhraseRules, type PhraseRule } from '../../data/keywords/phrase
 import type { SemanticRole } from '../../data/keywords/semanticTypes';
 
 export interface HighlightedTextProps {
-  text: string;
+  text?: string;
   className?: string;
   isArabic?: boolean;
   chapterFilter?: 'ch1' | 'ch2' | 'ch3' | 'ch4' | 'ch7' | 'all';
+  boldTerms?: boolean;
 }
 
 interface SpanItem {
@@ -26,6 +27,12 @@ interface SpanItem {
 }
 
 const EXPLICIT_MARK_REGEX = /==(?:(concept|action|target|condition|distinction|exception):)?([\s\S]+?)==/g;
+
+// Bullet term pattern: e.g. "• Term: Description", "- Term: Description", "1. Term: Description", "• Term (English): Description"
+const BULLET_TERM_REGEX = /^(\s*(?:[•\-\*–—]|\d+\.|\([a-zA-Z0-9]+\))\s*)([^:\n]{1,85}?)(:)(\s+[\s\S]*|$)/;
+
+// Leading term pattern: e.g. "Frequent Exam Question: Description", "سؤال امتحان متكرر: الوصف", "Confidentiality: Description"
+const LEADING_TERM_REGEX = /^(\s*)([A-Z\u0600-\u06FF][^:\.\n]{1,65}?)(:)(\s+[\s\S]*|$)/;
 
 function findRuleMatch(phrase: string, applicableRules: PhraseRule[]): PhraseRule | undefined {
   const clean = phrase.trim().toLowerCase();
@@ -125,6 +132,7 @@ export default function HighlightedText({
   className = '',
   isArabic = false,
   chapterFilter = 'all',
+  boldTerms = true,
 }: HighlightedTextProps): React.ReactElement {
   const elements = useMemo(() => {
     if (!text || typeof text !== 'string') {
@@ -137,10 +145,43 @@ export default function HighlightedText({
         : academicPhraseRules
     ).slice().sort((a, b) => b.pattern.source.length - a.pattern.source.length);
 
+    // Render plain text with semantic highlight rules
+    const renderPlainSlice = (plainText: string, keyPrefix: string): React.ReactNode => {
+      if (!plainText) return null;
+      const spans = processPlainTextWithRules(plainText, applicableRules);
+      if (spans.length === 1 && spans[0].type === 'text') {
+        return spans[0].text;
+      }
+
+      return spans.map((span, idx) => {
+        if (span.type === 'text') {
+          return span.text;
+        }
+        return (
+          <SemanticHighlight
+            key={`${keyPrefix}-sem-${idx}-${span.text.slice(0, 10)}`}
+            role={span.role || 'concept'}
+            keywordId={span.keywordId}
+            phraseLabelEn={span.phraseLabelEn}
+            phraseLabelAr={span.phraseLabelAr}
+            explanationEn={span.explanationEn}
+            explanationAr={span.explanationAr}
+            relatedConceptEn={span.relatedConceptEn}
+            relatedConceptAr={span.relatedConceptAr}
+            chapterId={span.chapterId}
+            isArabic={isArabic}
+          >
+            {span.text}
+          </SemanticHighlight>
+        );
+      });
+    };
+
+    // Render segment supporting explicit marks (==...==) and markdown bold (**...**)
     const renderSegment = (seg: string, segKeyPrefix: string): React.ReactNode => {
       if (!seg) return null;
 
-      // If text contains explicit marks (==...==)
+      // Check for explicit marks (==...==)
       if (seg.includes('==')) {
         const spans: SpanItem[] = [];
         let lastIndex = 0;
@@ -153,13 +194,11 @@ export default function HighlightedText({
           const explicitRole = match[1] as SemanticRole | undefined;
           const content = match[2];
 
-          // Plain text before the explicit highlight
           if (matchStart > lastIndex) {
             const plainSlice = seg.slice(lastIndex, matchStart);
             spans.push(...processPlainTextWithRules(plainSlice, applicableRules));
           }
 
-          // Check if content matches any known rule for richer explanation
           const matchingRule = findRuleMatch(content, applicableRules);
 
           spans.push({
@@ -190,7 +229,7 @@ export default function HighlightedText({
           }
           return (
             <SemanticHighlight
-              key={`${segKeyPrefix}-sem-hl-${idx}-${span.text.slice(0, 10)}`}
+              key={`${segKeyPrefix}-explicit-${idx}-${span.text.slice(0, 10)}`}
               role={span.role || 'concept'}
               keywordId={span.keywordId}
               phraseLabelEn={span.phraseLabelEn}
@@ -208,34 +247,76 @@ export default function HighlightedText({
         });
       }
 
-      // Pure rule-based processing
-      const spans = processPlainTextWithRules(seg, applicableRules);
-      if (spans.length === 1 && spans[0].type === 'text') {
-        return seg;
+      // Check for markdown bold syntax (**bold text**)
+      if (seg.includes('**')) {
+        const parts = seg.split(/(\*\*[\s\S]+?\*\*)/g);
+        return parts.map((part, pIdx) => {
+          if (part.startsWith('**') && part.endsWith('**')) {
+            const inner = part.slice(2, -2);
+            return (
+              <strong
+                key={`${segKeyPrefix}-b-${pIdx}`}
+                className="font-bold text-[#111111] dark:text-[#F3F4F6]"
+              >
+                {renderPlainSlice(inner, `${segKeyPrefix}-bi-${pIdx}`)}
+              </strong>
+            );
+          }
+          return (
+            <React.Fragment key={`${segKeyPrefix}-bp-${pIdx}`}>
+              {renderPlainSlice(part, `${segKeyPrefix}-p-${pIdx}`)}
+            </React.Fragment>
+          );
+        });
       }
 
-      return spans.map((span, idx) => {
-        if (span.type === 'text') {
-          return span.text;
+      // Fallback: plain slice with rule matches
+      return renderPlainSlice(seg, segKeyPrefix);
+    };
+
+    // Render a single line, detecting terms before colons when boldTerms is active
+    const renderLine = (line: string, lineKeyPrefix: string): React.ReactNode => {
+      if (!line) return null;
+
+      if (boldTerms) {
+        // Check for bullet with term: e.g. "• Term: Description" or "1. Term: Description"
+        const bulletMatch = line.match(BULLET_TERM_REGEX);
+        if (bulletMatch) {
+          const prefix = bulletMatch[1];
+          const term = bulletMatch[2];
+          const rest = bulletMatch[4];
+
+          return (
+            <React.Fragment key={lineKeyPrefix}>
+              <span className="text-[#606060] font-mono select-none">{prefix}</span>
+              <strong className="font-bold text-[#111111] dark:text-[#F3F4F6] inline">
+                {renderSegment(term, `${lineKeyPrefix}-term`)}:
+              </strong>
+              {renderSegment(rest, `${lineKeyPrefix}-rest`)}
+            </React.Fragment>
+          );
         }
-        return (
-          <SemanticHighlight
-            key={`${segKeyPrefix}-sem-hl-${idx}-${span.text.slice(0, 10)}`}
-            role={span.role || 'concept'}
-            keywordId={span.keywordId}
-            phraseLabelEn={span.phraseLabelEn}
-            phraseLabelAr={span.phraseLabelAr}
-            explanationEn={span.explanationEn}
-            explanationAr={span.explanationAr}
-            relatedConceptEn={span.relatedConceptEn}
-            relatedConceptAr={span.relatedConceptAr}
-            chapterId={span.chapterId}
-            isArabic={isArabic}
-          >
-            {span.text}
-          </SemanticHighlight>
-        );
-      });
+
+        // Check for leading term label: e.g. "Frequent Exam Question: ..." or "سؤال امتحان متكرر: ..."
+        const leadingMatch = line.match(LEADING_TERM_REGEX);
+        if (leadingMatch) {
+          const prefix = leadingMatch[1];
+          const term = leadingMatch[2];
+          const rest = leadingMatch[4];
+
+          return (
+            <React.Fragment key={lineKeyPrefix}>
+              {prefix}
+              <strong className="font-bold text-[#111111] dark:text-[#F3F4F6] inline">
+                {renderSegment(term, `${lineKeyPrefix}-lterm`)}:
+              </strong>
+              {renderSegment(rest, `${lineKeyPrefix}-lrest`)}
+            </React.Fragment>
+          );
+        }
+      }
+
+      return renderSegment(line, lineKeyPrefix);
     };
 
     // If text contains LaTeX formulas ($ or $$), preserve them safely
@@ -256,12 +337,31 @@ export default function HighlightedText({
             </span>
           );
         }
-        return <React.Fragment key={`text-seg-${pIdx}`}>{renderSegment(part, `p-${pIdx}`)}</React.Fragment>;
+
+        // Process lines inside this text fragment
+        const lines = part.split('\n');
+        return (
+          <React.Fragment key={`text-seg-${pIdx}`}>
+            {lines.map((line, lIdx) => (
+              <React.Fragment key={`p-${pIdx}-l-${lIdx}`}>
+                {lIdx > 0 && '\n'}
+                {renderLine(line, `p-${pIdx}-l-${lIdx}`)}
+              </React.Fragment>
+            ))}
+          </React.Fragment>
+        );
       });
     }
 
-    return renderSegment(text, 'root');
-  }, [text, isArabic, chapterFilter]);
+    // Process all lines
+    const lines = text.split('\n');
+    return lines.map((line, lIdx) => (
+      <React.Fragment key={`root-l-${lIdx}`}>
+        {lIdx > 0 && '\n'}
+        {renderLine(line, `root-l-${lIdx}`)}
+      </React.Fragment>
+    ));
+  }, [text, isArabic, chapterFilter, boldTerms]);
 
   return <span className={className}>{elements}</span>;
 }

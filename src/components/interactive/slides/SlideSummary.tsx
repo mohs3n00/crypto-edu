@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Award, CheckCircle2, RotateCcw, ArrowRight, LayoutGrid, Sparkles } from 'lucide-react';
 import type { InteractiveSlide } from '../../../types/interactive';
 import { useProgress } from '../../../store/progressStore';
+import HighlightedText from '../../keywords/HighlightedText';
 
 interface SlideSummaryProps {
   slide: InteractiveSlide;
@@ -59,9 +60,13 @@ export const SlideSummary: React.FC<SlideSummaryProps> = ({ slide, isArabic, onR
             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#222222] tracking-tight">
               {isArabic ? slide.titleAr : slide.title}
             </h2>
-            <p className="body-content-text text-[#505050]">
-              {isArabic ? slide.arExplanation : slide.enDefinition}
-            </p>
+            <div className="body-content-text text-[#505050]">
+              <HighlightedText
+                text={isArabic ? slide.arExplanation : slide.enDefinition}
+                isArabic={isArabic}
+                boldTerms
+              />
+            </div>
           </div>
         </div>
 
@@ -76,7 +81,13 @@ export const SlideSummary: React.FC<SlideSummaryProps> = ({ slide, isArabic, onR
               {summary.takeaways.map((item, idx) => (
                 <div key={idx} className="body-content-text flex items-start gap-2.5 text-[#222222]">
                   <CheckCircle2 size={16} className="text-[#217346] shrink-0 mt-0.5" />
-                  <span className="leading-snug">{isArabic ? item.ar : item.en}</span>
+                  <span className="leading-snug">
+                    <HighlightedText
+                      text={isArabic ? item.ar : item.en}
+                      isArabic={isArabic}
+                      boldTerms
+                    />
+                  </span>
                 </div>
               ))}
             </div>

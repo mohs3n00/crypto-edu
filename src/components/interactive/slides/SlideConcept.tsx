@@ -1,6 +1,7 @@
 import React from 'react';
 import { AlertCircle, CheckCircle2, FileText, Info } from 'lucide-react';
 import type { InteractiveSlide } from '../../../types/interactive';
+import HighlightedText from '../../keywords/HighlightedText';
 
 interface SlideConceptProps {
   slide: InteractiveSlide;
@@ -47,7 +48,7 @@ export const SlideConcept: React.FC<SlideConceptProps> = ({ slide, isArabic }) =
               <span>English Academic Formulation</span>
             </div>
             <div className="body-content-text text-[#222222] whitespace-pre-line font-sans">
-              {slide.enDefinition}
+              <HighlightedText text={slide.enDefinition} boldTerms />
             </div>
           </div>
 
@@ -70,7 +71,7 @@ export const SlideConcept: React.FC<SlideConceptProps> = ({ slide, isArabic }) =
               className="body-content-text text-[#222222] whitespace-pre-line"
               style={{ fontFamily: 'var(--font-arabic)' }}
             >
-              {slide.arExplanation}
+              <HighlightedText text={slide.arExplanation} isArabic boldTerms />
             </div>
           </div>
 
@@ -84,9 +85,15 @@ export const SlideConcept: React.FC<SlideConceptProps> = ({ slide, isArabic }) =
       {slide.bulletPoints && slide.bulletPoints.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 bg-[#FFFFFF] border border-[#E2E2DF] rounded-xl p-4">
           {slide.bulletPoints.map((item, idx) => (
-            <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#222222]">
+            <div key={idx} className="body-content-text flex items-start gap-2.5 text-[#222222]">
               <CheckCircle2 size={15} className="text-[#222222] shrink-0 mt-0.5" />
-              <span>{isArabic ? item.ar : item.en}</span>
+              <span>
+                <HighlightedText
+                  text={isArabic ? item.ar : item.en}
+                  isArabic={isArabic}
+                  boldTerms
+                />
+              </span>
             </div>
           ))}
         </div>
@@ -100,9 +107,13 @@ export const SlideConcept: React.FC<SlideConceptProps> = ({ slide, isArabic }) =
             <span className="font-bold text-[#856404] font-mono uppercase tracking-wider block">
               {isArabic ? 'تنبيه أكاديمي وامتحاني حاسم' : 'Critical Academic Distinction'}
             </span>
-            <p className="text-[#222222] leading-snug">
-              {isArabic ? slide.importantDistinction.ar : slide.importantDistinction.en}
-            </p>
+            <div className="body-content-text text-[#222222] leading-snug">
+              <HighlightedText
+                text={isArabic ? slide.importantDistinction.ar : slide.importantDistinction.en}
+                isArabic={isArabic}
+                boldTerms
+              />
+            </div>
           </div>
         </div>
       )}

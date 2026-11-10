@@ -38,7 +38,7 @@ export const chapter1: Chapter = {
               {
                 type: 'paragraph',
                 lang: 'en',
-                content: 'Cryptographic algorithms operate together in modern secure protocols (e.g. TLS/HTTPS and IPsec):\n• Asymmetric Encryption exchanges session keys securely without prior shared secrets.\n• Symmetric Encryption encrypts high-volume application payloads with fast throughput.\n• Data Integrity Algorithms (hashes/MACs) guarantee that packets are not modified in transit.\n• Authentication Protocols verify communicating identities to prevent masquerade attacks.',
+                content: 'Cryptographic algorithms operate together in modern secure protocols (e.g. TLS/HTTPS and IPsec):\n• Asymmetric Encryption: Exchanges session keys securely without prior shared secrets.\n• Symmetric Encryption: Encrypts high-volume application payloads with fast throughput.\n• Data Integrity Algorithms (hashes/MACs): Guarantees that packets are not modified in transit.\n• Authentication Protocols: Verifies communicating identities to prevent masquerade attacks.',
               },
               {
                 type: 'paragraph',

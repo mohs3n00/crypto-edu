@@ -2,6 +2,7 @@ import React from 'react';
 import { Calculator, CheckCircle2 } from 'lucide-react';
 import type { WorkedExample } from '../../types';
 import MathDisplay from '../ui/MathDisplay';
+import HighlightedText from '../keywords/HighlightedText';
 
 interface StudyWorkedExampleCardProps {
   example: WorkedExample;
@@ -51,9 +52,13 @@ export const StudyWorkedExampleCard: React.FC<StudyWorkedExampleCardProps> = ({
               </div>
             )}
 
-            <p className="body-content-text text-[#505050]">
-              {isArabic ? step.explanationAr || step.explanation : step.explanation}
-            </p>
+            <div className="body-content-text text-[#505050]">
+              <HighlightedText
+                text={isArabic ? step.explanationAr || step.explanation : step.explanation}
+                isArabic={isArabic}
+                boldTerms
+              />
+            </div>
           </div>
         ))}
       </div>

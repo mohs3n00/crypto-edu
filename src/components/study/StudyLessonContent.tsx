@@ -14,6 +14,7 @@ import StudyDiagramCard from './StudyDiagramCard';
 import StudyFormulaCard from './StudyFormulaCard';
 import StudyWorkedExampleCard from './StudyWorkedExampleCard';
 import StudyContextualQuestion from './StudyContextualQuestion';
+import HighlightedText from '../keywords/HighlightedText';
 
 interface StudyLessonContentProps {
   lesson: Lesson;
@@ -84,14 +85,22 @@ export const StudyLessonContent: React.FC<StudyLessonContentProps> = ({
           </div>
 
           <div className="body-content-text text-[#222222] whitespace-pre-line font-sans">
-            {lesson.content?.enDefinition || lesson.contentEn || 'Formal academic concept definition.'}
+            <HighlightedText
+              text={lesson.content?.enDefinition || lesson.contentEn || 'Formal academic concept definition.'}
+              chapterFilter={lesson.chapterId as any}
+              boldTerms
+            />
           </div>
 
           {enSections.length > 0 && (
             <div className="body-content-text pt-2 border-t border-[#F0F0EE] space-y-1.5 text-[#505050] whitespace-pre-line">
               {enSections.map((sec, idx) => (
                 <div key={idx}>
-                  {typeof sec === 'string' ? sec : Array.isArray(sec) ? sec.join('\n') : ''}
+                  <HighlightedText
+                    text={typeof sec === 'string' ? sec : Array.isArray(sec) ? sec.join('\n') : ''}
+                    chapterFilter={lesson.chapterId as any}
+                    boldTerms
+                  />
                 </div>
               ))}
             </div>
@@ -109,7 +118,12 @@ export const StudyLessonContent: React.FC<StudyLessonContentProps> = ({
             className="body-content-text text-[#222222] whitespace-pre-line"
             style={{ fontFamily: 'var(--font-arabic)' }}
           >
-            {lesson.content?.arExplanation || lesson.contentAr || 'شرح المفهوم الأكاديمي المعتمد.'}
+            <HighlightedText
+              text={lesson.content?.arExplanation || lesson.contentAr || 'شرح المفهوم الأكاديمي المعتمد.'}
+              isArabic
+              chapterFilter={lesson.chapterId as any}
+              boldTerms
+            />
           </div>
 
           {arSections.length > 0 && (
@@ -119,7 +133,12 @@ export const StudyLessonContent: React.FC<StudyLessonContentProps> = ({
             >
               {arSections.map((sec, idx) => (
                 <div key={idx}>
-                  {typeof sec === 'string' ? sec : Array.isArray(sec) ? sec.join('\n') : ''}
+                  <HighlightedText
+                    text={typeof sec === 'string' ? sec : Array.isArray(sec) ? sec.join('\n') : ''}
+                    isArabic
+                    chapterFilter={lesson.chapterId as any}
+                    boldTerms
+                  />
                 </div>
               ))}
             </div>
@@ -135,15 +154,22 @@ export const StudyLessonContent: React.FC<StudyLessonContentProps> = ({
             <span className="font-bold text-[#856404] font-mono uppercase tracking-wider block">
               {isArabic ? 'تنبيه امتحاني وتمييز أكاديمي حاسم' : 'Critical Exam Distinction & Clue'}
             </span>
-            <p className="body-content-text text-[#222222] whitespace-pre-line">
-              {isArabic
-                ? Array.isArray(examNotesAr)
-                  ? examNotesAr.join('\n• ')
-                  : examNotesAr || examNotes
-                : Array.isArray(examNotes)
-                ? examNotes.join('\n• ')
-                : examNotes || ''}
-            </p>
+            <div className="body-content-text text-[#222222] whitespace-pre-line">
+              <HighlightedText
+                text={
+                  isArabic
+                    ? Array.isArray(examNotesAr)
+                      ? examNotesAr.join('\n• ')
+                      : examNotesAr || (Array.isArray(examNotes) ? examNotes.join('\n• ') : examNotes || '')
+                    : Array.isArray(examNotes)
+                    ? examNotes.join('\n• ')
+                    : examNotes || (Array.isArray(examNotesAr) ? examNotesAr.join('\n• ') : examNotesAr || '')
+                }
+                isArabic={isArabic}
+                chapterFilter={lesson.chapterId as any}
+                boldTerms
+              />
+            </div>
           </div>
         </div>
       )}
