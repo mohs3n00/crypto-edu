@@ -154,3 +154,4 @@ This inventory documents the exhaustive, website-wide semantic highlighting cove
 - **Inventory Completeness:** All 50 curriculum lessons across 5 chapters, 28 traps, 22 formulas, 38 glossary terms, 60 Basmaga cards, and 15 problem-solving modules audited.
 - **Defect Count:** 0 lessons with missing highlights; 0 untranslated tooltip strings; 0 broken LaTeX formulas.
 - **Production Build:** Passes `tsc -b && vite build` in 807ms with 0 compilation errors.
+

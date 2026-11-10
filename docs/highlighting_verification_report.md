@@ -138,3 +138,4 @@ The full website-wide semantic highlighting audit and implementation is **100% c
 - Symmetrical English and Arabic phrases are highlighted with dedicated academic explanations.
 - LaTeX math formulas are isolated and protected from formatting bugs.
 - Color contrast exceeds WCAG AAA standards for long reading comfort.
+
