@@ -155,19 +155,19 @@ export default function ExamTrapCard({
           {trap.whyWrong && trap.whyWrongAr ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start pt-1">
               <p className="text-[#171717] leading-relaxed">
-                {trap.whyWrong}
+                <HighlightedText text={trap.whyWrong} />
               </p>
               <p
                 dir="rtl"
                 className="text-[#525252] font-serif leading-relaxed md:border-s md:border-[#E5E5E5] md:ps-4"
                 style={{ fontFamily: 'var(--font-arabic)' }}
               >
-                {trap.whyWrongAr}
+                <HighlightedText text={trap.whyWrongAr} isArabic />
               </p>
             </div>
           ) : (
             <p className="text-[#171717] leading-relaxed">
-              {trap.whyWrong}
+              <HighlightedText text={trap.whyWrong} />
             </p>
           )}
         </div>

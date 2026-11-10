@@ -85,7 +85,7 @@ export default function ExamNoteCallout({
               className="text-[18px] sm:text-[19px] font-medium text-[#505050] leading-[1.8] font-serif pt-2 border-t border-[#E2E2DF]"
               style={{ fontFamily: 'var(--font-arabic)' }}
             >
-              <HighlightedText text={truthExplanationAr} />
+              <HighlightedText text={truthExplanationAr} isArabic />
             </div>
           )}
         </div>

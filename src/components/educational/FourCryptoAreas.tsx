@@ -19,13 +19,13 @@ const areas: CryptoAreaItem[] = [
     conceptEn: 'Symmetric Encryption',
     conceptAr: 'التشفير المتماثل (التقليدي)',
     meaningEn:
-      'Uses a single shared secret key for both encryption and decryption to conceal data blocks or streams.',
+      'Uses a ==single shared secret key== for ==both encryption and decryption== to conceal data blocks or streams.',
     meaningAr:
-      'يعتمد على مفتاح سري واحد مشترك بين الطرفين للتشفير وفك التشفير لإخفاء كتل أو تدفقات البيانات.',
+      'يعتمد على ==مفتاح سري واحد مشترك== بين الطرفين ==للتشفير وفك التشفير== لإخفاء كتل أو تدفقات البيانات.',
     distinctionEn:
-      'Handles data of ANY size (bulk messages, large files, continuous communication streams).',
+      'Handles ==data of ANY size== (bulk messages, large files, continuous communication streams).',
     distinctionAr:
-      'الفارق الجوهري: يعالج كتل وتدفقات بيانات بأي حجم (ملفات ضخمة، تدفقات شبكة مستمرة).',
+      'الفارق الجوهري: يعالج كتل وتدفقات ==بيانات بأي حجم== (ملفات ضخمة، تدفقات شبكة مستمرة).',
     applicationEn:
       'Bulk storage encryption (AES-256, BitLocker) and network payloads (TLS sessions, IPsec).',
     applicationAr:
@@ -36,13 +36,13 @@ const areas: CryptoAreaItem[] = [
     conceptEn: 'Asymmetric Encryption',
     conceptAr: 'التشفير غير المتماثل (المفتاح العام)',
     meaningEn:
-      'Uses a mathematically linked key pair (public key for encryption/verification, private key for decryption/signing).',
+      'Uses a ==mathematically linked key pair== (==public key for encryption/verification==, ==private key for decryption/signing==).',
     meaningAr:
-      'يعتمد على زوج مفاتيح مرتبط رياضياً (مفتاح عام للتشفير ومفتاح خاص لفك التشفير أو التوقيع).',
+      'يعتمد على ==زوج مفاتيح مرتبط رياضياً== (==مفتاح عام للتشفير والتحقق==، و==مفتاح خاص لفك التشفير أو التوقيع==).',
     distinctionEn:
-      'Strictly used for SMALL blocks of data (keys and hash values); too computationally slow for bulk data.',
+      'Strictly used for ==SMALL blocks of data== (keys and hash values); ==too computationally slow for bulk data==.',
     distinctionAr:
-      'الفارق الجوهري: مخصص حصرياً للكتل الصغيرة (مفاتيح التشفير وقيم الهاش) لبطئه الحسابي.',
+      'الفارق الجوهري: مخصص حصرياً للـ ==كتل صغيرة من البيانات== (المفاتيح وقيم الهاش)؛ ==بطيء حسابياً للبيانات الضخمة==.',
     applicationEn:
       'Key exchange protocols (Diffie-Hellman) and digital signatures (RSA, ECDSA).',
     applicationAr:
@@ -53,13 +53,13 @@ const areas: CryptoAreaItem[] = [
     conceptEn: 'Data Integrity Algorithms',
     conceptAr: 'خوارزميات سلامة البيانات (دوال الهاش)',
     meaningEn:
-      'Transforms arbitrary-length input data into a fixed-length cryptographic digest to detect unauthorized alterations.',
+      'Transforms ==arbitrary-length input data into a fixed-length cryptographic digest== to detect unauthorized alterations.',
     meaningAr:
-      'تحول البيانات بأي طول إلى بصمة رقمية ثابتة الطول لكشف أي تعديل أو تلاعب غير مصرح به.',
+      'يحول ==البيانات بأي طول إلى بصمة رقمية ثابتة الطول== لكشف أي تعديل أو تلاعب غير مصرح به.',
     distinctionEn:
-      'Protects against unauthorized modification (Integrity), not unauthorized reading (Confidentiality).',
+      'Protects against ==unauthorized modification (Integrity)==, ==not unauthorized reading (Confidentiality)==.',
     distinctionAr:
-      'الفارق الجوهري: تحمي من التعديل (السلامة) وليس من القراءة أو الإفشاء (السرية).',
+      'الفارق الجوهري: يحمي من ==التعديل غير المصرح به (السلامة)==، و==ليس من القراءة أو الإفشاء (السرية)==.',
     applicationEn:
       'Message Authentication Codes (HMAC) and cryptographic hash digests (SHA-256, SHA-3).',
     applicationAr:
@@ -70,13 +70,13 @@ const areas: CryptoAreaItem[] = [
     conceptEn: 'Authentication Protocols',
     conceptAr: 'بروتوكولات المصادقة والتحقق من الهوية',
     meaningEn:
-      'Structured cryptographic message-exchange schemes designed to verify the claimed identity of entities.',
+      'Structured cryptographic message-exchange schemes designed to ==verify the claimed identity== of entities.',
     meaningAr:
-      'مخططات مبرمجة لتبادل الرسائل المشفرة تهدف للتحقق المؤكد من الهوية المزعومة للكيانات.',
+      'مخططات مبرمجة لتبادل الرسائل المشفرة تهدف للـ ==تحقق من الهوية المزعومة== للكيانات.',
     distinctionEn:
-      'Verifies WHO is communicating and trusted origin, preventing masquerade and replay attacks.',
+      'Verifies ==WHO is communicating and trusted origin==, preventing ==masquerade and replay attacks==.',
     distinctionAr:
-      'الفارق الجوهري: تثبت هوية المتصل وموثوقية المصدر، وتمنع هجمات انتحال الشخصية وإعادة الإرسال.',
+      'الفارق الجوهري: يثبت ==هوية المتصل وموثوقية المصدر==، مانعاً ==هجمات انتحال الشخصية وإعادة الإرسال==.',
     applicationEn:
       'Enterprise mutual authentication (Kerberos, TLS handshake, Challenge-Response protocols).',
     applicationAr:
@@ -133,9 +133,11 @@ export default function FourCryptoAreas(): React.ReactElement {
               <span className="font-mono text-xs sm:text-[13px] uppercase font-bold tracking-wider text-[#222222] block">
                 Key Distinction • الفارق الجوهري
               </span>
-              <p className="text-[16px] sm:text-[17px] leading-[1.65] text-[#222222] font-medium">{item.distinctionEn}</p>
+              <p className="text-[16px] sm:text-[17px] leading-[1.65] text-[#222222] font-medium">
+                <HighlightedText text={item.distinctionEn} />
+              </p>
               <p className="text-[17px] sm:text-[18px] leading-[1.8] text-[#505050] font-serif pt-1.5 border-t border-[#E8E8E5]" dir="rtl">
-                {item.distinctionAr}
+                <HighlightedText text={item.distinctionAr} isArabic />
               </p>
             </div>
 

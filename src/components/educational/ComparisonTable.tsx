@@ -1,4 +1,5 @@
 import React from 'react';
+import HighlightedText from '../keywords/HighlightedText';
 
 export interface ComparisonRow {
   feature: string;
@@ -89,7 +90,7 @@ export default function ComparisonTable({
                       key={vIdx}
                       className="py-3 px-4 text-[#171717] leading-relaxed align-top text-xs"
                     >
-                      {val}
+                      <HighlightedText text={val} />
                     </td>
                   ))}
                 </tr>

@@ -138,7 +138,7 @@ export default function DefinitionCard({
               <ul className="space-y-1.5 text-[#222222] list-disc list-inside leading-relaxed font-sans">
                 {keyProperties.map((prop, idx) => (
                   <li key={idx} className="leading-relaxed">
-                    {prop}
+                    <HighlightedText text={prop} />
                   </li>
                 ))}
               </ul>
@@ -151,7 +151,7 @@ export default function DefinitionCard({
               >
                 {keyPropertiesAr.map((prop, idx) => (
                   <li key={idx} className="leading-relaxed">
-                    {prop}
+                    <HighlightedText text={prop} isArabic />
                   </li>
                 ))}
               </ul>

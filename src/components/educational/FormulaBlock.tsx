@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Copy, Check, Info } from 'lucide-react';
 import MathDisplay from '../ui/MathDisplay';
 import AIProviderActions from '../ai/AIProviderActions';
+import HighlightedText from '../keywords/HighlightedText';
 
 export interface FormulaBlockProps {
   id?: string;
@@ -121,7 +122,7 @@ export default function FormulaBlock({
             <div className="space-y-2 w-full">
               {conditions && (
                 <p className="text-[#222222] font-mono text-[15px] sm:text-[16px] leading-[1.65]">
-                  {conditions}
+                  <HighlightedText text={conditions} />
                 </p>
               )}
               {conditionsAr && (
@@ -130,7 +131,7 @@ export default function FormulaBlock({
                   className="text-[#505050] font-serif text-[16px] sm:text-[17px] leading-[1.8] pt-1.5 border-t border-[#F2F2F0]"
                   style={{ fontFamily: 'var(--font-arabic)' }}
                 >
-                  {conditionsAr}
+                  <HighlightedText text={conditionsAr} isArabic />
                 </p>
               )}
             </div>

@@ -16,6 +16,7 @@ import QuestionSourceBadge from './QuestionSourceBadge';
 import ContextualHint from './ContextualHint';
 import TopicMasteryBadge from './TopicMasteryBadge';
 import ExamCluesSection from './ExamCluesSection';
+import HighlightedText from '../keywords/HighlightedText';
 import { normalizeQuestion, validateQuestionAnswer } from '../../utils/questionNormalizer';
 
 export interface SectionAssessmentProps {
@@ -316,7 +317,10 @@ export default function SectionAssessment({
                       style={isArabicUI ? { fontFamily: 'var(--font-arabic)' } : undefined}
                       dir={isArabicUI ? 'rtl' : 'ltr'}
                     >
-                      {isArabicUI ? q.explanationAr || q.explanation : q.explanation}
+                      <HighlightedText
+                        text={isArabicUI ? q.explanationAr || q.explanation : q.explanation}
+                        isArabic={isArabicUI}
+                      />
                     </p>
                   </div>
 

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { formulasData, type FormulaItem } from '../data/formulas';
 import MathDisplay from '../components/ui/MathDisplay';
+import HighlightedText from '../components/keywords/HighlightedText';
 
 export default function FormulaLibrary(): React.ReactElement {
   const [searchQuery, setSearchQuery] = useState('');
@@ -138,11 +139,11 @@ export default function FormulaLibrary(): React.ReactElement {
                 <div className="space-y-3 w-full">
                   <p className="text-[17px] sm:text-[18px] leading-[1.65]">
                     <strong className="text-[#222222] font-semibold">Definition & Context: </strong>
-                    {form.description}
+                    <HighlightedText text={form.description} />
                   </p>
                   <p dir="rtl" className="font-serif text-[18px] sm:text-[19px] leading-[1.8] text-[#505050] pt-2 border-t border-[#F2F2F0]" style={{ fontFamily: 'var(--font-arabic)' }}>
                     <strong className="text-[#222222] font-semibold">الشرح الأكاديمي: </strong>
-                    {form.descriptionAr}
+                    <HighlightedText text={form.descriptionAr} isArabic />
                   </p>
                 </div>
               </div>

@@ -4,6 +4,7 @@ import {
   Search,
 } from 'lucide-react';
 import { glossaryData, type GlossaryTerm } from '../data/glossary';
+import HighlightedText from '../components/keywords/HighlightedText';
 
 export default function Glossary(): React.ReactElement {
   const [searchQuery, setSearchQuery] = useState('');
@@ -103,17 +104,20 @@ export default function Glossary(): React.ReactElement {
             </div>
 
             <div className="space-y-3 text-[#222222] w-full">
-              <p className="text-[17px] sm:text-[18px] leading-[1.65] font-sans">{item.definitionEn}</p>
+              <p className="text-[17px] sm:text-[18px] leading-[1.65] font-sans">
+                <HighlightedText text={item.definitionEn} />
+              </p>
               <p
                 dir="rtl"
                 className="pt-2 border-t border-[#E8E8E5] font-serif text-[18px] sm:text-[19px] leading-[1.8] text-[#505050]"
                 style={{ fontFamily: 'var(--font-arabic)' }}
               >
-                {item.definitionAr}
+                <HighlightedText text={item.definitionAr} isArabic />
               </p>
               {item.examContext && (
                 <div className="mt-3 p-3.5 bg-[#F7F7F5] border border-[#E2E2DF] rounded-xl text-sm sm:text-[15px] text-[#222222] font-mono leading-relaxed">
-                  <strong className="text-[#222222]">Exam Clue: </strong>{item.examContext}
+                  <strong className="text-[#222222]">Exam Clue: </strong>
+                  <HighlightedText text={item.examContext} />
                 </div>
               )}
             </div>

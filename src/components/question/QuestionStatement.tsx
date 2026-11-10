@@ -1,5 +1,6 @@
 import React from 'react';
 import MathDisplay from '../ui/MathDisplay';
+import HighlightedText from '../keywords/HighlightedText';
 
 export interface QuestionStatementProps {
   stemEn: string;
@@ -37,13 +38,13 @@ export default function QuestionStatement({
                 </span>
               );
             }
-            return <span key={i}>{part}</span>;
+            return <HighlightedText key={i} text={part} isArabic={isDisplayingArabic} />;
           })}
         </span>
       );
     }
 
-    return <span>{text}</span>;
+    return <HighlightedText text={text} isArabic={isDisplayingArabic} />;
   };
 
   return (

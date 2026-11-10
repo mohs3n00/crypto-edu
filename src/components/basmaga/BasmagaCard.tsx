@@ -98,7 +98,7 @@ export const BasmagaCard: React.FC<BasmagaCardProps> = ({
               dir="rtl"
               className="text-[16px] sm:text-[17px] text-[#505050] leading-[1.8] font-serif pt-1.5 border-t border-[#E2E2DF]"
             >
-              {question.questionAr}
+              <HighlightedText text={question.questionAr} isArabic />
             </p>
           )}
         </div>

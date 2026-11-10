@@ -82,7 +82,7 @@ export function ConceptCard({ item }: ConceptCardProps): React.ReactElement {
             <div className="space-y-2 w-full">
               {item.conceptualExplanation && (
                 <p className="text-[#222222] leading-[1.65] text-[16px] sm:text-[17px] font-sans">
-                  {item.conceptualExplanation}
+                  <HighlightedText text={item.conceptualExplanation} />
                 </p>
               )}
               {item.conceptualExplanationAr && (
@@ -91,7 +91,7 @@ export function ConceptCard({ item }: ConceptCardProps): React.ReactElement {
                   className="text-[#505050] leading-[1.8] text-[17px] sm:text-[18px] font-serif pt-2 border-t border-[#E8E8E5]"
                   style={{ fontFamily: 'var(--font-arabic)' }}
                 >
-                  {item.conceptualExplanationAr}
+                  <HighlightedText text={item.conceptualExplanationAr} isArabic />
                 </p>
               )}
             </div>

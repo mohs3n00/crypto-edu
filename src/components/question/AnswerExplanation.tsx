@@ -2,6 +2,7 @@ import React from 'react';
 import { BookOpen, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AIProviderActions from '../ai/AIProviderActions';
+import HighlightedText from '../keywords/HighlightedText';
 
 export interface AnswerExplanationProps {
   explanationEn: string;
@@ -72,7 +73,7 @@ export default function AnswerExplanation({
           Academic Rationale
         </span>
         <div className="text-[#222222] text-[16px] sm:text-[17px] font-medium leading-[1.65]">
-          {explanationEn}
+          <HighlightedText text={explanationEn} />
         </div>
       </div>
 
@@ -86,7 +87,7 @@ export default function AnswerExplanation({
             className="text-[#505050] font-serif text-[17px] sm:text-[18px] leading-[1.8]"
             style={{ fontFamily: 'var(--font-arabic)' }}
           >
-            {explanationAr}
+            <HighlightedText text={explanationAr} isArabic />
           </p>
         </div>
       )}
