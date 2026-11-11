@@ -1,15 +1,18 @@
 import type { Question, QuestionSource, QuestionType, DifficultyLevel } from '../../../types';
+import { toNormalizedQuestionObject } from '../../../utils/questionNormalizer';
 import { quiz1ManagementTools } from './quiz1ManagementTools';
 import { quiz2WorkflowManagement } from './quiz2WorkflowManagement';
 import { quiz3ToolsBuildingProcesses } from './quiz3ToolsBuildingProcesses';
 import { practiceQuestions } from './practiceQuestions';
 
-export const allBpmQuestions: Question[] = [
+const rawBpmQuestions: Question[] = [
   ...quiz1ManagementTools,
   ...quiz2WorkflowManagement,
   ...quiz3ToolsBuildingProcesses,
   ...practiceQuestions,
 ];
+
+export const allBpmQuestions: Question[] = rawBpmQuestions.map(toNormalizedQuestionObject);
 
 export interface BpmQuestionFilter {
   chapterId?: string;

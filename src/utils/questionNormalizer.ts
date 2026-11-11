@@ -238,6 +238,22 @@ export function normalizeQuestion(q: Question): NormalizedQuestion {
     };
   });
 
+  const rawExplEn = q.explanation?.trim() || '';
+  const ansExplEn = q.answer?.explanation?.trim() || '';
+  const isDuplicateEn = rawExplEn.toLowerCase() === q.en?.stem?.trim().toLowerCase();
+  const explanationEn =
+    ansExplEn && (isDuplicateEn || ansExplEn.length > rawExplEn.length || /^(true|false):/i.test(ansExplEn))
+      ? ansExplEn
+      : rawExplEn || ansExplEn;
+
+  const rawExplAr = q.explanationAr?.trim() || '';
+  const ansExplAr = q.answer?.explanationAr?.trim() || '';
+  const isDuplicateAr = Boolean(q.ar?.stem && rawExplAr.toLowerCase() === q.ar.stem.trim().toLowerCase());
+  const explanationAr =
+    ansExplAr && (isDuplicateAr || ansExplAr.length > rawExplAr.length || /^(صواب|خطأ):/.test(ansExplAr))
+      ? ansExplAr
+      : rawExplAr || ansExplAr;
+
   return {
     raw: q,
     id: q.id,
@@ -255,8 +271,8 @@ export function normalizeQuestion(q: Question): NormalizedQuestion {
     correctAnswerIndex: correctIdx,
     correctAnswerText: answerText,
     isAnswerKeyVerified: isVerified,
-    explanationEn: q.explanation || q.answer?.explanation || '',
-    explanationAr: q.explanationAr || q.answer?.explanationAr || '',
+    explanationEn,
+    explanationAr,
     hintEn: q.en.hint || q.en.hintLevel1 || q.en.hintLevel2,
     hintAr: q.ar?.hint || q.ar?.hintLevel1 || q.ar?.hintLevel2,
     hintLevel1En: q.en.hintLevel1 || q.en.hint,
@@ -298,7 +314,7 @@ export function toNormalizedQuestionObject(q: Question): Question {
     answer: q.answer
       ? {
           ...q.answer,
-          correct: q.answer.correct,
+          correct: norm.correctAnswerIndex !== undefined ? norm.correctAnswerIndex : q.answer.correct,
           explanation: norm.explanationEn,
           explanationAr: norm.explanationAr,
         }

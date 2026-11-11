@@ -30,11 +30,21 @@ export const StudyTopicSection: React.FC<StudyTopicSectionProps> = ({
       <div className="space-y-4">
         {topic.lessons.map((lesson, idx) => {
           // Find matching contextual question from questionsPool
-          const contextualQ = questionsPool.find(
-            (q) =>
-              q.relatedLessonId === lesson.id ||
-              (q.chapterId === lesson.chapterId && q.id.endsWith(String(idx + 1)))
-          ) || questionsPool[idx % questionsPool.length];
+          const contextualQ =
+            questionsPool.find((q) => q.relatedLessonId === lesson.id) ||
+            questionsPool.find(
+              (q) =>
+                q.chapterId === lesson.chapterId &&
+                (q.type === 'truefalse' || q.type === 'true-false' || q.type === 'mcq' || q.type === 'multiple-choice') &&
+                q.id.endsWith(String(idx + 1))
+            ) ||
+            questionsPool.find(
+              (q) =>
+                q.chapterId === lesson.chapterId &&
+                (q.type === 'truefalse' || q.type === 'true-false' || q.type === 'mcq' || q.type === 'multiple-choice')
+            ) ||
+            questionsPool.find((q) => q.chapterId === lesson.chapterId) ||
+            questionsPool[idx % (questionsPool.length || 1)];
 
           return (
             <StudyLessonContent

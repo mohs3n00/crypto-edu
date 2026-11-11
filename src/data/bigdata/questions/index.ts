@@ -1,4 +1,5 @@
 import type { Question } from '../../../types';
+import { toNormalizedQuestionObject } from '../../../utils/questionNormalizer';
 import { midterm2025Questions } from './midterm2025';
 import { quizPreprocessing } from './quizPreprocessing';
 import { quizLifecycle } from './quizLifecycle';
@@ -9,12 +10,14 @@ export { quizPreprocessing } from './quizPreprocessing';
 export { quizLifecycle } from './quizLifecycle';
 export { quizClustering } from './quizClustering';
 
-export const allBigDataQuestions: Question[] = [
+const rawBigDataQuestions: Question[] = [
   ...midterm2025Questions,
   ...quizPreprocessing,
   ...quizLifecycle,
   ...quizClustering,
 ];
+
+export const allBigDataQuestions: Question[] = rawBigDataQuestions.map(toNormalizedQuestionObject);
 
 export function getBigDataQuestionById(id: string): Question | undefined {
   return allBigDataQuestions.find((q) => q.id === id);
