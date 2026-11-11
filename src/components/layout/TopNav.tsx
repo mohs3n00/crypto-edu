@@ -156,7 +156,7 @@ export default function TopNav({ crumbs = [] }: TopNavProps): React.ReactElement
                       onClick={() => {
                         setActiveSubjectId(sub.id);
                         setSubjectDropdownOpen(false);
-                        navigate('/learn');
+                        navigate('/study');
                       }}
                       className={`p-3.5 border rounded-md cursor-pointer transition-all space-y-2 ${
                         isSelected
@@ -300,22 +300,24 @@ export default function TopNav({ crumbs = [] }: TopNavProps): React.ReactElement
             <span>{isRTL ? 'بصمجة' : 'Basmaga'}</span>
           </NavLink>
 
-          {/* 5. Problem Solving (Step-by-Step Worked Problems) */}
-          <NavLink
-            to="/problem-solving"
-            data-nav-item
-            className={({ isActive }) => {
-              const active = isActive || location.pathname.startsWith('/problem-solving');
-              return `px-3 py-1.5 rounded-md transition-colors flex items-center gap-1.5 border font-medium ${
-                active
-                  ? 'bg-[#E8E8E5] text-[#222222] border-[#D4D4D0] font-semibold'
-                  : 'border-transparent text-[#222222] hover:bg-[#ECEDEB] hover:text-[#222222] hover:border-[#D4D4D0]'
-              }`;
-            }}
-          >
-            <Calculator size={15} className="shrink-0 text-[#505050]" />
-            <span>{isRTL ? 'حل المسائل' : 'Problems'}</span>
-          </NavLink>
+          {/* 5. Problem Solving (Step-by-Step Worked Problems - Cryptography only) */}
+          {activeSubjectId !== 'bpm' && (
+            <NavLink
+              to="/problem-solving"
+              data-nav-item
+              className={({ isActive }) => {
+                const active = isActive || location.pathname.startsWith('/problem-solving');
+                return `px-3 py-1.5 rounded-md transition-colors flex items-center gap-1.5 border font-medium ${
+                  active
+                    ? 'bg-[#E8E8E5] text-[#222222] border-[#D4D4D0] font-semibold'
+                    : 'border-transparent text-[#222222] hover:bg-[#ECEDEB] hover:text-[#222222] hover:border-[#D4D4D0]'
+                }`;
+              }}
+            >
+              <Calculator size={15} className="shrink-0 text-[#505050]" />
+              <span>{isRTL ? 'حل المسائل' : 'Problems'}</span>
+            </NavLink>
+          )}
 
           {/* 6. Interactive Learning (PowerPoint-Style Digital Classroom) */}
           <NavLink

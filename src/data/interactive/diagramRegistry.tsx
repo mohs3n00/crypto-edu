@@ -24,6 +24,14 @@ import DesRoundFunctionDiagram from '../../components/diagrams/DesRoundFunctionD
 import AvalancheEffectDiagram from '../../components/diagrams/AvalancheEffectDiagram';
 import DoubleDesMitMDiagram from '../../components/diagrams/DoubleDesMitMDiagram';
 import BlockCipherModesDiagram from '../../components/diagrams/BlockCipherModesDiagram';
+import {
+  BpmGatewaySimulator,
+  BpmChoreographyViewer,
+} from '../../components/diagrams/BpmInteractiveDiagrams';
+import {
+  DbscanVisualizer,
+  KMeansCentroidCalculator,
+} from '../../components/diagrams/BigDataInteractiveDiagrams';
 
 interface DiagramRendererProps {
   diagramId: string;
@@ -92,6 +100,14 @@ export const DiagramRenderer: React.FC<DiagramRendererProps> = ({ diagramId, dia
       return <BlockCipherModesDiagram initialMode="ofb" />;
     case 'modes-ctr':
       return <BlockCipherModesDiagram initialMode="ctr" />;
+    case 'bpm-gateway-simulator':
+      return <BpmGatewaySimulator />;
+    case 'bpm-choreography-viewer':
+      return <BpmChoreographyViewer />;
+    case 'bigdata-dbscan-visualizer':
+      return <DbscanVisualizer />;
+    case 'bigdata-kmeans-calculator':
+      return <KMeansCentroidCalculator />;
     default:
       return null;
   }

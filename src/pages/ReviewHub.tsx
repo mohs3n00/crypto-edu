@@ -12,7 +12,8 @@ import {
   GitBranch,
   Brain,
 } from 'lucide-react';
-import { formulasData, type FormulaItem } from '../data/formulas';
+import { type FormulaItem } from '../data/formulas';
+import { getSubjectFormulas } from '../data/subjects';
 import { glossaryData, type GlossaryTerm } from '../data/glossary';
 import { examTrapsData } from '../data/traps';
 import { allQuestions, getQuestionById } from '../data/questions';
@@ -36,15 +37,20 @@ export type ReviewTab = 'formulas' | 'glossary' | 'traps' | 'mindmaps' | 'recall
 export default function ReviewHub(): React.ReactElement {
   const [searchParams, setSearchParams] = useSearchParams();
   const { progress, getDueTopics } = useProgress();
-  const { language, t } = useUI();
+  const { language, activeSubjectId, t } = useUI();
   const isArabic = language === 'ar';
+  const isBpm = activeSubjectId === 'bpm';
+  const isBigData = activeSubjectId === 'big-data';
+  const activeFormulas = useMemo(() => getSubjectFormulas(activeSubjectId), [activeSubjectId]);
 
   const dueTopicsList = useMemo(() => {
     return getDueTopics ? getDueTopics() : [];
   }, [getDueTopics]);
 
-  // Read tab from URL
-  const activeTab = (searchParams.get('tab') as ReviewTab) || 'formulas';
+  // Read tab from URL; default to glossary for BPM (since BPM has zero formulas)
+  const defaultTab: ReviewTab = isBpm ? 'glossary' : 'formulas';
+  const rawTab = searchParams.get('tab') as ReviewTab;
+  const activeTab: ReviewTab = rawTab && (rawTab !== 'formulas' || !isBpm) ? rawTab : defaultTab;
 
   const handleTabChange = (tab: ReviewTab) => {
     const nextParams = new URLSearchParams(searchParams);
@@ -70,18 +76,16 @@ export default function ReviewHub(): React.ReactElement {
 
   // Formula Chapter Counts
   const formulaChapterCounts = useMemo(() => {
-    const counts: Record<string, number> = { ch2: 0, ch3: 0, ch4: 0, ch7: 0 };
-    for (const f of formulasData) {
-      if (counts[f.chapterId] !== undefined) {
-        counts[f.chapterId] = (counts[f.chapterId] || 0) + 1;
-      }
+    const counts: Record<string, number> = {};
+    for (const f of activeFormulas) {
+      counts[f.chapterId] = (counts[f.chapterId] || 0) + 1;
     }
     return counts;
-  }, []);
+  }, [activeFormulas]);
 
   // Filtered Formulas
   const filteredFormulas = useMemo(() => {
-    return formulasData.filter((f: FormulaItem) => {
+    return activeFormulas.filter((f: FormulaItem) => {
       if (formulaChapter !== 'all' && f.chapterId !== formulaChapter) return false;
       if (formulaQuery.trim()) {
         const q = formulaQuery.toLowerCase();
@@ -92,7 +96,7 @@ export default function ReviewHub(): React.ReactElement {
       }
       return true;
     });
-  }, [formulaChapter, formulaQuery]);
+  }, [activeFormulas, formulaChapter, formulaQuery]);
 
   // Filtered Glossary
   const filteredGlossary = useMemo(() => {
@@ -171,48 +175,56 @@ export default function ReviewHub(): React.ReactElement {
       {/* 1. Page Header */}
       <div className="border-b border-[#E2E2DF] pb-6 space-y-2">
         <div className="flex items-center gap-2 text-xs font-mono text-[#686868] uppercase tracking-wider">
-          <Calculator className="w-4 h-4 text-[#222222]" />
+          <BookOpen className="w-4 h-4 text-[#222222]" />
           <span>{isArabic ? 'مركز المراجعة والملخصات الأكاديمية' : 'Academic Revision & Examination Hub'}</span>
         </div>
         <h1 className="text-3xl font-bold tracking-tight text-[#222222]">
-          {isArabic ? 'القوانين الرياضية، المصطلحات، وفخاخ الامتحانات' : 'Formulas, Terminology, Pitfalls & Weakness Notebook'}
+          {isBpm
+            ? (isArabic ? 'المصطلحات الأكاديمية، فخاخ الكويزات، وتتبع نقاط الضعف' : 'BPM Terminology, Quiz Traps & Weakness Review')
+            : (isArabic ? 'القوانين الرياضية، المصطلحات، وفخاخ الامتحانات' : 'Formulas, Terminology, Pitfalls & Weakness Notebook')}
         </h1>
         <p
           className="text-sm text-[#505050] leading-relaxed"
           style={isArabic ? { fontFamily: 'var(--font-arabic)' } : undefined}
           dir={isArabic ? 'rtl' : 'ltr'}
         >
-          {isArabic
-            ? 'المرجع الجامعي الشامل: كافة الصيغ الرياضية KaTeX مع شروط الاستخدام والأمثلة المحلولة، معجم المصطلحات المعتمد، فخاخ الامتحانات المصنفة، والتشخيص الذكي لنقاط الضعف.'
-            : 'Comprehensive university reference: 100% syllabus KaTeX formulas with usage conditions and worked proofs, NIST bilingual terminology dictionary, 24 classified exam traps with interactive mini-quizzes, and personal weakness diagnosis.'}
+          {isBpm
+            ? (isArabic
+                ? 'المرجع الجامعي الشامل لمساق إدارة عمليات الأعمال: معجم المصطلحات الأكاديمية المعتمدة، الفروق الجوهرية (Lean vs Six Sigma، Process vs Project)، وفخاخ الكويزات الرسمية.'
+                : 'Comprehensive university reference for Business Process Management: core academic terminology, high-yield distinctions (Lean vs Six Sigma, Process vs Project), and personal weakness review.')
+            : (isArabic
+                ? 'المرجع الجامعي الشامل: كافة الصيغ الرياضية KaTeX مع شروط الاستخدام والأمثلة المحلولة، معجم المصطلحات المعتمد، فخاخ الامتحانات المصنفة، والتشخيص الذكي لنقاط الضعف.'
+                : 'Comprehensive university reference: 100% syllabus KaTeX formulas with usage conditions and worked proofs, NIST bilingual terminology dictionary, 24 classified exam traps with interactive mini-quizzes, and personal weakness diagnosis.')}
         </p>
       </div>
 
       {/* 2. Navigation Tabs */}
       <div className="border-b border-[#E2E2DF] pb-3">
         <div className="flex flex-wrap gap-2 sm:gap-3">
-          {/* Formulas Tab */}
-          <button
-            type="button"
-            onClick={() => handleTabChange('formulas')}
-            className={`px-4 py-2.5 rounded-md text-[14px] sm:text-[15px] font-medium transition-all inline-flex items-center gap-2.5 border group ${
-              activeTab === 'formulas'
-                ? 'border-[#D4D4D0] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs'
-                : 'border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
-            }`}
-          >
-            <Calculator size={16} className="shrink-0" />
-            <span>{t('tabFormulas')}</span>
-            <span
-              className={`font-mono text-[11px] px-2 py-0.5 rounded ${
+          {/* Formulas Tab - Only for Mathematical Subjects (Cryptography) */}
+          {!isBpm && (
+            <button
+              type="button"
+              onClick={() => handleTabChange('formulas')}
+              className={`px-4 py-2.5 rounded-md text-[14px] sm:text-[15px] font-medium transition-all inline-flex items-center gap-2.5 border group ${
                 activeTab === 'formulas'
-                  ? 'bg-[#222222] text-[#FFFFFF]'
-                  : 'bg-[#ECEDEB] text-[#505050] group-hover:bg-[#E8E8E5] group-hover:text-[#222222]'
+                  ? 'border-[#D4D4D0] bg-[#E8E8E5] text-[#222222] font-semibold shadow-xs'
+                  : 'border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] hover:border-[#D4D4D0] hover:bg-[#ECEDEB] hover:text-[#222222]'
               }`}
             >
-              {formulasData.length}
-            </span>
-          </button>
+              <Calculator size={16} className="shrink-0" />
+              <span>{t('tabFormulas')}</span>
+              <span
+                className={`font-mono text-[11px] px-2 py-0.5 rounded ${
+                  activeTab === 'formulas'
+                    ? 'bg-[#222222] text-[#FFFFFF]'
+                    : 'bg-[#ECEDEB] text-[#505050] group-hover:bg-[#E8E8E5] group-hover:text-[#222222]'
+                }`}
+              >
+                {activeFormulas.length}
+              </span>
+            </button>
+          )}
 
           {/* Glossary Tab */}
           <button
@@ -359,7 +371,7 @@ export default function ReviewHub(): React.ReactElement {
         <div className="space-y-6">
           {/* Formula Coverage Indicator */}
           <FormulaCoverageIndicator
-            totalFormulas={formulasData.length}
+            totalFormulas={activeFormulas.length}
             chapterCounts={formulaChapterCounts}
           />
 
@@ -369,7 +381,11 @@ export default function ReviewHub(): React.ReactElement {
               <Search className="w-4 h-4 text-[#686868] absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
-                placeholder="Search formulas by name, concept, or variable (e.g. Bézout, Totient, Feistel, Hill, CRT)..."
+                placeholder={
+                  isBigData
+                    ? 'Search formulas (e.g. Min-Max, Z-Score, Decimal, IQR, Centroid, DBSCAN, WSS)...'
+                    : 'Search formulas by name, concept, or variable (e.g. Bézout, Totient, Feistel, Hill, CRT)...'
+                }
                 value={formulaQuery}
                 onChange={(e) => setFormulaQuery(e.target.value)}
                 className="w-full pl-9 pr-3 py-2 text-xs bg-[#FFFFFF] border border-[#E2E2DF] rounded focus:outline-none focus:border-[#222222] text-[#222222]"
@@ -381,11 +397,20 @@ export default function ReviewHub(): React.ReactElement {
               onChange={(e) => setFormulaChapter(e.target.value)}
               className="p-2 border border-[#E2E2DF] rounded text-xs bg-[#FFFFFF] text-[#222222] focus:border-[#222222]"
             >
-              <option value="all">All Units ({formulasData.length})</option>
-              <option value="ch2">Unit 2: Number Theory ({formulaChapterCounts.ch2})</option>
-              <option value="ch3">Unit 3: Classical Ciphers ({formulaChapterCounts.ch3})</option>
-              <option value="ch4">Unit 4: Block Ciphers & DES ({formulaChapterCounts.ch4})</option>
-              <option value="ch7">Unit 7: Cipher Operations ({formulaChapterCounts.ch7})</option>
+              <option value="all">All Units ({activeFormulas.length})</option>
+              {isBigData ? (
+                <>
+                  <option value="bd-ch3">Unit 3: Data Preprocessing ({formulaChapterCounts['bd-ch3'] || 0})</option>
+                  <option value="bd-ch5">Unit 5: Unsupervised Clustering ({formulaChapterCounts['bd-ch5'] || 0})</option>
+                </>
+              ) : (
+                <>
+                  <option value="ch2">Unit 2: Number Theory ({formulaChapterCounts.ch2 || 0})</option>
+                  <option value="ch3">Unit 3: Classical Ciphers ({formulaChapterCounts.ch3 || 0})</option>
+                  <option value="ch4">Unit 4: Block Ciphers & DES ({formulaChapterCounts.ch4 || 0})</option>
+                  <option value="ch7">Unit 7: Cipher Operations ({formulaChapterCounts.ch7 || 0})</option>
+                </>
+              )}
             </select>
           </div>
 

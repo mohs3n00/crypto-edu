@@ -10,7 +10,10 @@ export type ProblemCategory =
   | 'number-theory'
   | 'classical-cipher'
   | 'block-cipher'
-  | 'modes-operation';
+  | 'modes-operation'
+  | 'data-cleansing'
+  | 'normalization'
+  | 'clustering';
 
 export interface KeywordIndicator {
   keyword: string;
@@ -53,7 +56,7 @@ export interface StudentPracticeProblem {
 
 export interface WorkedProblem {
   id: string;
-  chapterId: 'ch1' | 'ch2' | 'ch3' | 'ch4' | 'ch7';
+  chapterId: 'ch1' | 'ch2' | 'ch3' | 'ch4' | 'ch7' | 'bd-ch1' | 'bd-ch2' | 'bd-ch3' | 'bd-ch4' | 'bd-ch5' | string;
   topicId: string;
   sourceType: ProblemSourceType;
   sourceRef: string; // e.g. "Midterm 2020 Exam Q3(1)", "Stallings 7th Ed. Table 2.1"

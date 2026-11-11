@@ -31,18 +31,31 @@ export default function FormulaCoverageIndicator({
       </div>
 
       <div className="flex flex-wrap gap-2 text-xs font-mono">
-        <span className="px-2.5 py-1 border border-[#E5E5E5] bg-[#FFFFFF] rounded text-[#171717]">
-          Unit 2 (Number Theory): <strong>{chapterCounts.ch2 || 19}</strong>
-        </span>
-        <span className="px-2.5 py-1 border border-[#E5E5E5] bg-[#FFFFFF] rounded text-[#171717]">
-          Unit 3 (Classical Ciphers): <strong>{chapterCounts.ch3 || 12}</strong>
-        </span>
-        <span className="px-2.5 py-1 border border-[#E5E5E5] bg-[#FFFFFF] rounded text-[#171717]">
-          Unit 4 (Block & DES): <strong>{chapterCounts.ch4 || 8}</strong>
-        </span>
-        <span className="px-2.5 py-1 border border-[#E5E5E5] bg-[#FFFFFF] rounded text-[#171717]">
-          Unit 7 (Modes & Operations): <strong>{chapterCounts.ch7 || 13}</strong>
-        </span>
+        {chapterCounts['bd-ch3'] !== undefined || chapterCounts['bd-ch5'] !== undefined ? (
+          <>
+            <span className="px-2.5 py-1 border border-[#E5E5E5] bg-[#FFFFFF] rounded text-[#171717]">
+              Unit 3 (Preprocessing & IQR): <strong>{chapterCounts['bd-ch3'] || 0}</strong>
+            </span>
+            <span className="px-2.5 py-1 border border-[#E5E5E5] bg-[#FFFFFF] rounded text-[#171717]">
+              Unit 5 (K-Means & DBSCAN): <strong>{chapterCounts['bd-ch5'] || 0}</strong>
+            </span>
+          </>
+        ) : (
+          <>
+            <span className="px-2.5 py-1 border border-[#E5E5E5] bg-[#FFFFFF] rounded text-[#171717]">
+              Unit 2 (Number Theory): <strong>{chapterCounts.ch2 || 19}</strong>
+            </span>
+            <span className="px-2.5 py-1 border border-[#E5E5E5] bg-[#FFFFFF] rounded text-[#171717]">
+              Unit 3 (Classical Ciphers): <strong>{chapterCounts.ch3 || 12}</strong>
+            </span>
+            <span className="px-2.5 py-1 border border-[#E5E5E5] bg-[#FFFFFF] rounded text-[#171717]">
+              Unit 4 (Block & DES): <strong>{chapterCounts.ch4 || 8}</strong>
+            </span>
+            <span className="px-2.5 py-1 border border-[#E5E5E5] bg-[#FFFFFF] rounded text-[#171717]">
+              Unit 7 (Modes & Operations): <strong>{chapterCounts.ch7 || 13}</strong>
+            </span>
+          </>
+        )}
       </div>
 
       <p className="text-xs text-[#525252] leading-relaxed">

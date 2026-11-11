@@ -11,20 +11,27 @@ import {
   Presentation,
 } from 'lucide-react';
 import { useUI } from '../store/uiStore';
-import { getAllChapters } from '../data/chapters';
-import { allQuestions } from '../data/questions';
+import { getSubjectById, getSubjectQuestions } from '../data/subjects';
 import StudyJumpBar from '../components/study/StudyJumpBar';
 import StudyChapterSection from '../components/study/StudyChapterSection';
 import FontSizeSlider from '../components/ui/FontSizeSlider';
 
 export default function StudyGuide(): React.ReactElement {
-  const { language } = useUI();
+  const { language, activeSubjectId } = useUI();
   const location = useLocation();
   const isArabic = language === 'ar';
 
-  const chapters = getAllChapters();
-  const [activeChapterId, setActiveChapterId] = useState<string>('ch1');
+  const currentSubject = getSubjectById(activeSubjectId);
+  const chapters = currentSubject.chapters;
+  const [activeChapterId, setActiveChapterId] = useState<string>(chapters[0]?.id || 'ch1');
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  // Sync activeChapterId when activeSubjectId or chapters change
+  useEffect(() => {
+    if (chapters.length > 0 && !chapters.some((c) => c.id === activeChapterId)) {
+      setActiveChapterId(chapters[0].id);
+    }
+  }, [chapters, activeChapterId]);
 
   // Handle URL hash navigation (e.g. #ch1-l5 or #ch2)
   useEffect(() => {
@@ -68,17 +75,18 @@ export default function StudyGuide(): React.ReactElement {
     }
   };
 
-  // Group questions by chapter
+  // Group questions by chapter for the active subject
   const questionsByChapter = useMemo(() => {
-    const map: Record<string, typeof allQuestions> = {};
-    for (const q of allQuestions) {
+    const questions = getSubjectQuestions(activeSubjectId);
+    const map: Record<string, typeof questions> = {};
+    for (const q of questions) {
       if (!map[q.chapterId]) {
         map[q.chapterId] = [];
       }
       map[q.chapterId].push(q);
     }
     return map;
-  }, []);
+  }, [activeSubjectId]);
 
   // Filtered chapters if search query active
   const filteredChapters = useMemo(() => {
@@ -127,7 +135,7 @@ export default function StudyGuide(): React.ReactElement {
 
             <div className="flex items-center gap-3">
               <span className="text-xs font-mono text-[#505050] hidden sm:inline">
-                5 University Units • 1 Continuous Study Document
+                {currentSubject.chapters.length} University Units • 1 Continuous Study Document
               </span>
               <FontSizeSlider />
             </div>
@@ -135,32 +143,68 @@ export default function StudyGuide(): React.ReactElement {
 
           <div className="space-y-2">
             <h1 className="text-2xl sm:text-4xl font-extrabold text-[#222222] tracking-tight">
-              {isArabic ? 'الدراسة — المنهج الجامعي الشامل' : 'Study — Complete University Curriculum'}
+              {isArabic ? `${currentSubject.titleAr} — المنهج الجامعي الشامل` : `${currentSubject.title} — Study Guide`}
             </h1>
             <p className="text-sm sm:text-base text-[#505050] max-w-3xl leading-relaxed">
-              {isArabic
-                ? 'مذكرة دراسية أكاديمية متكاملة تغطي كامل موضوعات مساق أمن المعلومات وتشفير البيانات (IS401). ادرس كافة الفصول والمسائل والمخططات التقنية في وثيقة تعليمية واحدة ومستمرة دون تشتيت.'
-                : 'A unified academic study guide covering the complete Cryptography and Network Security (IS401) curriculum. Study all five units, mathematical formulas, technical diagrams, and contextual practice questions in a single continuous document.'}
+              {isArabic ? currentSubject.descriptionAr : currentSubject.description}
             </p>
           </div>
 
           {/* Quick Metrics Bar */}
           <div className="pt-4 border-t border-[#F0F0EE] grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono text-[#505050]">
             <div>
-              <span className="font-bold text-[#222222] text-sm block">5 Units</span>
-              <span>Chapters 1, 2, 3, 4, 7</span>
+              <span className="font-bold text-[#222222] text-sm block">
+                {currentSubject.chapters.length} Units
+              </span>
+              <span>
+                {currentSubject.id === 'bpm'
+                  ? 'Units 1, 2, 3, 4'
+                  : currentSubject.id === 'big-data'
+                  ? 'Units 1, 2, 3, 4, 5'
+                  : 'Chapters 1, 2, 3, 4, 7'}
+              </span>
             </div>
             <div>
-              <span className="font-bold text-[#222222] text-sm block">185 Questions</span>
-              <span>Contextual practice</span>
+              <span className="font-bold text-[#222222] text-sm block">
+                {currentSubject.id === 'bpm'
+                  ? '71 Questions'
+                  : currentSubject.id === 'big-data'
+                  ? '60 Questions'
+                  : '185 Questions'}
+              </span>
+              <span>{isArabic ? 'كويزات وتدريبات سياقية' : 'Contextual practice'}</span>
             </div>
             <div>
-              <span className="font-bold text-[#222222] text-sm block">27 Diagrams</span>
-              <span>Interactive visualizers</span>
+              <span className="font-bold text-[#222222] text-sm block">
+                {currentSubject.id === 'bpm'
+                  ? 'BPMN 2.0'
+                  : currentSubject.id === 'big-data'
+                  ? 'DBSCAN & K-Means'
+                  : '27 Diagrams'}
+              </span>
+              <span>
+                {currentSubject.id === 'bpm'
+                  ? (isArabic ? 'محاكيات تفاعلية وتصميم' : 'Gateways & Choreography')
+                  : currentSubject.id === 'big-data'
+                  ? (isArabic ? 'محاكيات كثافة ومراكز' : 'Density & Centroid Sims')
+                  : (isArabic ? 'مخططات تفاعلية' : 'Interactive visualizers')}
+              </span>
             </div>
             <div>
-              <span className="font-bold text-[#222222] text-sm block">Step-by-Step</span>
-              <span>Worked mathematical problems</span>
+              <span className="font-bold text-[#222222] text-sm block">
+                {currentSubject.id === 'bpm'
+                  ? 'Real Cases & Traps'
+                  : currentSubject.id === 'big-data'
+                  ? 'Midterm 2025'
+                  : 'Step-by-Step'}
+              </span>
+              <span>
+                {currentSubject.id === 'bpm'
+                  ? (isArabic ? 'دراسات كانون وأفخاخ الميد' : 'Canon HR & Quiz Traps')
+                  : currentSubject.id === 'big-data'
+                  ? (isArabic ? 'مسائل ومقالي واختياري' : 'Written & Math Solved')
+                  : (isArabic ? 'مسائل رياضية محلولة' : 'Worked math problems')}
+              </span>
             </div>
           </div>
         </header>

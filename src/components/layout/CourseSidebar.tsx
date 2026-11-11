@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
   ChevronDown,
@@ -34,6 +34,15 @@ export const CourseSidebar: React.FC = () => {
     return initial;
   });
 
+  // Re-expand all chapters when switching subjects
+  useEffect(() => {
+    const initial: Record<string, boolean> = {};
+    chapters.forEach((ch) => {
+      initial[ch.id] = true;
+    });
+    setExpandedChapters(initial);
+  }, [chapters]);
+
   const toggleChapter = (cId: string) => {
     setExpandedChapters((prev) => ({
       ...prev,
@@ -65,7 +74,7 @@ export const CourseSidebar: React.FC = () => {
             <span>{isRTL ? 'فهرس المذكرة الدراسية' : 'Curriculum Outline'}</span>
           </span>
           <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-[#E2E2DF] bg-[#FFFFFF] text-[#505050] font-semibold">
-            5 Units
+            {chapters.length} Units
           </span>
         </div>
 

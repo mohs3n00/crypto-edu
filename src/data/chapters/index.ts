@@ -3,6 +3,8 @@ import { chapter2 } from './chapter2';
 import { chapter3 } from './chapter3';
 import { chapter4 } from './chapter4';
 import { chapter7 } from './chapter7';
+import { bpmChapters } from '../bpm/chapters';
+import { bigDataChapters } from '../bigdata/chapters';
 import type { Course, Chapter, Lesson } from '../../types';
 
 export const courseData: Course = {
@@ -26,12 +28,16 @@ export function getAllChapters(): Chapter[] {
 }
 
 export function getChapterById(chapterId: string): Chapter | undefined {
-  return courseData.chapters.find((ch) => ch.id === chapterId);
+  const fromCrypto = courseData.chapters.find((ch) => ch.id === chapterId);
+  if (fromCrypto) return fromCrypto;
+  const fromBpm = bpmChapters.find((ch) => ch.id === chapterId);
+  if (fromBpm) return fromBpm;
+  return bigDataChapters.find((ch) => ch.id === chapterId);
 }
 
 export function getAllLessons(): Lesson[] {
   const lessons: Lesson[] = [];
-  for (const ch of courseData.chapters) {
+  for (const ch of [...courseData.chapters, ...bpmChapters, ...bigDataChapters]) {
     for (const t of ch.topics) {
       lessons.push(...t.lessons);
     }
@@ -40,7 +46,7 @@ export function getAllLessons(): Lesson[] {
 }
 
 export function getLessonById(lessonId: string): Lesson | undefined {
-  for (const ch of courseData.chapters) {
+  for (const ch of [...courseData.chapters, ...bpmChapters, ...bigDataChapters]) {
     for (const t of ch.topics) {
       const found = t.lessons.find((l) => l.id === lessonId);
       if (found) return found;

@@ -14,6 +14,9 @@ import {
   BookOpen,
 } from 'lucide-react';
 import { allQuestions, filterQuestions } from '../data/questions';
+import { getSubjectById, getSubjectQuestions } from '../data/subjects';
+import { filterBpmQuestions } from '../data/bpm/questions';
+import { filterBigDataQuestions } from '../data/bigdata/questions';
 import { useProgress } from '../store/progressStore';
 import { useUI } from '../store/uiStore';
 import QuestionCard from '../components/educational/QuestionCard';
@@ -25,8 +28,11 @@ export type QuestionsTabMode = 'questions' | 'exams' | 'lab';
 export default function QuestionsHub(): React.ReactElement {
   const [searchParams, setSearchParams] = useSearchParams();
   const { progress } = useProgress();
-  const { language, t } = useUI();
+  const { language, activeSubjectId, t } = useUI();
   const isArabic = language === 'ar';
+
+  const currentSubject = getSubjectById(activeSubjectId);
+  const questions = getSubjectQuestions(activeSubjectId);
 
   // Read mode and filters from URL
   const activeTab = (searchParams.get('tab') as QuestionsTabMode) || 'questions';
@@ -45,13 +51,30 @@ export default function QuestionsHub(): React.ReactElement {
 
   // Filter questions based on selected criteria
   const filteredQuestions = useMemo(() => {
-    let result = filterQuestions({
-      chapterId: selectedChapter !== 'all' ? selectedChapter : undefined,
-      source: selectedSource !== 'all' ? (selectedSource as any) : undefined,
-      type: selectedType !== 'all' ? (selectedType as any) : undefined,
-      difficulty: selectedDifficulty !== 'all' ? (selectedDifficulty as any) : undefined,
-      searchQuery: searchQuery.trim() || undefined,
-    });
+    let result =
+      activeSubjectId === 'bpm'
+        ? filterBpmQuestions({
+            chapterId: selectedChapter !== 'all' ? selectedChapter : undefined,
+            source: selectedSource !== 'all' ? (selectedSource as any) : undefined,
+            type: selectedType !== 'all' ? (selectedType as any) : undefined,
+            difficulty: selectedDifficulty !== 'all' ? (selectedDifficulty as any) : undefined,
+            searchQuery: searchQuery.trim() || undefined,
+          })
+        : activeSubjectId === 'big-data'
+        ? filterBigDataQuestions({
+            chapterId: selectedChapter !== 'all' ? selectedChapter : undefined,
+            source: selectedSource !== 'all' ? selectedSource : undefined,
+            type: selectedType !== 'all' ? selectedType : undefined,
+            difficulty: selectedDifficulty !== 'all' ? selectedDifficulty : undefined,
+            searchQuery: searchQuery.trim() || undefined,
+          })
+        : filterQuestions({
+            chapterId: selectedChapter !== 'all' ? selectedChapter : undefined,
+            source: selectedSource !== 'all' ? (selectedSource as any) : undefined,
+            type: selectedType !== 'all' ? (selectedType as any) : undefined,
+            difficulty: selectedDifficulty !== 'all' ? (selectedDifficulty as any) : undefined,
+            searchQuery: searchQuery.trim() || undefined,
+          });
 
     if (selectedAttemptState === 'attempted') {
       result = result.filter((q) => progress.questionAnswers[q.id] !== undefined);
@@ -61,6 +84,7 @@ export default function QuestionsHub(): React.ReactElement {
 
     return result;
   }, [
+    activeSubjectId,
     selectedChapter,
     selectedSource,
     selectedType,
@@ -70,10 +94,10 @@ export default function QuestionsHub(): React.ReactElement {
     progress.questionAnswers,
   ]);
 
-  // Statistics
-  const totalQuestionsCount = allQuestions.length;
-  const attemptedCount = Object.keys(progress.questionAnswers).length;
-  const correctCount = Object.values(progress.questionAnswers).filter((a) => a?.correct).length;
+  // Statistics scoped to active subject
+  const totalQuestionsCount = questions.length;
+  const attemptedCount = questions.filter((q) => progress.questionAnswers[q.id] !== undefined).length;
+  const correctCount = questions.filter((q) => progress.questionAnswers[q.id]?.correct).length;
 
   // Pagination calculation
   const totalPages = Math.ceil(filteredQuestions.length / itemsPerPage) || 1;
@@ -126,8 +150,8 @@ export default function QuestionsHub(): React.ReactElement {
           </h1>
           <p className="text-xs sm:text-sm text-[#505050] max-w-2xl leading-relaxed">
             {isArabic
-              ? 'تدرب على كافة أسئلة المساق المعتمدة من بنوك الأسئلة وامتحانات الميدتيرم، مع بحث فوري، وتصفية حسب الوحدات والأنواع، وتحليل التعليلات الأكاديمية.'
-              : 'Practice all 185 university exam and test bank questions across the entire curriculum with live search, topic filtering, and detailed academic rationales.'}
+              ? `تدرب على كافة أسئلة مساق ${currentSubject.titleAr} (${currentSubject.code}) المعتمدة من بنوك الأسئلة وامتحانات الميدتيرم، مع بحث فوري، وتصفية حسب الوحدات والأنواع، وتحليل التعليلات الأكاديمية.`
+              : `Practice all ${totalQuestionsCount} university exam and test bank questions across ${currentSubject.chapters.length} units with live search, topic filtering, and detailed academic rationales.`}
           </p>
         </div>
 
@@ -160,18 +184,20 @@ export default function QuestionsHub(): React.ReactElement {
             <span>{isArabic ? 'محاكي الامتحانات (ميدتيرم)' : 'Exam Simulator'}</span>
           </button>
 
-          <button
-            type="button"
-            onClick={() => handleTabChange('lab')}
-            className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 border ${
-              activeTab === 'lab'
-                ? 'bg-[#222222] text-[#FFFFFF] border-[#222222] shadow-xs'
-                : 'bg-[#F7F7F5] text-[#222222] border-[#E2E2DF] hover:bg-[#ECEDEB]'
-            }`}
-          >
-            <Cpu size={15} />
-            <span>{isArabic ? 'مختبر التشفير الرقمي' : 'Crypto Lab'}</span>
-          </button>
+          {activeSubjectId === 'cryptography' && (
+            <button
+              type="button"
+              onClick={() => handleTabChange('lab')}
+              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer flex items-center gap-2 border ${
+                activeTab === 'lab'
+                  ? 'bg-[#222222] text-[#FFFFFF] border-[#222222] shadow-xs'
+                  : 'bg-[#F7F7F5] text-[#222222] border-[#E2E2DF] hover:bg-[#ECEDEB]'
+              }`}
+            >
+              <Cpu size={15} />
+              <span>{isArabic ? 'مختبر التشفير الرقمي' : 'Crypto Lab'}</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -187,11 +213,10 @@ export default function QuestionsHub(): React.ReactElement {
               </span>
               {[
                 { id: 'all', label: isArabic ? 'كافة الوحدات' : 'All Units' },
-                { id: 'ch1', label: 'Unit 1 (Concepts)' },
-                { id: 'ch2', label: 'Unit 2 (Number Theory)' },
-                { id: 'ch3', label: 'Unit 3 (Classical)' },
-                { id: 'ch4', label: 'Unit 4 (Block/DES)' },
-                { id: 'ch7', label: 'Unit 5 (Modes)' },
+                ...currentSubject.chapters.map((ch) => ({
+                  id: ch.id,
+                  label: `${ch.number}: ${isArabic ? ch.titleAr : ch.title}`,
+                })),
               ].map((item) => (
                 <button
                   key={item.id}
@@ -236,12 +261,30 @@ export default function QuestionsHub(): React.ReactElement {
                 }}
                 className="py-2 px-3 text-xs bg-[#F7F7F5] border border-[#E2E2DF] rounded-lg text-[#222222] focus:outline-none focus:border-[#222222]"
               >
-                <option value="all">Source: All</option>
-                <option value="original-tb01">TB01 (Ch 1 Test Bank)</option>
-                <option value="original-tb03">TB03 (Ch 3 Test Bank)</option>
-                <option value="original-tb04">TB04 (Ch 4 Test Bank)</option>
-                <option value="original-mid22">Midterm 2022</option>
-                <option value="original-mid20">Midterm 2020</option>
+                <option value="all">{isArabic ? 'المصدر: الكل' : 'Source: All'}</option>
+                {activeSubjectId === 'bpm' ? (
+                  <>
+                    <option value="tb04">{isArabic ? 'كويز 1: أدوات الإدارة (10 أسئلة)' : 'Quiz 1: Management Tools (10 Q)'}</option>
+                    <option value="tb03">{isArabic ? 'كويز 2: إدارة تدفق العمل (14 سؤال)' : 'Quiz 2: Workflow Management (14 Q)'}</option>
+                    <option value="tb01">{isArabic ? 'كويز 3: أدوات بناء العمليات (25 سؤال)' : 'Quiz 3: Tools Building Processes (25 Q)'}</option>
+                    <option value="supplementary">{isArabic ? 'بنك تدريب المنهج (22 سؤال)' : 'Curriculum Practice (22 Q)'}</option>
+                  </>
+                ) : activeSubjectId === 'big-data' ? (
+                  <>
+                    <option value="midterm2025">{isArabic ? 'امتحان الميدتيرم الرسمي 2025 (12 سؤال مقالي واختياري)' : 'Official Midterm 2025 (12 Written & MCQ)'}</option>
+                    <option value="quiz-prep">{isArabic ? 'كويز المعالجة المسبقة وتنقية البيانات (15 سؤال)' : 'Preprocessing & Normalization Quiz (15 Q)'}</option>
+                    <option value="quiz-lifecycle">{isArabic ? 'كويز المنظومة ودورة حياة التحليلات (15 سؤال)' : 'Ecosystem & Lifecycle Quiz (15 Q)'}</option>
+                    <option value="quiz-clustering">{isArabic ? 'كويز خوارزميات العنقدة K-Means و DBSCAN (18 سؤال)' : 'Clustering Algorithms Quiz (18 Q)'}</option>
+                  </>
+                ) : (
+                  <>
+                    <option value="original-tb01">TB01 (Ch 1 Test Bank)</option>
+                    <option value="original-tb03">TB03 (Ch 3 Test Bank)</option>
+                    <option value="original-tb04">TB04 (Ch 4 Test Bank)</option>
+                    <option value="original-mid22">Midterm 2022</option>
+                    <option value="original-mid20">Midterm 2020</option>
+                  </>
+                )}
               </select>
 
               {/* Type Filter */}

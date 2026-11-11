@@ -15,16 +15,20 @@ import { filterQuickReference } from '../../data/basmaga';
 interface BasmagaQuickReferenceProps {
   onSelectQuestion?: (questionId: string) => void;
   initialChapterId?: string;
+  entries?: BasmagaQuickReferenceEntry[];
+  chapters?: { id: string; label: string }[];
 }
 
 export const BasmagaQuickReference: React.FC<BasmagaQuickReferenceProps> = ({
   onSelectQuestion,
   initialChapterId = 'all',
+  entries,
+  chapters: propChapters,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedChapter, setSelectedChapter] = useState(initialChapterId);
 
-  const chapters = [
+  const defaultChapters = [
     { id: 'all', label: 'All Chapters • كل الفصول' },
     { id: 'ch1', label: 'Ch 1: Concepts & Attacks' },
     { id: 'ch2', label: 'Ch 2: Number Theory' },
@@ -33,12 +37,29 @@ export const BasmagaQuickReference: React.FC<BasmagaQuickReferenceProps> = ({
     { id: 'ch7', label: 'Ch 7: 3DES & Modes' },
   ];
 
+  const chapters = propChapters || defaultChapters;
+
   const filteredEntries = useMemo(() => {
+    if (entries) {
+      return entries.filter((e) => {
+        if (selectedChapter !== 'all' && e.chapterId !== selectedChapter) return false;
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase();
+          const matchKw =
+            e.keywordEn.toLowerCase().includes(q) || e.keywordAr.toLowerCase().includes(q);
+          const matchTarget =
+            e.conceptEn.toLowerCase().includes(q) || e.conceptAr.toLowerCase().includes(q);
+          const matchRule = e.ruleEn.toLowerCase().includes(q) || e.ruleAr.includes(q);
+          if (!matchKw && !matchTarget && !matchRule) return false;
+        }
+        return true;
+      });
+    }
     return filterQuickReference({
       chapterId: selectedChapter,
       searchQuery: searchQuery,
     });
-  }, [selectedChapter, searchQuery]);
+  }, [entries, selectedChapter, searchQuery]);
 
   return (
     <div className="space-y-4">

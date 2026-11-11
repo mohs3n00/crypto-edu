@@ -20,18 +20,26 @@ import {
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
-  basmagaQuestions,
-  quickReferenceData,
   filterBasmagaQuestions,
   type BasmagaSourceType,
 } from '../data/basmaga';
+import { getSubjectById, getSubjectBasmagaQuestions, getSubjectQuickReference } from '../data/subjects';
+import { filterBpmBasmagaQuestions } from '../data/bpm/basmaga';
+import { filterBigDataBasmagaQuestions } from '../data/bigdata/basmaga';
 import BasmagaCard from '../components/basmaga/BasmagaCard';
 import BasmagaQuickReference from '../components/basmaga/BasmagaQuickReference';
 import { useProgress } from '../store/progressStore';
+import { useUI } from '../store/uiStore';
 
 export const BasmagaHub: React.FC = () => {
   const navigate = useNavigate();
   const { isBookmarked, toggleBookmark } = useProgress();
+  const { activeSubjectId, language } = useUI();
+  const isArabic = language === 'ar';
+
+  const currentSubject = getSubjectById(activeSubjectId);
+  const subjectBasmagaQuestions = getSubjectBasmagaQuestions(activeSubjectId);
+  const subjectQuickReference = getSubjectQuickReference(activeSubjectId);
 
   const [activeTab, setActiveTab] = useState<'questions' | 'quick-ref' | 'traps'>('questions');
   const [viewMode, setViewMode] = useState<'feed' | 'runner'>('feed');
@@ -45,14 +53,15 @@ export const BasmagaHub: React.FC = () => {
   const [frequentlyConfusedOnly, setFrequentlyConfusedOnly] = useState(false);
   const [bookmarksOnly, setBookmarksOnly] = useState(false);
 
-  const chapters = [
-    { id: 'all', label: 'All Chapters • كل الفصول' },
-    { id: 'ch1', label: 'Ch 1: Concepts & Attacks' },
-    { id: 'ch2', label: 'Ch 2: Number Theory' },
-    { id: 'ch3', label: 'Ch 3: Classical Ciphers' },
-    { id: 'ch4', label: 'Ch 4: Block Ciphers & DES' },
-    { id: 'ch7', label: 'Ch 7: 3DES & Modes' },
-  ];
+  const chapters = useMemo(() => {
+    return [
+      { id: 'all', label: isArabic ? 'كافة الفصول والوحدات' : 'All Chapters • كل الفصول' },
+      ...currentSubject.chapters.map((ch) => ({
+        id: ch.id,
+        label: `${ch.number}: ${isArabic ? ch.titleAr : ch.title}`,
+      })),
+    ];
+  }, [currentSubject, isArabic]);
 
   const sourceTypes = [
     { id: 'all', label: 'All Sources • كل المصادر' },
@@ -64,13 +73,30 @@ export const BasmagaHub: React.FC = () => {
 
   // Filter questions
   const filteredQuestions = useMemo(() => {
-    let result = filterBasmagaQuestions({
-      chapterId: selectedChapter,
-      sourceType: selectedSourceType,
-      type: selectedFormat,
-      searchQuery: searchQuery,
-      frequentlyConfusedOnly: frequentlyConfusedOnly,
-    });
+    let result =
+      activeSubjectId === 'bpm'
+        ? filterBpmBasmagaQuestions({
+            chapterId: selectedChapter,
+            sourceType: selectedSourceType,
+            type: selectedFormat,
+            searchQuery: searchQuery,
+            frequentlyConfusedOnly: frequentlyConfusedOnly,
+          })
+        : activeSubjectId === 'big-data'
+        ? filterBigDataBasmagaQuestions({
+            chapterId: selectedChapter,
+            sourceType: selectedSourceType,
+            type: selectedFormat,
+            searchQuery: searchQuery,
+            frequentlyConfusedOnly: frequentlyConfusedOnly,
+          })
+        : filterBasmagaQuestions({
+            chapterId: selectedChapter,
+            sourceType: selectedSourceType,
+            type: selectedFormat,
+            searchQuery: searchQuery,
+            frequentlyConfusedOnly: frequentlyConfusedOnly,
+          });
 
     if (bookmarksOnly) {
       result = result.filter((q) => isBookmarked(q.id));
@@ -78,6 +104,7 @@ export const BasmagaHub: React.FC = () => {
 
     return result;
   }, [
+    activeSubjectId,
     selectedChapter,
     selectedSourceType,
     selectedFormat,
@@ -89,15 +116,20 @@ export const BasmagaHub: React.FC = () => {
 
   // Statistics
   const stats = useMemo(() => {
-    const totalPoints = 103; // Total distinct examinable points across syllabus
-    const totalCovered = basmagaQuestions.length; // 106 questions covering all points
+    const totalPoints = activeSubjectId === 'bpm' ? 18 : activeSubjectId === 'big-data' ? 18 : 103;
+    const totalCovered = subjectBasmagaQuestions.length;
     const answeredCount = Object.keys(sessionAnswers).length;
     const correctCount = Object.values(sessionAnswers).filter(Boolean).length;
     const incorrectCount = answeredCount - correctCount;
     const remainingCount = Math.max(0, totalCovered - answeredCount);
-    const originalCount = basmagaQuestions.filter((q) => q.sourceType === 'original-exam' || q.sourceType === 'original-testbank' || q.sourceType === 'original').length;
-    const confusedCount = basmagaQuestions.filter((q) => q.isFrequentlyConfused).length;
-    const quickRefTotal = quickReferenceData.length;
+    const originalCount = subjectBasmagaQuestions.filter(
+      (q) =>
+        q.sourceType === 'original-exam' ||
+        q.sourceType === 'original-testbank' ||
+        q.sourceType === 'original'
+    ).length;
+    const confusedCount = subjectBasmagaQuestions.filter((q) => q.isFrequentlyConfused).length;
+    const quickRefTotal = subjectQuickReference.length;
     return {
       totalPoints,
       totalCovered,
@@ -109,7 +141,7 @@ export const BasmagaHub: React.FC = () => {
       confusedCount,
       quickRefTotal,
     };
-  }, [sessionAnswers]);
+  }, [activeSubjectId, subjectBasmagaQuestions, subjectQuickReference, sessionAnswers]);
 
   const handleSelectQuestionFromRef = (questionId: string) => {
     setActiveTab('questions');
@@ -540,7 +572,11 @@ export const BasmagaHub: React.FC = () => {
       {/* TAB 2: QUICK REFERENCE TABLE                             */}
       {/* ======================================================== */}
       {activeTab === 'quick-ref' && (
-        <BasmagaQuickReference onSelectQuestion={handleSelectQuestionFromRef} />
+        <BasmagaQuickReference
+          onSelectQuestion={handleSelectQuestionFromRef}
+          entries={subjectQuickReference}
+          chapters={chapters}
+        />
       )}
 
       {/* ======================================================== */}

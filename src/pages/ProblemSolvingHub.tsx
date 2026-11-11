@@ -17,18 +17,22 @@ import {
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
-  workedProblems,
-  filterWorkedProblems,
   type ProblemCategory,
   type ProblemSourceType,
 } from '../data/problemSolving';
+import { getSubjectWorkedProblems } from '../data/subjects';
 import ProblemSolvingCard from '../components/problemSolving/ProblemSolvingCard';
 import { useProgress } from '../store/progressStore';
+import { useUI } from '../store/uiStore';
 
 export const ProblemSolvingHub: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { isBookmarked, toggleBookmark } = useProgress();
+  const { activeSubjectId, language } = useUI();
+  const isArabic = language === 'ar';
+  const isBigData = activeSubjectId === 'big-data';
+  const problemsPool = useMemo(() => getSubjectWorkedProblems(activeSubjectId), [activeSubjectId]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedChapter, setSelectedChapter] = useState('all');
@@ -50,32 +54,69 @@ export const ProblemSolvingHub: React.FC = () => {
     }
   }, [location.hash]);
 
-  const chapters = [
-    { id: 'all', label: 'All Chapters • كل الفصول' },
-    { id: 'ch1', label: 'Ch 1: Architecture & Distribution' },
-    { id: 'ch2', label: 'Ch 2: Number Theory (10 Problems)' },
-    { id: 'ch3', label: 'Ch 3: Classical Ciphers & Midterms' },
-    { id: 'ch4', label: 'Ch 4: Block Ciphers & DES' },
-    { id: 'ch7', label: 'Ch 7: 3DES & Block Modes' },
-  ];
+  const chapters = useMemo(() => {
+    if (isBigData) {
+      return [
+        { id: 'all', label: isArabic ? 'كافة الوحدات • All Units' : 'All Units' },
+        { id: 'bd-ch3', label: isArabic ? 'الوحدة 3: المعالجة المسبقة والتسوية و IQR' : 'Unit 3: Preprocessing, Normalization & IQR' },
+        { id: 'bd-ch5', label: isArabic ? 'الوحدة 5: عنقدة K-Means و DBSCAN' : 'Unit 5: K-Means & DBSCAN Clustering' },
+      ];
+    }
+    return [
+      { id: 'all', label: 'All Chapters • كل الفصول' },
+      { id: 'ch1', label: 'Ch 1: Architecture & Distribution' },
+      { id: 'ch2', label: 'Ch 2: Number Theory (10 Problems)' },
+      { id: 'ch3', label: 'Ch 3: Classical Ciphers & Midterms' },
+      { id: 'ch4', label: 'Ch 4: Block Ciphers & DES' },
+      { id: 'ch7', label: 'Ch 7: 3DES & Block Modes' },
+    ];
+  }, [isBigData, isArabic]);
 
-  const categories = [
-    { id: 'all', label: 'All Categories' },
-    { id: 'security-architecture', label: 'Security Architecture' },
-    { id: 'number-theory', label: 'Number Theory' },
-    { id: 'classical-cipher', label: 'Classical Ciphers' },
-    { id: 'block-cipher', label: 'Block Ciphers' },
-    { id: 'modes-operation', label: 'Modes of Operation' },
-  ];
+  const categories = useMemo(() => {
+    if (isBigData) {
+      return [
+        { id: 'all', label: isArabic ? 'كافة الفئات • All Categories' : 'All Categories' },
+        { id: 'clustering', label: isArabic ? 'خوارزميات العنقدة (K-Means & DBSCAN)' : 'Clustering (K-Means & DBSCAN)' },
+        { id: 'normalization', label: isArabic ? 'تسوية البيانات (Min-Max, Z-Score, Decimal)' : 'Normalization (Min-Max, Z-Score, Decimal)' },
+        { id: 'data-cleansing', label: isArabic ? 'تنقية البيانات واكتشاف الشواذ (IQR)' : 'Data Cleansing & Outliers (IQR)' },
+      ];
+    }
+    return [
+      { id: 'all', label: 'All Categories' },
+      { id: 'security-architecture', label: 'Security Architecture' },
+      { id: 'number-theory', label: 'Number Theory' },
+      { id: 'classical-cipher', label: 'Classical Ciphers' },
+      { id: 'block-cipher', label: 'Block Ciphers' },
+      { id: 'modes-operation', label: 'Modes of Operation' },
+    ];
+  }, [isBigData, isArabic]);
 
   // Filter problems
   const filteredProblems = useMemo(() => {
-    let list = filterWorkedProblems({
-      chapterId: selectedChapter,
-      category: selectedCategory,
-      sourceType: midtermOnly ? 'original-midterm' : selectedSourceType,
-      searchQuery: searchQuery,
-    });
+    let list = problemsPool;
+
+    if (selectedChapter !== 'all') {
+      list = list.filter((p) => p.chapterId === selectedChapter);
+    }
+
+    if (selectedCategory !== 'all') {
+      list = list.filter((p) => p.category === selectedCategory);
+    }
+
+    if (midtermOnly) {
+      list = list.filter((p) => p.sourceType === 'original-midterm');
+    } else if (selectedSourceType !== 'all') {
+      list = list.filter((p) => p.sourceType === selectedSourceType);
+    }
+
+    if (searchQuery.trim().length > 0) {
+      const q = searchQuery.toLowerCase().trim();
+      list = list.filter((p) => {
+        const inTitle = p.title.toLowerCase().includes(q) || p.titleAr.toLowerCase().includes(q);
+        const inProblem = p.problem.toLowerCase().includes(q) || p.problemAr.toLowerCase().includes(q);
+        return inTitle || inProblem;
+      });
+    }
 
     if (bookmarksOnly) {
       list = list.filter((p) => isBookmarked(p.id));
@@ -83,6 +124,7 @@ export const ProblemSolvingHub: React.FC = () => {
 
     return list;
   }, [
+    problemsPool,
     selectedChapter,
     selectedCategory,
     selectedSourceType,
@@ -94,11 +136,50 @@ export const ProblemSolvingHub: React.FC = () => {
 
   // Statistics
   const stats = useMemo(() => {
-    const total = workedProblems.length;
-    const midtermCount = workedProblems.filter((p) => p.sourceType === 'original-midterm').length;
-    const lectureCount = workedProblems.filter((p) => p.sourceType === 'original-lecture').length;
+    const total = problemsPool.length;
+    const midtermCount = problemsPool.filter((p) => p.sourceType === 'original-midterm').length;
+    const lectureCount = problemsPool.filter((p) => p.sourceType === 'original-lecture').length;
     return { total, midtermCount, lectureCount };
-  }, []);
+  }, [problemsPool]);
+
+  if (activeSubjectId === 'bpm') {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-16 text-center space-y-6">
+        <div className="w-16 h-16 rounded-2xl bg-[#E8E8E5] border border-[#D4D4D0] flex items-center justify-center mx-auto text-[#222222]">
+          <BookOpen size={32} />
+        </div>
+        <div className="space-y-2">
+          <span className="text-xs font-mono font-bold uppercase text-[#737373] tracking-wider">
+            IS412 • Business Process Management
+          </span>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#222222]">
+            {isArabic ? 'المساق نظري وإجرائي بالكامل ولا يحتوي على مسائل حسابية' : 'Curriculum is Conceptual & Procedural (No Numerical Calculations)'}
+          </h1>
+          <p className="text-sm text-[#505050] max-w-xl mx-auto leading-relaxed">
+            {isArabic
+              ? 'امتحانات وكويزات مساق إدارة عمليات الأعمال (IS412) تتكون بنسبة 100% من أسئلة الاختيار من متعدد (MCQ) والصح والخطأ (T/F)، مع دراسات حالة ومخططات نمذجة BPMN 2.0. يمكنك التدرب على كافة الأسئلة في بنك الأسئلة المركزي.'
+              : 'The IS412 midterm examination consists 100% of Multiple Choice (MCQ) and True/False (T/F) questions based on process definitions, lifecycles, BPMN 2.0 diagrams, and management tools. Practice all 71 questions in the Questions Bank.'}
+          </p>
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
+          <button
+            onClick={() => navigate('/questions')}
+            className="px-5 py-2.5 rounded-xl bg-[#222222] text-[#FFFFFF] text-xs font-semibold hover:bg-[#333333] transition-colors flex items-center gap-2 cursor-pointer"
+          >
+            <HelpCircle size={15} />
+            <span>{isArabic ? 'الانتقال لبنك الأسئلة (71 سؤال)' : 'Open Question Bank (71 Questions)'}</span>
+          </button>
+          <button
+            onClick={() => navigate('/study')}
+            className="px-5 py-2.5 rounded-xl bg-[#FFFFFF] border border-[#D4D4D0] text-[#222222] text-xs font-semibold hover:bg-[#F7F7F5] transition-colors flex items-center gap-2 cursor-pointer"
+          >
+            <BookOpen size={15} />
+            <span>{isArabic ? 'الرجوع للمذكرة الموحدة' : 'Back to Study Guide'}</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8 space-y-8">
@@ -113,13 +194,19 @@ export const ProblemSolvingHub: React.FC = () => {
           </div>
 
           <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight leading-tight">
-            Complete Worked Problems with Step-by-Step Interactive Board
+            {isBigData
+              ? (isArabic ? 'حل مسائل تحليلات البيانات الضخمة بالسبورة التفاعلية' : 'Big Data Step-by-Step Worked Problems')
+              : (isArabic ? 'بنك المسائل الرياضية الشامل بالسبورة التفاعلية' : 'Complete Worked Problems with Step-by-Step Interactive Board')}
           </h1>
 
           <p className="text-sm md:text-base text-[#D4D4D0] leading-relaxed">
-            مجموعة شاملة ومنظمة لجميع المسائل الرياضية والعملية في المنهج بالكامل (الفصول 1، 2، 3، 4، 7)
-            محلولة بالتفصيل خطوة بخطوة عبر سبورة الحل التفاعلية، مع توضيح استخراج المعطيات، والقوانين المطبقة،
-            وتعويض الأرقام، والتحقق الرياضي النهائي، وتجنب الأخطاء الشائعة في الامتحانات.
+            {isBigData
+              ? (isArabic
+                ? 'حلول تفصيلية لكافة مسائل تحليلات البيانات الضخمة (IS445): إعادة حساب مراكز K-Means، تسوية Min-Max و Z-Score، والقياس العشري، واكتشاف القيم الشاذة بالمدى الربيعي IQR، ومصفوفة وتصنيف نقاط DBSCAN مع مطابقة أسئلة الميدتيرم 2025.'
+                : 'Complete step-by-step solutions for Big Data Analytics (IS445): K-Means centroid recalculation, Min-Max, Z-Score, Decimal Scaling, IQR outlier detection, and DBSCAN point classification with 100% Midterm 2025 verification.')
+              : (isArabic
+                ? 'مجموعة شاملة ومنظمة لجميع المسائل الرياضية والعملية في المنهج بالكامل (الفصول 1، 2، 3، 4، 7) محلولة بالتفصيل خطوة بخطوة عبر سبورة الحل التفاعلية، مع توضيح استخراج المعطيات، والقوانين المطبقة، وتعويض الأرقام، والتحقق الرياضي النهائي، وتجنب الأخطاء الشائعة في الامتحانات.'
+                : 'Complete organized collection of mathematical problems across the curriculum solved step-by-step on the interactive board with parameter extraction, governing formulas, and error prevention.')}
           </p>
 
           {/* Quick Metrics */}
@@ -147,9 +234,11 @@ export const ProblemSolvingHub: React.FC = () => {
 
             <div className="p-3 rounded-xl bg-[#2c2c2c] border border-[#404040]">
               <div className="text-xl md:text-2xl font-bold font-mono text-[#FFFFFF]">
-                5 Chapters
+                {isBigData ? 'Units 3 & 5' : '5 Chapters'}
               </div>
-              <div className="text-[11px] text-[#A3A3A0]">Ch 1, 2, 3, 4, 7 • تغطية المنهج كاملاً</div>
+              <div className="text-[11px] text-[#A3A3A0]">
+                {isBigData ? 'IQR, Norm, K-Means & DBSCAN' : 'Ch 1, 2, 3, 4, 7 • تغطية المنهج كاملاً'}
+              </div>
             </div>
           </div>
         </div>

@@ -147,6 +147,31 @@ export const LESSON_DIAGRAM_MAP: Record<string, { diagramId: string; props?: Rec
     caption: 'Stream-Like Block Cipher Modes: Counter (CTR), CFB & OFB Parallel Processing',
     captionAr: 'أنماط الشفرات الكتلية الشبيهة بالانسيابية: نمط العداد CTR ونمط التغذية الراجعة',
   },
+  'bpm-ch3-l2': {
+    diagramId: 'bpm-gateway-simulator',
+    caption: 'Interactive BPMN Gateway & Branching Semantics Simulator (AND, XOR, OR, 2-of-3, DIS)',
+    captionAr: 'محاكي بوابات ونماذج تدفق العمل التفاعلي بمعيار BPMN (AND, XOR, OR, 2-of-3, DIS)',
+  },
+  'bpm-ch3-l4': {
+    diagramId: 'bpm-choreography-viewer',
+    caption: 'Mathias Weske Fig 1.3: Interacting Business Processes & Choreography Flow',
+    captionAr: 'شكل 1.3 لماتياس ويسكي: كوريغرافيا العمليات وتدفق الرسائل عبر الأحواض',
+  },
+  'bpm-ch4-l3': {
+    diagramId: 'bpm-gateway-simulator',
+    caption: 'Workflow Patterns Simulator: Parallel Join vs. Exclusive Split vs. Discriminator',
+    captionAr: 'محاكي أنماط تدفق العمل: دمج التوازي، تفريع الاستبعاد الحصري، ونمط المميّز',
+  },
+  'bd-ch5-l2': {
+    diagramId: 'bigdata-kmeans-calculator',
+    caption: 'Official Midterm 2025: K-Means Centroid Recalculation Engine',
+    captionAr: 'مسألة امتحان الميدتيرم 2025: حاسبة إعادة حساب مراكز العناقيد لخوارزمية K-Means',
+  },
+  'bd-ch5-l5': {
+    diagramId: 'bigdata-dbscan-visualizer',
+    caption: 'Interactive DBSCAN Density Visualizer: Core, Border, and Noise Point Classification',
+    captionAr: 'محاكي DBSCAN التفاعلي للكثافة: تصنيف النقاط الجوهرية والحدودية والتشويش',
+  },
 };
 
 function extractSectionContent(content: string | string[] | any): string {

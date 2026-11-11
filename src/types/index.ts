@@ -73,7 +73,8 @@ export type ContentSectionType =
   | 'table'
   | 'formula'
   | 'diagram'
-  | 'code';
+  | 'code'
+  | 'callout';
 
 export interface ContentSection {
   type: ContentSectionType;
@@ -82,7 +83,7 @@ export interface ContentSection {
 }
 
 export interface Formula {
-  id: string;
+  id?: string;
   name?: string;
   nameAr?: string;
   label?: string;
@@ -90,6 +91,8 @@ export interface Formula {
   latex: string;
   explanation?: string;
   explanationAr?: string;
+  description?: string;
+  descriptionAr?: string;
   chapterId?: string;
   variables?: any;
   conditions?: any[];
@@ -118,6 +121,8 @@ export interface WorkedExample {
   sourceRef?: string;
   problem?: string;
   problemAr?: string;
+  problemText?: string;
+  problemTextAr?: string;
   givenParameters?: { label: string; value: string; labelAr?: string }[];
   steps: WorkedStep[];
   result?: string;
@@ -143,6 +148,8 @@ export interface WorkedStep {
   explanation: string;
   explanationAr?: string;
   intermediateResult?: string;
+  action?: string;
+  actionAr?: string;
 }
 
 export interface TableData {

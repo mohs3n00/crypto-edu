@@ -18,13 +18,15 @@ import { getAllChapters, getAllLessons } from '../data/chapters';
 import { allQuestions } from '../data/questions';
 import { useProgress } from '../store/progressStore';
 import { useUI } from '../store/uiStore';
+import { getSubjectById } from '../data/subjects';
 import { ProgressBar } from '../components/ui/ProgressBar';
 
 export default function Dashboard(): React.ReactElement {
   const { progress } = useProgress();
-  const { language } = useUI();
-  const chapters = getAllChapters();
-  const allLessons = getAllLessons();
+  const { language, activeSubjectId } = useUI();
+  const currentSubject = getSubjectById(activeSubjectId);
+  const chapters = currentSubject.chapters;
+  const allLessons = chapters.flatMap((c) => c.topics.flatMap((t) => t.lessons));
 
   const totalLessons = allLessons.length;
   const completedLessonsCount = Object.values(progress.completedLessons).filter(Boolean).length;
@@ -53,17 +55,17 @@ export default function Dashboard(): React.ReactElement {
           <div className="space-y-1">
             <div className="inline-flex items-center gap-2 px-2.5 py-0.5 border border-[#171717] bg-[#171717] text-[#FFFFFF] rounded text-xs font-mono">
               <GraduationCap className="w-3.5 h-3.5" />
-              <span>IS401 / IS410 University Portal</span>
+              <span>{currentSubject.code} • {language === 'ar' ? currentSubject.levelAr : currentSubject.level}</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#171717]">
-              Cryptography & Network Security
+              {language === 'ar' ? currentSubject.titleAr : currentSubject.title}
             </h1>
             <p
-              dir="rtl"
+              dir={language === 'ar' ? 'rtl' : 'ltr'}
               className="text-sm text-[#525252] font-serif"
-              style={{ fontFamily: 'var(--font-arabic)' }}
+              style={{ fontFamily: language === 'ar' ? 'var(--font-arabic)' : 'inherit' }}
             >
-              المنصة الأكاديمية الشاملة لأمن المعلومات والتشفير — المنهج الكامل والامتحانات الفعلية
+              {language === 'ar' ? currentSubject.descriptionAr : currentSubject.description}
             </p>
           </div>
 

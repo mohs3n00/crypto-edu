@@ -6,6 +6,8 @@ import { questionsSuppCh2 } from './suppCh2';
 import { questionsSuppCh7 } from './suppCh7';
 import type { Question, QuestionSource, QuestionType, DifficultyLevel } from '../../types';
 import { toNormalizedQuestionObject } from '../../utils/questionNormalizer';
+import { allBpmQuestions } from '../bpm/questions';
+import { allBigDataQuestions, midterm2025Questions } from '../bigdata/questions';
 
 // Combine all verbatim university questions and clearly-labeled supplementary questions:
 // 45 (tb01) + 45 (tb03) + 45 (tb04) + 26 (midterms) + 14 (suppCh2) + 10 (suppCh7) = 185 verified questions!
@@ -64,9 +66,29 @@ export function getQuestionById(id: string): Question | undefined {
   return allQuestions.find((q) => q.id === id);
 }
 
-export function getExamQuestions(examId: 'midterm-2022' | 'midterm-2020'): Question[] {
+export function getExamQuestions(examId: string): Question[] {
   if (examId === 'midterm-2022') {
     return allQuestions.filter((q) => q.source === 'original-mid22');
   }
-  return allQuestions.filter((q) => q.source === 'original-mid20');
+  if (examId === 'midterm-2020') {
+    return allQuestions.filter((q) => q.source === 'original-mid20');
+  }
+  if (examId === 'bpm-official') {
+    return allBpmQuestions.filter(
+      (q) =>
+        q.id.startsWith('bpm-mgmt-') ||
+        q.id.startsWith('bpm-wf-') ||
+        q.id.startsWith('bpm-tools-')
+    );
+  }
+  if (examId === 'bpm-all') {
+    return allBpmQuestions;
+  }
+  if (examId === 'bigdata-mid2025') {
+    return midterm2025Questions;
+  }
+  if (examId === 'bigdata-all') {
+    return allBigDataQuestions;
+  }
+  return [];
 }

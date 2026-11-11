@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Presentation,
@@ -14,19 +14,27 @@ import {
 } from 'lucide-react';
 import { useUI } from '../store/uiStore';
 import { useProgress } from '../store/progressStore';
-import { getAllChapters } from '../data/chapters';
+import { getSubjectById } from '../data/subjects';
 import { getInteractiveDeck } from '../data/interactive/slideBuilder';
 
 export default function InteractiveHub(): React.ReactElement {
-  const { language } = useUI();
+  const { language, activeSubjectId } = useUI();
   const { isLessonCompleted } = useProgress();
   const navigate = useNavigate();
 
   const isArabic = language === 'ar';
-  const chapters = getAllChapters();
+  const currentSubject = getSubjectById(activeSubjectId);
+  const chapters = currentSubject.chapters;
 
   const [selectedChapterId, setSelectedChapterId] = useState<string>(chapters[0]?.id || 'ch1');
   const [searchQuery, setSearchQuery] = useState<string>('');
+
+  // Sync selected chapter when subject changes
+  useEffect(() => {
+    if (chapters.length > 0 && !chapters.some((c) => c.id === selectedChapterId)) {
+      setSelectedChapterId(chapters[0].id);
+    }
+  }, [chapters, selectedChapterId]);
 
   const currentChapter = chapters.find((c) => c.id === selectedChapterId) || chapters[0];
   const allLessons = chapters.flatMap((c) => c.topics.flatMap((t) => t.lessons));
@@ -55,18 +63,16 @@ export default function InteractiveHub(): React.ReactElement {
           </div>
 
           <span className="text-xs font-mono text-[#505050]">
-            5 Units • 50 University Lectures • 100% Syllabus Coverage
+            {currentSubject.chapters.length} Units • {allLessons.length} University Topics • 100% Syllabus Coverage
           </span>
         </div>
 
         <div className="space-y-2">
           <h1 className="text-2xl sm:text-4xl font-extrabold text-[#222222] tracking-tight">
-            {isArabic ? 'التعلّم التفاعلي — شرائح المحاضرات الرقمية' : 'Interactive Learning — Digital Classroom Lectures'}
+            {isArabic ? `${currentSubject.titleAr} — شرائح المحاضرات الرقمية` : `${currentSubject.title} — Digital Lectures`}
           </h1>
           <p className="text-sm sm:text-base text-[#505050] max-w-3xl leading-relaxed">
-            {isArabic
-              ? 'تعلّم المنهج الجامعي كاملاً عبر شرائح تفاعلية متسلسلة تشبه عروض PowerPoint الاحترافية، مع مخططات تقنية تفاعلية، وتوضيح خطوة بخطوة للعمليات الرياضية والخوارزميات، واختبارات فهم فورية.'
-              : 'Study the full university cryptography curriculum through sequential presentation slides combining visual diagrams, step-by-step mathematical calculations, and instant knowledge checks without omitting syllabus details.'}
+            {isArabic ? currentSubject.descriptionAr : currentSubject.description}
           </p>
         </div>
 

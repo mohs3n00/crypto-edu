@@ -11,15 +11,17 @@ import {
 import { getExamQuestions } from '../data/questions';
 import type { ExamAttempt } from '../types';
 import { useProgress } from '../store/progressStore';
+import { useUI } from '../store/uiStore';
 import FeistelNetworkDiagram from '../components/diagrams/FeistelNetworkDiagram';
 import { TrueFalseOptions, MCQOptions } from '../components/question';
 import { normalizeQuestion, validateQuestionAnswer } from '../utils/questionNormalizer';
 
 export default function ExamSimulator(): React.ReactElement {
   const { recordExamAttempt } = useProgress();
+  const { activeSubjectId } = useUI();
 
   // Active exam selection
-  const [selectedExamId, setSelectedExamId] = useState<'midterm-2022' | 'midterm-2020' | null>(null);
+  const [selectedExamId, setSelectedExamId] = useState<string | null>(null);
 
   // Exam session state
   const [isExamActive, setIsExamActive] = useState(false);
@@ -53,18 +55,23 @@ export default function ExamSimulator(): React.ReactElement {
     const now = Date.now();
     const isoDate = new Date(now).toISOString();
 
+    let examTitle = 'University Midterm Exam';
+    if (selectedExamId === 'midterm-2022') examTitle = 'Midterm 2022 (IS401 Model 1)';
+    else if (selectedExamId === 'midterm-2020') examTitle = 'Midterm 2020 (IS410 Model 1)';
+    else if (selectedExamId === 'bpm-official') examTitle = 'BPM Official Quizzes Midterm (IS412 - 49 Questions)';
+    else if (selectedExamId === 'bpm-all') examTitle = 'BPM Comprehensive Midterm Examination (IS412 - 71 Questions)';
+    else if (selectedExamId === 'bigdata-mid2025') examTitle = 'Big Data Official Midterm 2025 (Written & MCQ - 12 Questions - 15 Marks)';
+    else if (selectedExamId === 'bigdata-all') examTitle = 'Big Data Comprehensive Midterm Exam (IS445 - 60 Questions)';
+
     const attempt: ExamAttempt = {
       id: `attempt-${now}`,
       examId: selectedExamId!,
-      title:
-        selectedExamId === 'midterm-2022'
-          ? 'Midterm 2022 (IS401 Model 1)'
-          : 'Midterm 2020 (IS410 Model 1)',
+      title: examTitle,
       date: isoDate,
       score: earnedScore,
       totalQuestions: totalPoints,
       percentage: totalPoints > 0 ? Math.round((earnedScore / totalPoints) * 100) : 0,
-      timeSpentSeconds: 3600 - timeLeft,
+      timeSpentSeconds: (selectedExamId === 'bpm-all' ? 5400 : 3600) - timeLeft,
       answers,
     };
 
@@ -95,14 +102,14 @@ export default function ExamSimulator(): React.ReactElement {
     return () => clearInterval(timer);
   }, [isExamActive, isExamFinished]);
 
-  const handleStartExam = (examId: 'midterm-2022' | 'midterm-2020') => {
+  const handleStartExam = (examId: string) => {
     setSelectedExamId(examId);
     setIsExamActive(true);
     setIsExamFinished(false);
     setCurrentQIndex(0);
     setAnswers({});
     setFlagged({});
-    setTimeLeft(3600); // 60 mins
+    setTimeLeft(examId === 'bpm-all' ? 5400 : 3600); // 90 min for all, 60 min for standard
     setFinalScore(null);
   };
 
@@ -128,6 +135,207 @@ export default function ExamSimulator(): React.ReactElement {
 
   // Exam Selection Screen
   if (!isExamActive && !isExamFinished) {
+    if (activeSubjectId === 'bpm') {
+      return (
+        <div className="w-full max-w-[1400px] mx-auto px-4 py-8 space-y-8">
+          <div className="border-b border-[#E5E5E5] pb-6 space-y-2">
+            <div className="flex items-center gap-2 text-xs font-mono text-[#737373] uppercase tracking-wider">
+              <Zap className="w-4 h-4 text-[#171717]" />
+              <span>BPM Midterm Simulator / محاكي امتحان إدارة عمليات الأعمال الفعلي</span>
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight text-[#171717]">
+              IS412 Midterm Examination Simulator
+            </h1>
+            <p
+              dir="rtl"
+              className="text-sm text-[#525252] font-serif"
+              style={{ fontFamily: 'var(--font-arabic)' }}
+            >
+              امتحان الميدتيرم الفعلي — 100% اختيار من متعدد وصح وخطأ وفق توصيف أستاذة المادة (د. نسرين الصابر) وكويزات المنهج الرسمية
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* BPM Official Quizzes Exam Card */}
+            <div className="border border-[#E5E5E5] rounded-lg p-6 bg-[#FFFFFF] space-y-4 hover:border-[#171717] transition-all flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs px-2.5 py-0.5 border border-[#171717] bg-[#171717] text-[#FFFFFF] rounded">
+                    IS412 • Official Quizzes (Model 1)
+                  </span>
+                  <span className="text-xs font-mono text-[#737373] flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" /> 60 Minutes
+                  </span>
+                </div>
+                <h2 className="text-xl font-bold text-[#171717]">
+                  Official Quizzes Midterm (49 Questions)
+                </h2>
+                <p className="text-xs text-[#525252] leading-relaxed">
+                  100% verbatim official university questions from Quizzes 1, 2, and 3:
+                </p>
+                <ul className="text-xs text-[#525252] list-disc list-inside space-y-1">
+                  <li>Quiz 1: Business Management Tools (5 T/F, 5 MCQ)</li>
+                  <li>Quiz 2: Business Workflow Management (4 T/F, 10 MCQ)</li>
+                  <li>Quiz 3: Tools for Building Business Processes (10 T/F, 15 MCQ)</li>
+                  <li>Full academic rationales and traps verified against source keys</li>
+                </ul>
+              </div>
+
+              <div className="pt-4 border-t border-[#F2F2F2]">
+                <button
+                  type="button"
+                  onClick={() => handleStartExam('bpm-official')}
+                  className="w-full py-2.5 border border-[#171717] bg-[#171717] text-[#FFFFFF] rounded text-xs font-semibold hover:bg-[#333333] transition-colors flex items-center justify-center gap-2"
+                >
+                  <span>Launch Official Midterm (60 min • 49 Q)</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* BPM Comprehensive Exam Card */}
+            <div className="border border-[#E5E5E5] rounded-lg p-6 bg-[#FFFFFF] space-y-4 hover:border-[#171717] transition-all flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs px-2.5 py-0.5 border border-[#171717] bg-[#171717] text-[#FFFFFF] rounded">
+                    IS412 • Comprehensive (Model 2)
+                  </span>
+                  <span className="text-xs font-mono text-[#737373] flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" /> 90 Minutes
+                  </span>
+                </div>
+                <h2 className="text-xl font-bold text-[#171717]">
+                  Full Curriculum Midterm (71 Questions)
+                </h2>
+                <p className="text-xs text-[#525252] leading-relaxed">
+                  All 49 official questions PLUS 22 curriculum practice questions across all 4 units:
+                </p>
+                <ul className="text-xs text-[#525252] list-disc list-inside space-y-1">
+                  <li>Unit 1: Foundations, Perspectives & Canon HR Case Study</li>
+                  <li>Unit 2: BPMS Components, Lifecycles & IT Support</li>
+                  <li>Unit 3: BPMN 2.0 Syntax, Gateways & Workflow Patterns</li>
+                  <li>Unit 4: WfMC 5-Interface Architecture & Management Tools</li>
+                </ul>
+              </div>
+
+              <div className="pt-4 border-t border-[#F2F2F2]">
+                <button
+                  type="button"
+                  onClick={() => handleStartExam('bpm-all')}
+                  className="w-full py-2.5 border border-[#171717] bg-[#171717] text-[#FFFFFF] rounded text-xs font-semibold hover:bg-[#333333] transition-colors flex items-center justify-center gap-2"
+                >
+                  <span>Launch Comprehensive Midterm (90 min • 71 Q)</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (activeSubjectId === 'big-data') {
+      return (
+        <div className="w-full max-w-[1400px] mx-auto px-4 py-8 space-y-8">
+          <div className="border-b border-[#E5E5E5] pb-6 space-y-2">
+            <div className="flex items-center gap-2 text-xs font-mono text-[#737373] uppercase tracking-wider">
+              <Zap className="w-4 h-4 text-[#171717]" />
+              <span>Big Data Midterm Simulator / محاكي امتحان تحليلات البيانات الضخمة</span>
+            </div>
+            <h1 className="text-3xl font-bold tracking-tight text-[#171717]">
+              IS445 Midterm Examination Simulator
+            </h1>
+            <p
+              dir="rtl"
+              className="text-sm text-[#525252] font-serif"
+              style={{ fontFamily: 'var(--font-arabic)' }}
+            >
+              امتحان الميدتيرم الفعلي — أسئلة مقالية نموذجية (7 درجات) واختيار من متعدد ومسائل خوارزمية (8 درجات) وفق ورقة امتحان 2025 الرسمية
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Big Data Official 2025 Midterm Exam Card */}
+            <div className="border border-[#E5E5E5] rounded-lg p-6 bg-[#FFFFFF] space-y-4 hover:border-[#171717] transition-all flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs px-2.5 py-0.5 border border-[#171717] bg-[#171717] text-[#FFFFFF] rounded">
+                    IS445 • Official Midterm 2025
+                  </span>
+                  <span className="text-xs font-mono text-[#737373] flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" /> 60 Minutes • 15 Marks
+                  </span>
+                </div>
+                <h2 className="text-xl font-bold text-[#171717]">
+                  Official Midterm 2025 (Written & MCQ)
+                </h2>
+                <p className="text-xs text-[#525252] leading-relaxed">
+                  100% verbatim official university paper: 4 Written Questions (7 marks) + 8 MCQs (8 marks):
+                </p>
+                <ul className="text-xs text-[#525252] list-disc list-inside space-y-1">
+                  <li>Q1.1: What is an analytic sandbox?</li>
+                  <li>Q1.2: Business Intelligence vs Data Science</li>
+                  <li>Q1.3: Traditional Data Architecture Challenges</li>
+                  <li>Q1.4: Difference between EDA, Preprocessing & Feature Engineering</li>
+                  <li>Q2.1-Q2.8: MCQs covering Lifecycle, Cleansing, K-Means & Scaling</li>
+                  <li>Complete full-mark model answers & verified rubrics included</li>
+                </ul>
+              </div>
+
+              <div className="pt-4 border-t border-[#F2F2F2]">
+                <button
+                  type="button"
+                  onClick={() => handleStartExam('bigdata-mid2025')}
+                  className="w-full py-2.5 border border-[#171717] bg-[#171717] text-[#FFFFFF] rounded text-xs font-semibold hover:bg-[#333333] transition-colors flex items-center justify-center gap-2"
+                >
+                  <span>Launch Official Midterm 2025 (60 min • 12 Q • 15 Marks)</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* Big Data Comprehensive Exam Card */}
+            <div className="border border-[#E5E5E5] rounded-lg p-6 bg-[#FFFFFF] space-y-4 hover:border-[#171717] transition-all flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs px-2.5 py-0.5 border border-[#171717] bg-[#171717] text-[#FFFFFF] rounded">
+                    IS445 • Comprehensive Exam
+                  </span>
+                  <span className="text-xs font-mono text-[#737373] flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5" /> 60 Minutes • 60 Questions
+                  </span>
+                </div>
+                <h2 className="text-xl font-bold text-[#171717]">
+                  Full Curriculum Midterm (60 Questions)
+                </h2>
+                <p className="text-xs text-[#525252] leading-relaxed">
+                  Comprehensive practice covering all 5 syllabus units up to DBSCAN clustering:
+                </p>
+                <ul className="text-xs text-[#525252] list-disc list-inside space-y-1">
+                  <li>Unit 1: Big Data Ecosystem, 4 V\'s & Traditional Bottlenecks</li>
+                  <li>Unit 2: 6 Phases of the Data Analytics Lifecycle & Pilots</li>
+                  <li>Unit 3: Data Preprocessing, Cleansing, IQR & Normalization</li>
+                  <li>Unit 4: EDA & Anscombe\'s Quartet Visualizations</li>
+                  <li>Unit 5: K-Means Centroid Recalculation & DBSCAN Density Rules</li>
+                </ul>
+              </div>
+
+              <div className="pt-4 border-t border-[#F2F2F2]">
+                <button
+                  type="button"
+                  onClick={() => handleStartExam('bigdata-all')}
+                  className="w-full py-2.5 border border-[#171717] bg-[#171717] text-[#FFFFFF] rounded text-xs font-semibold hover:bg-[#333333] transition-colors flex items-center justify-center gap-2"
+                >
+                  <span>Launch Comprehensive Midterm (60 min • 60 Q)</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="w-full max-w-[1400px] mx-auto px-4 py-8 space-y-8">
         <div className="border-b border-[#E5E5E5] pb-6 space-y-2">

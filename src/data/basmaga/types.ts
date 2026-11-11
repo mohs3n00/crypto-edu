@@ -22,7 +22,7 @@ export interface OptionDistractor {
 
 export interface BasmagaQuestion {
   id: string;
-  chapterId: 'ch1' | 'ch2' | 'ch3' | 'ch4' | 'ch7';
+  chapterId: string;
   topicId: string;
   sourceType: BasmagaSourceType;
   sourceLabel: string; // e.g. "Original Exam: Midterm 2020 Q1(1)", "Original Test Bank: Stallings Ch 1 T/F 1"
@@ -70,7 +70,7 @@ export interface BasmagaQuickReferenceEntry {
   conceptAr: string;
   ruleEn: string;
   ruleAr: string;
-  chapterId: 'ch1' | 'ch2' | 'ch3' | 'ch4' | 'ch7';
+  chapterId: string;
   relatedQuestionId?: string;
   relatedLessonId?: string;
   exceptionOrTrap?: {
