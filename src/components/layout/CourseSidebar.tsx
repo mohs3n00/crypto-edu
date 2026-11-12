@@ -11,6 +11,7 @@ import {
   Presentation,
   Search,
   Layers,
+  MonitorPlay,
 } from 'lucide-react';
 import { useProgress } from '../../store/progressStore';
 import { useUI } from '../../store/uiStore';
@@ -208,6 +209,23 @@ export const CourseSidebar: React.FC = () => {
           <Calculator size={13} className="text-[#505050] shrink-0" />
           <div className="flex-1 min-w-0">
             <div className="leading-tight truncate">Problem Solving • حل المسائل</div>
+          </div>
+        </NavLink>
+
+        <NavLink
+          to="/artboard"
+          className={({ isActive }) =>
+            `flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all border ${
+              isActive
+                ? 'bg-[#222222] text-[#FFFFFF] border-[#222222] shadow-xs'
+                : 'bg-[#FFFFFF] text-[#222222] border-[#E2E2DF] hover:bg-[#ECEDEB] hover:border-[#D4D4D0]'
+            }`
+          }
+        >
+          <MonitorPlay size={13} className="shrink-0" />
+          <div className="flex-1 min-w-0 flex items-center justify-between">
+            <div className="leading-tight truncate">Artboard • أستوديو الشرح</div>
+            <span className="text-[9px] font-mono uppercase bg-[#E8E8E5] text-[#222222] px-1 rounded">جديد</span>
           </div>
         </NavLink>
 

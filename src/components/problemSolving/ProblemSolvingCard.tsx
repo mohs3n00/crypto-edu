@@ -15,6 +15,7 @@ import {
   Check,
   Award,
   Sparkles,
+  MonitorPlay,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { WorkedProblem } from '../../data/problemSolving/types';
@@ -106,6 +107,15 @@ export const ProblemSolvingCard: React.FC<ProblemSolvingCardProps> = ({
 
         {/* Action buttons */}
         <div className="flex items-center gap-1.5 shrink-0">
+          <Link
+            to={`/artboard/${problem.id}`}
+            title="فتح المسألة في أستوديو Artboard التفاعلي بالشرح الكامل والشرائح"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#222222] text-[#FFFFFF] text-xs font-bold hover:bg-[#000000] transition-colors shadow-xs"
+          >
+            <MonitorPlay size={14} />
+            <span>شرح Artboard التفاعلي</span>
+          </Link>
+
           {onToggleBookmark && (
             <button
               onClick={() => onToggleBookmark(problem.id)}

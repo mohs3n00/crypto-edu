@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800&family=Cairo:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
@@ -32,8 +32,8 @@
   --color-black: #222222;
 
   /* Typography */
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-arabic: 'Cairo', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-arabic: 'Alexandria', 'Cairo', system-ui, -apple-system, sans-serif;
   --font-mono: 'IBM Plex Mono', Menlo, monospace;
 
   /* Academic Body Content Font Size Control (17px - 24px, default: 19px) */
@@ -71,7 +71,7 @@ html {
 
 body {
   margin: 0;
-  font-family: var(--font-sans);
+  font-family: var(--font-arabic), var(--font-sans);
   font-size: 1rem;
   line-height: 1.65;
   color: var(--edu-text-primary);
@@ -83,11 +83,12 @@ body {
 /* ===== Arabic/RTL ===== */
 [lang="ar"],
 .arabic,
-.rtl {
+.rtl,
+[dir="rtl"] {
   font-family: var(--font-arabic);
   direction: rtl;
   text-align: right;
-  line-height: 1.9;
+  line-height: 1.8;
   letter-spacing: 0;
 }
 

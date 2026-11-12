@@ -8,8 +8,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        arabic: ['Cairo', 'system-ui', 'sans-serif'],
+        sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+        arabic: ['Alexandria', 'Cairo', 'system-ui', 'sans-serif'],
         mono: ['IBM Plex Mono', 'Menlo', 'monospace'],
       },
       colors: {

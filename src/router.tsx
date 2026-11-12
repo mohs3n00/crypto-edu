@@ -10,6 +10,7 @@ import BasmagaHub from './pages/BasmagaHub';
 import ProblemSolvingHub from './pages/ProblemSolvingHub';
 import InteractiveHub from './pages/InteractiveHub';
 import InteractivePresentationViewer from './pages/InteractivePresentationViewer';
+import ArtboardPage from './pages/ArtboardPage';
 import NotFound from './pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -68,6 +69,16 @@ export const router = createBrowserRouter([
       {
         path: 'problem-solving',
         element: <ProblemSolvingHub />,
+      },
+
+      // 5.1 Artboard — Interactive Problem Solving Classroom
+      {
+        path: 'artboard',
+        element: <ArtboardPage />,
+      },
+      {
+        path: 'artboard/:problemId',
+        element: <ArtboardPage />,
       },
 
       // 6. Interactive Learning — Digital Classroom Lectures

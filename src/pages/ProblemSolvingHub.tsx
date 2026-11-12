@@ -14,8 +14,9 @@ import {
   Award,
   HelpCircle,
   FileText,
+  MonitorPlay,
 } from 'lucide-react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import {
   type ProblemCategory,
   type ProblemSourceType,
@@ -240,6 +241,16 @@ export const ProblemSolvingHub: React.FC = () => {
                 {isBigData ? 'IQR, Norm, K-Means & DBSCAN' : 'Ch 1, 2, 3, 4, 7 • تغطية المنهج كاملاً'}
               </div>
             </div>
+          </div>
+          {/* Artboard Classroom CTA */}
+          <div className="pt-3 flex flex-wrap items-center gap-3">
+            <Link
+              to="/artboard"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#FFFFFF] text-[#222222] font-bold text-sm hover:bg-[#ECEDEB] transition-all shadow-md cursor-pointer"
+            >
+              <MonitorPlay size={18} className="text-[#222222]" />
+              <span>{isArabic ? 'فتح Artboard: الأستوديو التعليمي بوضع ملء الشاشة' : 'Launch Artboard Full-Screen Classroom'}</span>
+            </Link>
           </div>
         </div>
 
