@@ -18,13 +18,15 @@ import EuclideanTool from '../components/tools/EuclideanTool';
 import ModCalcTool from '../components/tools/ModCalcTool';
 import DesSBoxTool from '../components/tools/DesSBoxTool';
 import ModesSimulator from '../components/tools/ModesSimulator';
+import FeistelRoundVisualizer from '../components/tools/FeistelRoundVisualizer';
 
 export default function CryptoLab(): React.ReactElement {
   const [activeTab, setActiveTab] = useState<
-    'caesar' | 'playfair' | 'hill' | 'vigenere' | 'euclidean' | 'modcalc' | 'des-sbox' | 'modes'
-  >('caesar');
+    'feistel' | 'caesar' | 'playfair' | 'hill' | 'vigenere' | 'euclidean' | 'modcalc' | 'des-sbox' | 'modes'
+  >('feistel');
 
   const tools = [
+    { id: 'feistel', label: 'Feistel Network (8-bit)', labelAr: 'دورة فايستل (8 بت)', icon: Cpu },
     { id: 'caesar', label: 'Caesar Cipher', labelAr: 'تشفير قيصر', icon: Sliders },
     { id: 'playfair', label: 'Playfair Matrix', labelAr: 'مصفوفة بليفيل', icon: Grid },
     { id: 'hill', label: 'Hill Cipher', labelAr: 'تشفير هيل والمصفوفات', icon: Hash },
@@ -79,6 +81,18 @@ export default function CryptoLab(): React.ReactElement {
 
       {/* Active Tool View */}
       <div className="border border-[#E5E5E5] rounded-lg p-6 bg-[#FFFFFF] shadow-sm">
+        {activeTab === 'feistel' && (
+          <div className="space-y-6">
+            <div className="border-b border-[#E5E5E5] pb-4 space-y-1">
+              <h2 className="text-lg font-bold text-[#171717]">Feistel Network Single Round Execution & Invertibility</h2>
+              <p className="text-xs text-[#525252]">
+                Interactive step-by-step simulator of a Feistel cipher round with 8-bit input (`1101 0010`), 4-bit key (`1111`), XOR round function, non-colliding Feistel swap, and Decryption Symmetry proof.
+              </p>
+            </div>
+            <FeistelRoundVisualizer />
+          </div>
+        )}
+
         {activeTab === 'caesar' && (
           <div className="space-y-6">
             <div className="border-b border-[#E5E5E5] pb-4 space-y-1">

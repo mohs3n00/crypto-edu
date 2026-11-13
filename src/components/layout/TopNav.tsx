@@ -13,6 +13,7 @@ import {
   Calculator,
   Presentation,
   MonitorPlay,
+  Cpu,
 } from 'lucide-react';
 import { useUI } from '../../store/uiStore';
 import { useProgress } from '../../store/progressStore';
@@ -336,6 +337,25 @@ export default function TopNav({ crumbs = [] }: TopNavProps): React.ReactElement
             >
               <MonitorPlay size={15} className="shrink-0 text-current" />
               <span>{isRTL ? 'Artboard • الأستوديو' : 'Artboard'}</span>
+            </NavLink>
+          )}
+
+          {/* 5.2 Feistel Simulator (Dedicated Interactive Round Visualizer) */}
+          {activeSubjectId !== 'bpm' && (
+            <NavLink
+              to="/feistel"
+              data-nav-item
+              className={({ isActive }) => {
+                const active = isActive || location.pathname.startsWith('/feistel');
+                return `px-3 py-1.5 rounded-md transition-colors flex items-center gap-1.5 border font-medium ${
+                  active
+                    ? 'bg-[#E8E8E5] text-[#222222] border-[#D4D4D0] font-semibold'
+                    : 'border-transparent text-[#222222] hover:bg-[#ECEDEB] hover:text-[#222222] hover:border-[#D4D4D0]'
+                }`;
+              }}
+            >
+              <Cpu size={15} className="shrink-0 text-[#505050]" />
+              <span>{isRTL ? 'دورة فايستل' : 'Feistel'}</span>
             </NavLink>
           )}
 

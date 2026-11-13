@@ -11,6 +11,7 @@ import ProblemSolvingHub from './pages/ProblemSolvingHub';
 import InteractiveHub from './pages/InteractiveHub';
 import InteractivePresentationViewer from './pages/InteractivePresentationViewer';
 import ArtboardPage from './pages/ArtboardPage';
+import FeistelVisualizerPage from './pages/FeistelVisualizerPage';
 import NotFound from './pages/NotFound';
 
 export const router = createBrowserRouter([
@@ -79,6 +80,12 @@ export const router = createBrowserRouter([
       {
         path: 'artboard/:problemId',
         element: <ArtboardPage />,
+      },
+
+      // 5.2 Feistel Network Interactive Visualizer & Simulator
+      {
+        path: 'feistel',
+        element: <FeistelVisualizerPage />,
       },
 
       // 6. Interactive Learning — Digital Classroom Lectures
